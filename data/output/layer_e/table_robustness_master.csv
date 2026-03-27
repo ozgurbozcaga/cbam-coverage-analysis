@@ -1,0 +1,17 @@
+RC,Description,N,Coefficient,SE,p-value,Stars,Diff from RC1,Sig diff (p),Sig diff (Y/N),Note
+"Table: Robustness Checks — Reference: any_cpi_active, Post-2021, Benchmark Exposure",,,,,,,,,,
+RC1,Reference specification (Layer A baseline),1304,0.703359,0.882546,0.4256,,0.000000,1.0000,N,Anchor — all checks compare to this.
+RC2,Include subnational instruments,1304,0.957664,0.814091,0.2397,,0.254305,0.8323,N,"Subnationals included (US, CA, CN weight up)."
+RC3,S&T editions confirmation,1304,0.703359,0.882546,0.4256,,0.000000,1.0000,N,Confirmed: S&T editions only. Identical to RC1.
+RC4,Exclude EU candidate countries,1223,-0.438876,0.317571,0.1673,,-1.142235,0.2233,N,"Dropped ALB,BIH,GEO,XKX,MDA,MNE,MKD,SRB,TUR,UKR."
+RC5,Exclude Chinese subnational ETSs,1304,0.703359,0.882546,0.4256,,0.000000,1.0000,N,China retained if national ETS active; subnationals excluded from collapse.
+RC6a,Static benchmark exposure (EU27+UK),1304,0.703359,0.882546,0.4256,,0.000000,1.0000,N,Identical to RC1.
+RC6b,Time-varying annual exposure,1304,0.586602,0.493861,0.2352,,-0.116756,0.9081,N,Brexit-corrected annual exposure.
+RC7a,High + Upper middle income,288,0.074846,1.610541,0.9630,,-0.628513,0.7322,N,
+RC7b,Lower middle + Low income,108,1.068859,0.663970,0.1112,,0.365500,0.7407,N,
+RC7c,Triple interaction (exposure×post×high_income),1304,2.196768,0.846577,0.0096,***,1.493409,0.2220,N,Tests whether income groups differ.
+RC8,WGI controls individually (4 dimensions),1299,0.676909,0.880929,0.4424,,-0.026450,0.9831,N,"ge, rq, rl, cc instead of composite."
+RC9,No controls (pure FE only),1764,0.787918,0.817999,0.3356,,0.084559,0.9440,N,Larger N than RC1 (no control missingness).
+RC10,"Placebo test (pre-2019, post_2018)",437,-0.109610,0.115105,0.3418,,-0.812968,0.3610,N,Placebo — should be insignificant.
+RC11,Non-OECD countries only,1196,0.765602,0.876630,0.3827,,0.062243,0.9601,N,Excludes 37 OECD members.
+Significance of difference: z = (β_rc - β_ref) / sqrt(SE_rc² + SE_ref²). 'Y' if p < 0.05.,,,,,,,,,,
