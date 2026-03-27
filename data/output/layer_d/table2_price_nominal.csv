@@ -1,0 +1,14 @@
+spec,sample,coefficient,N
+Spec 1: exposure level,National all,+3.5824 (4.9295),122
+Spec 1: exposure level,National ETS,+11.1559*** (2.3773),42
+Spec 1: exposure level,National tax,-9.1596 (11.6913),80
+Spec 2: exposure × Post-2019,National all,+4.2810 (2.7668),122
+Spec 2: exposure × Post-2019,National ETS,+243.2964 (263.0572),42
+Spec 2: exposure × Post-2019,National tax,+6.3657*** (1.4678),80
+Spec 2: exposure × Post-2021,National all,+5.0512** (2.0718),122
+Spec 2: exposure × Post-2021,National ETS,+36.7631 (181.3582),42
+Spec 2: exposure × Post-2021,National tax,+3.7891 (2.4830),80
+Spec 2: exposure × Post-2023,National all,+12.9841* (7.3238),122
+Spec 2: exposure × Post-2023,National ETS,+67.9986** (25.6593),42
+Spec 2: exposure × Post-2023,National tax,+3.5793 (6.3012),80
+NOTE,,Nominal USD prices. Exchange rate movements embedded in USD values.,
