@@ -42,6 +42,9 @@ import pandas as pd
 import statsmodels.api as sm
 from statsmodels.discrete.discrete_model import Logit
 from linearmodels.panel import PanelOLS
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
@@ -391,11 +394,225 @@ variation_desc = "minimal" if n_changers <= 5 else "substantial"
 print(f"  This confirms that within-instrument variation is {variation_desc}.")
 
 # ============================================================================
-# STEP 4 — Design C1: Entrant-level regressions
+# STEP 4 — Design C1b: CPI-level Panel DiD (PRIMARY SPECIFICATION)
 # ============================================================================
 t3 = time.time()
 print("\n" + "=" * 72)
-print("STEP 4 — Design C1: Entrant-level regressions")
+print("STEP 4 — Design C1b: CPI-level Panel DiD (PRIMARY SPECIFICATION)")
+print("=" * 72)
+
+# Build panel: all CPIs where instrument_type in (ETS, Carbon tax),
+# is_eea_ets_extension == 0, cbam_exposure_avg not null.
+# Keep ALL years 2016-2026 including pre-entry years (coverage_active == 0).
+panel_c1b = cpi[
+    (cpi["instrument_type"].isin(["ETS", "Carbon tax"])) &
+    (cpi["is_eea_ets_extension"] == 0) &
+    (cpi["year"] >= 2016) & (cpi["year"] <= 2026)
+].copy()
+
+# Merge exposure (use avg from exposure file; drop any existing column first)
+if "cbam_exposure_avg" in panel_c1b.columns:
+    panel_c1b = panel_c1b.drop(columns=["cbam_exposure_avg"])
+panel_c1b = panel_c1b.merge(
+    exposure_avg[["iso3", "cbam_exposure_avg"]], on="iso3", how="left"
+)
+panel_c1b = panel_c1b[panel_c1b["cbam_exposure_avg"].notna()].copy()
+
+# Merge controls (lagged)
+ctrl_cols_c1b = ["iso3", "year", "log_gdp_pc_constant2015_lag1",
+                 "wgi_composite_estimate_lag1"]
+panel_c1b = panel_c1b.merge(controls[ctrl_cols_c1b], on=["iso3", "year"], how="left")
+
+print(f"  Panel C1b: {len(panel_c1b):,} CPI-year rows")
+print(f"  CPIs: {panel_c1b['cpi_id'].nunique()}, Countries: {panel_c1b['iso3'].nunique()}")
+print(f"  Years: {panel_c1b['year'].min()}-{panel_c1b['year'].max()}")
+print(f"  Mean covers_industry: {panel_c1b['covers_industry'].mean():.4f}")
+
+# Post indicators and interactions
+for cutoff, label in [(2019, "post_2019"), (2021, "post_2021"), (2023, "post_2023")]:
+    panel_c1b[label] = (panel_c1b["year"] >= cutoff).astype(int)
+    panel_c1b[f"exposure_x_{label}"] = (
+        panel_c1b["cbam_exposure_avg"] * panel_c1b[label]
+    )
+
+# Set panel index
+panel_c1b_idx = panel_c1b.set_index(["cpi_id", "year"])
+
+CONTROL_VARS = ["log_gdp_pc_constant2015_lag1", "wgi_composite_estimate_lag1"]
+
+# --- Panel DiD regressions ---
+c1b_results = {}
+INTERACTION_MAP_C1B = {
+    "Post-2019": "exposure_x_post_2019",
+    "Post-2021": "exposure_x_post_2021",
+    "Post-2023": "exposure_x_post_2023",
+}
+
+for post_label, interaction in INTERACTION_MAP_C1B.items():
+    exog_vars = [interaction] + CONTROL_VARS
+    reg_cols = ["covers_industry"] + exog_vars + ["iso3"]
+    reg_df = panel_c1b_idx[reg_cols].dropna(subset=["covers_industry"] + exog_vars)
+
+    dep = reg_df["covers_industry"]
+    exog = reg_df[exog_vars]
+    cluster_df = pd.DataFrame({"cluster": reg_df["iso3"].values}, index=reg_df.index)
+
+    try:
+        mod = PanelOLS(dep, exog, entity_effects=True, time_effects=True,
+                       drop_absorbed=True)
+        res = mod.fit(cov_type="clustered", clusters=cluster_df)
+        c1b_results[post_label] = res
+
+        coef = res.params[interaction]
+        se = res.std_errors[interaction]
+        pv = res.pvalues[interaction]
+        n = int(res.nobs)
+        n_cpi = reg_df.index.get_level_values("cpi_id").nunique()
+        print(f"  {post_label}: beta(exposure × post)={coef:+.5f}{_stars(pv)}, "
+              f"SE={se:.5f}, N={n}, CPIs={n_cpi}")
+    except Exception as e:
+        print(f"  {post_label} FAILED: {e}")
+
+# --- Event study ---
+print("\n  --- Event study (relative to 2019) ---")
+
+# Year-specific indicators relative to 2019, each interacted with exposure
+event_years = {
+    "year_minus2": 2017, "year_minus1": 2018, "year_0": 2019,
+    "year_plus1": 2020, "year_plus2": 2021, "year_plus3": 2022,
+    "year_plus4": 2023,
+}
+# Reference year: 2016 (omitted)
+for col_name, yr in event_years.items():
+    panel_c1b[col_name] = (panel_c1b["year"] == yr).astype(int)
+    panel_c1b[f"exposure_x_{col_name}"] = (
+        panel_c1b["cbam_exposure_avg"] * panel_c1b[col_name]
+    )
+
+event_interactions = [f"exposure_x_{c}" for c in event_years]
+panel_c1b_es = panel_c1b.set_index(["cpi_id", "year"])
+exog_es_vars = event_interactions + CONTROL_VARS
+reg_es_cols = ["covers_industry"] + exog_es_vars + ["iso3"]
+reg_es = panel_c1b_es[reg_es_cols].dropna(subset=["covers_industry"] + exog_es_vars)
+
+dep_es = reg_es["covers_industry"]
+exog_es = reg_es[exog_es_vars]
+cluster_es = pd.DataFrame({"cluster": reg_es["iso3"].values}, index=reg_es.index)
+
+event_study_result = None
+try:
+    mod_es = PanelOLS(dep_es, exog_es, entity_effects=True, time_effects=True,
+                      drop_absorbed=True)
+    res_es = mod_es.fit(cov_type="clustered", clusters=cluster_es)
+    event_study_result = res_es
+
+    # Print event study coefficients table
+    print(f"\n  {'Year':<12} {'Rel.Year':<10} {'Coefficient':>12} {'SE':>10} "
+          f"{'95% CI low':>12} {'95% CI high':>12} {'p-value':>10}")
+    print("  " + "-" * 78)
+    es_table_rows = []
+    for col_name, yr in event_years.items():
+        ivar = f"exposure_x_{col_name}"
+        coef = res_es.params[ivar]
+        se = res_es.std_errors[ivar]
+        pv = res_es.pvalues[ivar]
+        ci_lo = coef - 1.96 * se
+        ci_hi = coef + 1.96 * se
+        rel_yr = yr - 2019
+        rel_label = f"{rel_yr:+d}" if rel_yr != 0 else "0"
+        print(f"  {yr:<12} {rel_label:<10} {coef:>+12.5f}{_stars(pv):<3} "
+              f"{se:>10.5f} {ci_lo:>12.5f} {ci_hi:>12.5f} {pv:>10.4f}")
+        es_table_rows.append({
+            "year": yr, "relative_year": rel_yr, "coefficient": coef,
+            "se": se, "ci_low": ci_lo, "ci_high": ci_hi, "p_value": pv,
+            "stars": _stars(pv),
+        })
+    print(f"\n  N={int(res_es.nobs)}, CPIs={reg_es.index.get_level_values('cpi_id').nunique()}")
+
+    # Plot event study
+    es_df_plot = pd.DataFrame(es_table_rows)
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.errorbar(es_df_plot["relative_year"], es_df_plot["coefficient"],
+                yerr=1.96 * es_df_plot["se"], fmt="o-", color="steelblue",
+                capsize=4, linewidth=1.5, markersize=6)
+    ax.axhline(0, color="black", linewidth=0.8, linestyle="--")
+    ax.axvline(-0.5, color="grey", linewidth=0.8, linestyle=":", alpha=0.5)
+    ax.set_xlabel("Year relative to 2019", fontsize=11)
+    ax.set_ylabel("Coefficient on exposure × year indicator", fontsize=11)
+    ax.set_title("Event Study: CBAM Exposure × Year → Industry Coverage\n"
+                 "(CPI-level panel DiD, CPI + year FE, clustered by country)",
+                 fontsize=11)
+    ax.set_xticks(es_df_plot["relative_year"])
+    ax.set_xticklabels([f"{yr}\n({r:+d})" for yr, r
+                        in zip(es_df_plot["year"], es_df_plot["relative_year"])],
+                       fontsize=9)
+    fig.tight_layout()
+    es_plot_path = os.path.join(LAYER_C, "event_study_industry.png")
+    fig.savefig(es_plot_path, dpi=150)
+    plt.close(fig)
+    print(f"  Saved event study plot: {es_plot_path}")
+
+except Exception as e:
+    print(f"  Event study FAILED: {e}")
+
+# --- Table 2b: Panel DiD results ---
+t2b_rows = []
+for post_label, interaction in INTERACTION_MAP_C1B.items():
+    res = c1b_results.get(post_label)
+    if res is not None:
+        coef_str, se_str = _fmt_coef(res.params[interaction],
+                                      res.std_errors[interaction],
+                                      res.pvalues[interaction])
+        n = str(int(res.nobs))
+    else:
+        coef_str = se_str = n = "—"
+    t2b_rows.append({
+        "Specification": post_label,
+        "Coefficient (exposure × post)": coef_str,
+        "SE": se_str,
+        "N": n,
+        "CPI FE": "Yes",
+        "Year FE": "Yes",
+        "Controls": "Yes",
+    })
+
+t2b_df = pd.DataFrame(t2b_rows)
+title_2b = pd.DataFrame(
+    [["Table 2b (Primary): CPI-Level Panel DiD — Industry Coverage"] +
+     [""] * (len(t2b_df.columns) - 1)],
+    columns=t2b_df.columns,
+)
+note_2b = (
+    "The panel DiD identifies from CPI entry events — the transition "
+    "from coverage_active=0 to coverage_active=1. Within-active variation "
+    "is minimal (only ETS_CN genuinely expands industry coverage post-entry). "
+    "The coefficient β captures whether CPIs entering post-CBAM in high-"
+    "exposure countries are more likely to cover industry at the time of "
+    "their first active observation. This is consistent with the extensive "
+    "margin interpretation established in the descriptive analysis."
+)
+footer_2b = pd.DataFrame(
+    [[f"CPI + year FE. SEs clustered at country level. "
+      f"Controls: log_gdp_pc_constant2015_lag1, wgi_composite_estimate_lag1. "
+      f"*** p<0.01  ** p<0.05  * p<0.1. NOTE: {note_2b}"] +
+     [""] * (len(t2b_df.columns) - 1)],
+    columns=t2b_df.columns,
+)
+t2b_out = pd.concat([title_2b, t2b_df.astype(str), footer_2b], ignore_index=True)
+t2b_path = os.path.join(LAYER_C, "table2b_c1b_panel_did.csv")
+t2b_out.to_csv(t2b_path, index=False)
+print(f"  Saved: {t2b_path}")
+
+print(f"\n  NOTE: {note_2b}")
+print(f"\n  Step 4 done in {time.time() - t3:.1f}s\n")
+
+
+# ============================================================================
+# STEP 5 — Design C1: Entrant-level regressions (SUPPLEMENTARY)
+# ============================================================================
+t3b = time.time()
+print("\n" + "=" * 72)
+print("STEP 5 — Design C1: Entrant-level regressions (SUPPLEMENTARY)")
 print("=" * 72)
 
 CONTROL_VARS = ["log_gdp_pc_constant2015_lag1", "wgi_composite_estimate_lag1"]
@@ -485,14 +702,14 @@ for post_label, post_col in [("Post-2019", "post_2019_entry"),
     except Exception as e:
         print(f"    Model B Logit FAILED: {e}")
 
-print(f"\n  Step 4 done in {time.time() - t3:.1f}s\n")
+print(f"\n  Step 5 done in {time.time() - t3b:.1f}s\n")
 
 # ============================================================================
-# STEP 5 — Design C2: Country-year outcome panel
+# STEP 6 — Design C2: Country-year outcome panel
 # ============================================================================
 t4 = time.time()
 print("=" * 72)
-print("STEP 5 — Design C2: Country-year outcome panel")
+print("STEP 6 — Design C2: Country-year outcome panel")
 print("=" * 72)
 
 # Build country-year entrant counts from entrant data (national only)
@@ -574,14 +791,14 @@ for post_label, interaction in INTERACTION_MAP_C2.items():
     except Exception as e:
         print(f"  {post_label} FAILED: {e}")
 
-print(f"  Step 5 done in {time.time() - t4:.1f}s\n")
+print(f"  Step 6 done in {time.time() - t4:.1f}s\n")
 
 # ============================================================================
-# STEP 6 — Design C3: Country-sector-year (descriptive)
+# STEP 7 — Design C3: Country-sector-year (descriptive)
 # ============================================================================
 t5 = time.time()
 print("=" * 72)
-print("STEP 6 — Design C3: Country-sector-year (DESCRIPTIVE ONLY)")
+print("STEP 7 — Design C3: Country-sector-year (DESCRIPTIVE ONLY)")
 print("=" * 72)
 print("  CAVEAT: Design C3 is explicitly descriptive and should not be")
 print("  interpreted causally. The near-absence of within-instrument")
@@ -687,7 +904,7 @@ except Exception as e:
     print(f"  Design C3 regression FAILED: {e}")
 
 print(f"\n  CAVEAT (repeated): Descriptive only — see methodology notes.")
-print(f"  Step 6 done in {time.time() - t5:.1f}s\n")
+print(f"  Step 7 done in {time.time() - t5:.1f}s\n")
 
 # ============================================================================
 # OUTPUT TABLES
@@ -825,7 +1042,7 @@ for post_label, post_col in [("Post-2019", "post_2019_entry"),
 
 t2_df = pd.DataFrame(t2_rows)
 title2 = pd.DataFrame(
-    [["Table 2 (Primary): Entrant-Level Industry Coverage Regressions"] +
+    [["Table 2 (Supplementary): Entrant-Level Industry Coverage Regressions"] +
      [""] * (len(t2_df.columns) - 1)],
     columns=t2_df.columns,
 )
