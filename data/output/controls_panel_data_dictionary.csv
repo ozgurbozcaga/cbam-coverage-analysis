@@ -1,0 +1,38 @@
+﻿variable_name,description,source,series_code,units,lag,notes
+iso3,ISO 3166-1 alpha-3 country code,WDI / WGI,,string,no,Primary merge key onto cpi_panel
+country_name,Country name,WDI,,string,no,
+year,Calendar year,,,integer,no,2015-2024 in output
+gdp_pc_constant2015,"GDP per capita, constant 2015 USD",WDI,NY.GDP.PCAP.KD,USD (constant 2015),no,
+gdp_pc_constant2015_lag1,"GDP per capita, constant 2015 USD, lagged 1 year",WDI,NY.GDP.PCAP.KD,USD (constant 2015),t-1,
+gdp_pc_current,"GDP per capita, current USD",WDI,NY.GDP.PCAP.CD,USD (current),no,
+gdp_pc_current_lag1,"GDP per capita, current USD, lagged 1 year",WDI,NY.GDP.PCAP.CD,USD (current),t-1,
+exports_current_usd,"Total exports of goods and services, current USD",WDI,NE.EXP.GNFS.CD,USD (current),no,
+exports_current_usd_lag1,"Total exports, current USD, lagged 1 year",WDI,NE.EXP.GNFS.CD,USD (current),t-1,
+exports_pct_gdp,Exports of goods and services as % of GDP,WDI,NE.EXP.GNFS.ZS,% of GDP,no,
+exports_pct_gdp_lag1,"Exports as % of GDP, lagged 1 year",WDI,NE.EXP.GNFS.ZS,% of GDP,t-1,
+trade_openness,Trade (exports + imports) as % of GDP,WDI,NE.TRD.GNFS.ZS,% of GDP,no,Standard openness measure
+trade_openness_lag1,"Trade as % of GDP, lagged 1 year",WDI,NE.TRD.GNFS.ZS,% of GDP,t-1,
+gdp_deflator_linked,"GDP deflator, linked series (index)",WDI,NY.GDP.DEFL.ZS.AD,Index,no,Linked/harmonised series for cross-country comparability. Use to deflate nominal prices: real_price = nominal_price_usd / (gdp_deflator_linked / 100). Preferred over NY.GDP.DEFL.ZS whose base year varies by country.
+gdp_deflator_growth_linked,"GDP deflator annual growth, linked series (%)",WDI,NY.GDP.DEFL.KD.ZG.AD,% per year,no,Inflation measured via linked GDP deflator; preferred over NY.GDP.DEFL.KD.ZG.
+log_gdp_pc_constant2015,Natural log of GDP per capita (constant 2015 USD),WDI,NY.GDP.PCAP.KD,log USD,no,log(gdp_pc_constant2015); -inf if source=0
+log_gdp_pc_constant2015_lag1,Natural log of lagged GDP per capita (constant 2015 USD),WDI,NY.GDP.PCAP.KD,log USD,t-1,log(gdp_pc_constant2015_lag1)
+log_exports_current_usd,Natural log of total exports (current USD),WDI,NE.EXP.GNFS.CD,log USD,no,log(exports_current_usd)
+log_exports_current_usd_lag1,Natural log of lagged exports (current USD),WDI,NE.EXP.GNFS.CD,log USD,t-1,log(exports_current_usd_lag1)
+wgi_ge_estimate,Government Effectiveness estimate,WGI,ge,approx. -2.5 to +2.5,no,Standard WGI estimate; higher = more effective
+wgi_ge_estimate_lag1,"Government Effectiveness estimate, lagged 1 year",WGI,ge,approx. -2.5 to +2.5,t-1,
+wgi_rq_estimate,Regulatory Quality estimate,WGI,rq,approx. -2.5 to +2.5,no,
+wgi_rq_estimate_lag1,"Regulatory Quality estimate, lagged 1 year",WGI,rq,approx. -2.5 to +2.5,t-1,
+wgi_rl_estimate,Rule of Law estimate,WGI,rl,approx. -2.5 to +2.5,no,
+wgi_rl_estimate_lag1,"Rule of Law estimate, lagged 1 year",WGI,rl,approx. -2.5 to +2.5,t-1,
+wgi_cc_estimate,Control of Corruption estimate,WGI,cc,approx. -2.5 to +2.5,no,
+wgi_cc_estimate_lag1,"Control of Corruption estimate, lagged 1 year",WGI,cc,approx. -2.5 to +2.5,t-1,
+wgi_va_estimate,Voice and Accountability estimate,WGI,va,approx. -2.5 to +2.5,no,Lower priority control
+wgi_va_estimate_lag1,"Voice and Accountability estimate, lagged 1 year",WGI,va,approx. -2.5 to +2.5,t-1,
+wgi_pv_estimate,Political Stability and Absence of Violence estimate,WGI,pv,approx. -2.5 to +2.5,no,Lower priority control
+wgi_pv_estimate_lag1,"Political Stability estimate, lagged 1 year",WGI,pv,approx. -2.5 to +2.5,t-1,
+wgi_ge_score,Government Effectiveness score (percentile rank 0-100),WGI,ge,0-100,no,
+wgi_rq_score,Regulatory Quality score (percentile rank 0-100),WGI,rq,0-100,no,
+wgi_rl_score,Rule of Law score (percentile rank 0-100),WGI,rl,0-100,no,
+wgi_cc_score,Control of Corruption score (percentile rank 0-100),WGI,cc,0-100,no,
+wgi_composite_estimate,"Composite governance estimate (simple mean of ge, rq, rl, cc)",WGI (derived),,approx. -2.5 to +2.5,no,"Simple mean of wgi_ge_estimate, wgi_rq_estimate, wgi_rl_estimate, wgi_cc_estimate. NaN only when all four components are NaN."
+wgi_composite_estimate_lag1,"Composite governance estimate, lagged 1 year",WGI (derived),,approx. -2.5 to +2.5,t-1,
