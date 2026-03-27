@@ -1,0 +1,12 @@
+data/baci_hs12_src/
+data/baci_hs22_src/
+data/baci_hs12/
+data/baci_hs22/
+data/output/*.parquet
+.venv/
+__pycache__/
+*.pyc
+.env
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
