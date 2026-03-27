@@ -1,0 +1,7 @@
+Covariate,Consideration HR [95% CI],Development HR [95% CI],Implementation HR [95% CI]
+Table 2: Cox Proportional Hazard Models — Pipeline Transitions,,,
+cbam_exposure_pct,"1.110 [1.022, 1.206]**","1.201 [1.076, 1.342]***","1.127 [1.006, 1.262]**"
+log_gdp_pc,"0.976 [0.662, 1.437]","0.986 [0.550, 1.769]","1.112 [0.606, 2.040]"
+wgi_composite,"1.748 [0.878, 3.483]","2.127 [0.831, 5.448]","2.530 [0.905, 7.072]*"
+C-index,0.6476,0.7550,0.7403
+"HR > 1 indicates higher hazard (faster transition). C-index reported in bottom row. Exposure rescaled to percentage points (0-100) for interpretability. HR represents effect of 1ppt increase. Covariates: cbam_exposure_pct (static benchmark, ppt scale), log GDP per capita and WGI composite (2018 baseline values). Time-varying post_2019 covariate excluded due to implementation issue (HR = 1.000 under CoxTimeVaryingFitter). Reported as limitation. *** p<0.01  ** p<0.05  * p<0.1",,,
