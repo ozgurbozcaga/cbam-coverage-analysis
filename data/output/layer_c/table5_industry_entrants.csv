@@ -1,0 +1,45 @@
+cpi_id,country,iso3,scope,entry_year,first_coverage_year,gap_years,sectors_at_entry,cbam_exposure_avg
+ETS_MO,Montenegro,MNE,National,2019,2020.0,1.0,"Power, Industry",0.2218251404263648
+ETS_UK,United Kingdom,GBR,National,2021,2022.0,1.0,"Power, Industry, Aviation",0.0156465960748726
+Tax_ZA,South Africa,ZAF,National,2019,2019.0,0.0,"Power, Industry, Road transport, Aviation, Shipping, Buildings, Agriculture",0.014267134944911
+ETS_IN,India,IND,National,2024,2026.0,2.0,Industry,0.011696731467929
+Tax_AN,Andorra,AND,National,2022,2022.0,0.0,"Power, Industry, Road transport",0.0081624549269663
+Tax_CO,Colombia,COL,National,2017,2017.0,0.0,"Power, Industry, Road transport, Aviation, Buildings, Agriculture",0.003120974253824
+ETS_CN_Fujian,China,CHN,Subnational,2016,2016.0,0.0,"Industry, Aviation",0.0028202588437303
+ETS_VN,Viet Nam,VNM,National,2024,2026.0,2.0,"Power, Industry",0.0026180366778691
+ETS_CA_Ontario2,Canada,CAN,Subnational,2022,2022.0,0.0,"Power, Industry",0.0019962185492418
+ETS_CA_BC,Canada,CAN,Subnational,2019,2019.0,0.0,Industry,0.0019962185492418
+ETS_CA_Alberta,Canada,CAN,Subnational,2020,2020.0,0.0,"Power, Industry",0.0019962185492418
+ETS_CA_SK,Canada,CAN,Subnational,2019,2019.0,0.0,"Power, Industry, Road transport, Buildings",0.0019962185492418
+ETS_CA_Ontario,Canada,CAN,Subnational,2017,2017.0,0.0,"Power, Industry, Road transport, Buildings",0.0019962185492418
+ETS_CA,Canada,CAN,National,2019,2019.0,0.0,"Power, Industry",0.0019962185492418
+ETS_CA_NL,Canada,CAN,Subnational,2019,2019.0,0.0,"Power, Industry",0.0019962185492418
+Tax_CA_NT,Canada,CAN,Subnational,2019,2019.0,0.0,"Power, Industry, Road transport, Shipping, Buildings, Agriculture",0.0019962185492418
+ETS_CA_NB,Canada,CAN,Subnational,2021,2021.0,0.0,"Power, Industry",0.0019962185492418
+Tax_CA_PE,Canada,CAN,Subnational,2019,2019.0,0.0,"Industry, Road transport, Aviation, Shipping",0.0019962185492418
+ETS_CA_NS,Canada,CAN,Subnational,2019,2019.0,0.0,"Power, Industry, Road transport, Buildings",0.0019962185492418
+Tax_CA_NL,Canada,CAN,Subnational,2019,2019.0,0.0,"Industry, Road transport, Aviation, Shipping",0.0019962185492418
+Tax_CA_NB,Canada,CAN,Subnational,2020,2020.0,0.0,"Power, Industry, Road transport, Aviation, Shipping, Buildings",0.0019962185492418
+Tax_CA,Canada,CAN,National,2019,2019.0,0.0,"Power, Industry, Road transport, Aviation, Shipping, Buildings, Agriculture",0.0019962185492418
+ETS_JP,Japan,JPN,National,2023,2026.0,3.0,"Power, Industry, Aviation, Shipping",0.0016294612879934
+Tax_CL,Chile,CHL,National,2016,2017.0,1.0,"Power, Industry",0.0014055027624014
+ETS_US_Washington,United States,USA,Subnational,2023,2023.0,0.0,"Power, Industry, Road transport, Buildings",0.0013014854828168
+ETS_AU2,Australia,AUS,National,2023,2023.0,0.0,"Power, Industry, Aviation, Shipping, Waste",0.0005845443548458
+Tax_AR,Argentina,ARG,National,2018,2018.0,0.0,"Power, Industry, Road transport, Aviation, Shipping, Buildings, Agriculture",0.0005654139391343
+Tax_MX_BC,Mexico,MEX,Subnational,2020,2020.0,0.0,"Power, Industry, Road transport, Aviation, Shipping, Buildings, Agriculture",0.0002350607812121
+Tax_MX_Durango,Mexico,MEX,Subnational,2024,2024.0,0.0,"Power, Industry, Buildings, Agriculture",0.0002350607812121
+Tax_MX_Guanajuato,Mexico,MEX,Subnational,2023,2023.0,0.0,"Power, Industry, Buildings, Agriculture",0.0002350607812121
+ETS_MX,Mexico,MEX,National,2020,2020.0,0.0,"Power, Industry",0.0002350607812121
+Tax_MX_Queretaro,Mexico,MEX,Subnational,2022,2022.0,0.0,"Industry, Buildings, Agriculture",0.0002350607812121
+Tax_MX_Yucatan,Mexico,MEX,Subnational,2022,2022.0,0.0,"Power, Industry, Buildings, Agriculture",0.0002350607812121
+Tax_MX_SoMexico,Mexico,MEX,Subnational,2022,2022.0,0.0,"Power, Industry, Buildings, Agriculture",0.0002350607812121
+Tax_MX_ZA,Mexico,MEX,Subnational,2017,2017.0,0.0,"Power, Industry, Buildings, Agriculture",0.0002350607812121
+Tax_MX_TA,Mexico,MEX,Subnational,2022,2022.0,0.0,"Power, Industry, Buildings, Agriculture",0.0002350607812121
+Tax_UY,Uruguay,URY,National,2022,2022.0,0.0,"Industry, Road transport, Buildings, Agriculture",0.0002209822999818
+Tax_SG,Singapore,SGP,National,2019,2019.0,0.0,"Power, Industry, Waste",0.0002089571830353
+ETS_AT,Austria,AUT,National,2022,2022.0,0.0,"Power, Industry, Road transport, Buildings, Agriculture",
+ETS_DE,Germany,DEU,National,2021,2021.0,0.0,"Industry, Road transport, Shipping, Buildings, Agriculture",
+Tax_HU,Hungary,HUN,National,2023,2023.0,0.0,"Power, Industry, Road transport, Aviation, Shipping",
+Tax_LU,Luxembourg,LUX,National,2021,2021.0,0.0,"Industry, Road transport, Shipping, Buildings",
+Tax_NL,Netherlands,NLD,National,2021,2021.0,0.0,"Power, Industry",
+Tax_CN_Taiwan,"Taiwan, China",TWN,Subnational,2024,2024.0,0.0,"Power, Industry",

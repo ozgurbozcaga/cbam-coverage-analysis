@@ -1,0 +1,16 @@
+Model,Variable,Post-2019,Post-2019 SE,Post-2021,Post-2021 SE,Post-2023,Post-2023 SE,N,Note
+Table 2 (Primary): Entrant-Level Industry Coverage Regressions,,,,,,,,,
+OLS no interaction (Model C),cbam_exposure_avg,0.6338,(0.5423),0.6338,(0.5423),0.6338,(0.5423),41,Same specification across columns (no post indicator)
+OLS (Model A) — Post-2019,cbam_exposure_avg,19.5535,(114.6342),nan,nan,nan,nan,41,nan
+OLS (Model A) — Post-2019,exposure × post-2019,-19.1305,(114.5256),nan,nan,nan,nan,,nan
+OLS (Model A) — Post-2021,cbam_exposure_avg,nan,nan,0.5469,(0.4082),nan,nan,41,nan
+OLS (Model A) — Post-2021,exposure × post-2021,nan,nan,3.7274,(11.2719),nan,nan,,nan
+OLS (Model A) — Post-2023,cbam_exposure_avg,nan,nan,nan,nan,0.7147,(0.6537),41,nan
+OLS (Model A) — Post-2023,exposure × post-2023,nan,nan,nan,nan,20.9103,(44.0870),,nan
+Logit ME (Model B) — Post-2019,cbam_exposure_avg,11.5322,(52.1739),nan,nan,nan,nan,41,nan
+Logit ME (Model B) — Post-2019,exposure × post-2019,-8.1157,(54.2262),nan,nan,nan,nan,,nan
+Logit ME (Model B) — Post-2021,cbam_exposure_avg,nan,nan,6.4511,(5.9541),nan,nan,41,nan
+Logit ME (Model B) — Post-2021,exposure × post-2021,nan,nan,-4.4690,(7.4772),nan,nan,,nan
+Logit ME (Model B) — Post-2023,cbam_exposure_avg,nan,nan,nan,nan,4.1316,(10.5401),41,nan
+Logit ME (Model B) — Post-2023,exposure × post-2023,nan,nan,nan,nan,11.4386,(39.2436),,nan
+"Controls: log_gdp_pc_constant2015_lag1, wgi_composite_estimate_lag1. OLS uses HC1 robust SEs. *** p<0.01  ** p<0.05  * p<0.1",,,,,,,,,
