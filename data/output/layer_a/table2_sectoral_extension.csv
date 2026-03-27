@@ -1,0 +1,9 @@
+Outcome,Post-2019 (no ctrl),Post-2019 (with ctrl),Post-2021 (no ctrl),Post-2021 (with ctrl),Post-2023 (no ctrl),Post-2023 (with ctrl)
+Table 2: Sectoral Extension — Industry Coverage Outcomes. These outcomes extend Bruegel by adding a sectoral dimension. Bruegel cannot test these with their binary adoption outcome.,,,,,,
+any_industry_cpi_announced,1.4298,1.3735,1.4615,1.4201,1.1669,1.0892
+,(1.0512),(1.1225),(0.9865),(1.0522),(0.7166),(0.7643)
+,N=1764,N=1304,N=1764,N=1304,N=1764,N=1304
+any_industry_cpi_active,1.4298,1.3735,1.4615,1.4201,1.1669,1.0892
+,(1.0512),(1.1225),(0.9865),(1.0522),(0.7166),(0.7643)
+,N=1764,N=1304,N=1764,N=1304,N=1764,N=1304
+Exposure measure: static 2014-2024 average share of CBAM-covered exports to EU27+UK. All regressions include country and year FE. SEs clustered at country level. *** p<0.01  ** p<0.05  * p<0.1,,,,,,
