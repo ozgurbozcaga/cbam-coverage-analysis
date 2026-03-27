@@ -1,0 +1,48 @@
+variable_name,description,source,dtype,notes
+cpi_id,Unique CPI identifier,cpi_list.xlsx / sectoral_coverage.xlsx,str,Primary key component
+cpi_name,Name of the carbon pricing instrument,cpi_list.xlsx,str,
+year,Publication year of the observation,Derived,int,Panel range 2016-2026
+instrument_type,"Type of instrument: ETS, Carbon tax, or Undefined",cpi_list.xlsx,str,
+country,Country or region name,cpi_list.xlsx,str,
+jurisdiction,Jurisdiction covered (may be subnational or multi-country),cpi_list.xlsx,str,
+scope,"Geographic scope: National, Subnational, or Regional",cpi_list.xlsx,str,Normalised to title case
+start_year,Year the CPI became implemented (Start date),cpi_list.xlsx,Int64,Nullable integer
+end_year,Year the CPI was abolished or ended (End date),cpi_list.xlsx,Int64,Nullable integer; NaN = still active or no end date recorded
+is_eea_ets_extension,"Binary: 1 for ETS_EU_IS, ETS_EU_LI, ETS_EU_NO (EFTA participation in EU ETS)",cpi_list.xlsx,int,CBAM exposure is null for these; expected and correct
+status_implemented,Binary: 1 if CPI is in implemented status in this year,Derived from cpi_list.xlsx date columns,int,Uses date-range derivation; takes priority over all other statuses
+status_under_development,Binary: 1 if CPI is under development in this year,Derived from cpi_list.xlsx date columns,int,Priority 2 in status hierarchy; mutually exclusive with implemented
+status_under_consideration,Binary: 1 if CPI is under consideration in this year,Derived from cpi_list.xlsx date columns,int,Priority 3 in status hierarchy; mutually exclusive with higher statuses
+status_active,Binary: 1 if any of implemented/under_development/under_consideration = 1,Derived,int,
+status_abolished,Binary: 1 if end_year is not NaN and year > end_year,Derived,int,
+status_level,"Ordinal status: 3=Implemented, 2=Under development, 1=Under consideration, 0=None/Abolished",Derived,int,Mutually exclusive; uses priority hierarchy
+covers_power,Binary: 1 if CPI covers the power sector,sectoral_coverage.xlsx,int,0 if CPI not present in S&T edition for that year
+covers_industry,Binary: 1 if CPI covers the industry sector.  PRIMARY OUTCOME VARIABLE,sectoral_coverage.xlsx,int,
+covers_road_transport,Binary: 1 if CPI covers the road transport sector,sectoral_coverage.xlsx,int,
+covers_aviation,Binary: 1 if CPI covers the aviation sector,sectoral_coverage.xlsx,int,
+covers_shipping,Binary: 1 if CPI covers the shipping sector,sectoral_coverage.xlsx,int,
+covers_buildings,Binary: 1 if CPI covers the buildings sector,sectoral_coverage.xlsx,int,
+covers_waste,Binary: 1 if CPI covers the waste sector,sectoral_coverage.xlsx,int,
+covers_agriculture,Binary: 1 if CPI covers the agriculture sector,sectoral_coverage.xlsx,int,
+covers_forestry,Binary: 1 if CPI covers the forestry sector,sectoral_coverage.xlsx,int,
+n_sectors_covered,Integer count of sectors covered (0-9),Derived from sectoral_coverage.xlsx,int,
+sector_string,Original comma-separated sector string (audit trail),sectoral_coverage.xlsx,str,NaN if CPI not present in S&T edition for that year
+coverage_active,Binary: 1 if CPI appears in sectoral coverage data for this year,Derived,int,0 = not present in S&T edition; sector binaries are 0 but row is retained
+price_usd,Annual carbon price in USD (converted from LCU at April 1 exchange rate),cpi_price_usd.xlsx,float,NaN if no price data available for that CPI-year
+log_price_usd,log(price_usd + 1); natural log with +1 offset to handle zeros,Derived,float,NaN propagates from price_usd
+income_group,World Bank income group of the country,cpi_price_usd.xlsx + COUNTRY_INCOME_GROUP fallback,str,Filled from price file first; COUNTRY_INCOME_GROUP dict used as fallback
+region,World Bank region,cpi_price_usd.xlsx,str,
+currency,Original currency code before USD conversion,cpi_price_usd.xlsx,str,
+post_2019,Binary: 1 if year >= 2019 (CBAM Commission proposal treatment indicator),Derived,int,
+post_2021,Binary: 1 if year >= 2021 (CBAM legislation treatment indicator),Derived,int,
+post_2023,Binary: 1 if year >= 2023 (CBAM implementation treatment indicator),Derived,int,
+first_year_industry,First year this CPI covered industry sector within 2016-2026 panel. 0 = never-treated.,Derived,int,"If covers_industry=1 in 2016, set to 2016 (always-treated at panel start)"
+never_treated_industry,Binary: 1 if covers_industry=0 in ALL years 2016-2026,Derived,int,Clean control group for Callaway & Sant'Anna DiD estimator
+always_treated_industry,Binary: 1 if first_year_industry == 2016 (had industry coverage in panel start year),Derived,int,Treated from the start of the panel; excluded from C&S switcher analysis
+switcher_type,Categorical: always_treated / never_treated / new_cpi_with_industry / genuine_expansion,Derived,str,new_cpi_with_industry = first covered industry in same year it entered coverage data; genuine_expansion = was active without industry before adding industry coverage
+first_year_implemented,First year this CPI reached implemented status within 2016-2026. 0 = never.,Derived,int,
+never_implemented,Binary: 1 if CPI never reached implemented status in the 2016-2026 window,Derived,int,
+cbam_exposure_annual,Annual CBAM exposure: share of exports going to EU in CBAM-covered sectors,cbam_exposure_annual.csv,float,Merged on iso3 + year; NaN for unmatched ISO3 or years outside 2014-2024
+cbam_exposure_avg,Average CBAM exposure 2014-2024 (static regressor),cbam_exposure_avg.csv,float,Merged on iso3 only; NaN for unmatched ISO3
+cbam_exports_eu_thousand_usd,Annual CBAM-covered exports to EU in thousand USD (numerator),cbam_exposure_annual.csv,float,
+total_exports_thousand_usd,Annual total exports in thousand USD (denominator),cbam_exposure_annual.csv,float,
+iso3,ISO3 country code resolved from jurisdiction/country columns,Derived via country_codes.csv and manual overrides,str,None for unresolved jurisdictions (e.g. European Union); null CBAM exposure expected for those rows
