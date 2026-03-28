@@ -1,0 +1,48 @@
+country,in_bruegel,in_cpi_list,bruegel_announced,bruegel_developed,bruegel_implemented,cpi_announced,cpi_developed,cpi_implemented,match_status,n_national_instruments,instruments,note
+Albania,yes,yes,2023,,2024,2007,,2008,DISCREPANCY,2,Tax_AL; ETS_AL,announced: CPI 2007 vs Bruegel 2023 (diff -16); implemented: CPI 2008 vs Bruegel 2024 (diff -16)
+Andorra,yes,yes,2025,,,2018,,2022,DISCREPANCY,1,Tax_AN,announced: CPI 2018 vs Bruegel 2025 (diff -7); CPI has implemented=2022; Bruegel missing
+Argentina,yes,yes,,,2018,2017,,2018,exact match,2,Tax_AR; ETS_AR,CPI has announced=2017; Bruegel missing
+Bahrain,yes,yes,2025,,,2025,,,exact match,1,Tax_BH,
+Botswana,yes,yes,2022,,,2021,,,match (within 1 year),1,Tax_BW,announced: CPI 2021 vs Bruegel 2022 (diff -1)
+Brazil,yes,yes,2015,2025,,2022,2024,,DISCREPANCY,1,ETS_BR,announced: CPI 2022 vs Bruegel 2015 (diff +7); developed: CPI 2024 vs Bruegel 2025 (diff -1)
+Brunei,yes,yes,2021,,,2020,,,match (within 1 year),1,UND_BN,announced: CPI 2020 vs Bruegel 2021 (diff -1)
+Canada,yes,yes,2016,,2019,2016,2024,2019,exact match,3,ETS_CA2; Tax_CA; ETS_CA,CPI has developed=2024; Bruegel missing
+Chile,yes,yes,2015,,2017,2014,2016,2017,match (within 1 year),2,Tax_CL; ETS_CL,announced: CPI 2014 vs Bruegel 2015 (diff -1); CPI has developed=2016; Bruegel missing
+China,yes,yes,2014,2018,2021,2016,,2021,DISCREPANCY,1,ETS_CN,announced: CPI 2016 vs Bruegel 2014 (diff +2); Bruegel has developed=2018; CPI missing
+Colombia,yes,yes,,,2017,2016,2024,2017,exact match,2,Tax_CO; ETS_CO,CPI has announced=2016; Bruegel missing; CPI has developed=2024; Bruegel missing
+Cote d'Ivoire,yes,yes,2018,,,2018,,,exact match,1,Tax_CD,
+Dominican Republic,yes,yes,2025,,,2020,,,DISCREPANCY,1,ETS_DO,announced: CPI 2020 vs Bruegel 2025 (diff -5)
+India,yes,yes,,2024,2025,2023,2024,2026,match (within 1 year),1,ETS_IN,implemented: CPI 2026 vs Bruegel 2025 (diff +1); CPI has announced=2023; Bruegel missing
+Indonesia,yes,yes,2020,2022,2024,2019,2021,2023,match (within 1 year),2,Tax_ID; ETS_ID,announced: CPI 2019 vs Bruegel 2020 (diff -1); developed: CPI 2021 vs Bruegel 2022 (diff -1); implemented: CPI 2023 vs Bruegel 2024 (diff -1)
+Israel,yes,yes,2022,2024,2025,2021,,2025,match (within 1 year),1,Tax_IL,announced: CPI 2021 vs Bruegel 2022 (diff -1); Bruegel has developed=2024; CPI missing
+Japan,yes,yes,,,2012,2011,2023,2012,exact match,2,Tax_JP; ETS_JP,CPI has announced=2011; Bruegel missing; CPI has developed=2023; Bruegel missing
+Kazakhstan,yes,yes,2014,,2020,2012,,2013,DISCREPANCY,1,ETS_KZ,announced: CPI 2012 vs Bruegel 2014 (diff -2); implemented: CPI 2013 vs Bruegel 2020 (diff -7)
+Kenya,yes,yes,2024,,,2024,,,exact match,1,Tax_KE,
+Malaysia,yes,yes,2022,,2025,2021,2024,,match (within 1 year),2,ETS_MY; Tax_MY,announced: CPI 2021 vs Bruegel 2022 (diff -1); CPI has developed=2024; Bruegel missing; Bruegel has implemented=2025; CPI missing
+Mauritania,yes,yes,2024,,,2024,,,exact match,1,Tax_MR,
+Mexico,yes,yes,,,2014,2013,,2014,exact match,2,Tax_MX; ETS_MX,CPI has announced=2013; Bruegel missing
+Montenegro,yes,yes,2020,2023,2024,2018,2019,2020,DISCREPANCY,1,ETS_MO,announced: CPI 2018 vs Bruegel 2020 (diff -2); developed: CPI 2019 vs Bruegel 2023 (diff -4); implemented: CPI 2020 vs Bruegel 2024 (diff -4)
+Morocco,yes,yes,2022,,,2022,,,exact match,1,Tax_MA,
+New Zealand,yes,yes,,,2008,2007,,2008,exact match,2,Tax_NZ; ETS_NZ,CPI has announced=2007; Bruegel missing
+Pakistan,yes,yes,2021,,,2021,,,exact match,1,ETS_PK,
+Paraguay,yes,yes,2024,,,2024,,,exact match,1,Tax_PY,
+Philippines,yes,yes,2024,,,2023,,,match (within 1 year),1,ETS_PH,announced: CPI 2023 vs Bruegel 2024 (diff -1)
+Senegal,yes,yes,2019,,,2024,,,DISCREPANCY,1,Tax_SN,announced: CPI 2024 vs Bruegel 2019 (diff +5)
+Singapore,yes,yes,2017,2019,2020,2017,,2019,match (within 1 year),1,Tax_SG,implemented: CPI 2019 vs Bruegel 2020 (diff -1); Bruegel has developed=2019; CPI missing
+South Africa,yes,yes,2014,,2020,2016,,2019,DISCREPANCY,1,Tax_ZA,announced: CPI 2016 vs Bruegel 2014 (diff +2); implemented: CPI 2019 vs Bruegel 2020 (diff -1)
+South Korea,yes,yes,2012,,2019,2014,,2015,DISCREPANCY,2,ETS_KR; Tax_KR,announced: CPI 2014 vs Bruegel 2012 (diff +2); implemented: CPI 2015 vs Bruegel 2019 (diff -4)
+Thailand,yes,yes,2015,2025,,2016,2025,,match (within 1 year),2,Tax_TH; ETS_TH,announced: CPI 2016 vs Bruegel 2015 (diff +1)
+Turkiye,yes,yes,2015,2025,,2016,2024,,match (within 1 year),1,ETS_TR,announced: CPI 2016 vs Bruegel 2015 (diff +1); developed: CPI 2024 vs Bruegel 2025 (diff -1)
+Ukraine,yes,yes,2014,2017,2020,2010,2024,2011,DISCREPANCY,2,Tax_UA; ETS_UA,announced: CPI 2010 vs Bruegel 2014 (diff -4); developed: CPI 2024 vs Bruegel 2017 (diff +7); implemented: CPI 2011 vs Bruegel 2020 (diff -9)
+Uruguay,yes,yes,,,2022,2021,,2022,exact match,1,Tax_UY,CPI has announced=2021; Bruegel missing
+Vietnam,yes,yes,2018,2025,,2017,2024,2025,match (within 1 year),1,ETS_VN,announced: CPI 2017 vs Bruegel 2018 (diff -1); developed: CPI 2024 vs Bruegel 2025 (diff -1); CPI has implemented=2025; Bruegel missing
+Australia,no,yes,,,,2008,,2012,NOT IN BRUEGEL,2,ETS_AU1; ETS_AU2,Status: Abolished; Implemented
+Bolivia,no,yes,,,,2026,,,NOT IN BRUEGEL,1,ETS_BO,Status: Under consideration
+Bosnia and Herzegovina,no,yes,,,,2022,,,NOT IN BRUEGEL,1,ETS_BA,Status: Removed
+Gabon,no,yes,,,,2022,,,NOT IN BRUEGEL,1,ETS_GA,Status: Removed
+Georgia,no,yes,,,,2024,,,NOT IN BRUEGEL,1,ETS_GE,Status: Removed
+Guyana,no,yes,,,,2026,,,NOT IN BRUEGEL,1,Tax_GY,Status: Under consideration
+Moldova,no,yes,,,,2013,,,NOT IN BRUEGEL,1,ETS_MD,Status: Removed
+Nigeria,no,yes,,,,2022,,2021,NOT IN BRUEGEL,2,ETS_NG; Tax_NG,Status: Removed; Implemented
+North Macedonia,no,yes,,,,2024,,,NOT IN BRUEGEL,1,ETS_MK,Status: Removed
+Serbia,no,yes,,,,,2025,,NOT IN BRUEGEL,2,ETS_RS; Tax_RS,Status: Removed; Under development
