@@ -1,6 +1,6 @@
 Specification,Coefficient (exposure × post),SE,N,CPI FE,Year FE,Controls
 Table 2b (Primary): CPI-Level Panel DiD — Industry Coverage,,,,,,
-Post-2019,0.9744,(1.3978),1152,Yes,Yes,Yes
-Post-2021,1.1056,(1.2157),1152,Yes,Yes,Yes
-Post-2023,0.7618,(0.9814),1152,Yes,Yes,Yes
+Post-2019,0.9708,(1.3886),1152,Yes,Yes,Yes
+Post-2021,1.0993,(1.2093),1152,Yes,Yes,Yes
+Post-2023,0.7537,(0.9786),1152,Yes,Yes,Yes
 "CPI + year FE. SEs clustered at country level. Controls: log_gdp_pc_constant2015_lag1, wgi_composite_estimate_lag1. *** p<0.01  ** p<0.05  * p<0.1. NOTE: The panel DiD identifies from CPI entry events — the transition from coverage_active=0 to coverage_active=1. Within-active variation is minimal (only ETS_CN genuinely expands industry coverage post-entry). The coefficient β captures whether CPIs entering post-CBAM in high-exposure countries are more likely to cover industry at the time of their first active observation. This is consistent with the extensive margin interpretation established in the descriptive analysis.",,,,,,

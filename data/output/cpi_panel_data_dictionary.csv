@@ -32,9 +32,12 @@ log_price_usd,log(price_usd + 1); natural log with +1 offset to handle zeros,Der
 income_group,World Bank income group of the country,cpi_price_usd.xlsx + COUNTRY_INCOME_GROUP fallback,str,Filled from price file first; COUNTRY_INCOME_GROUP dict used as fallback
 region,World Bank region,cpi_price_usd.xlsx,str,
 currency,Original currency code before USD conversion,cpi_price_usd.xlsx,str,
-post_2019,Binary: 1 if year >= 2019 (CBAM Commission proposal treatment indicator),Derived,int,
-post_2021,Binary: 1 if year >= 2021 (CBAM legislation treatment indicator),Derived,int,
-post_2023,Binary: 1 if year >= 2023 (CBAM implementation treatment indicator),Derived,int,
+post_2019,Binary: 1 if year > 2019 (Green Deal announced July 2019; April 1 data reference predates announcement),Derived,int,
+post_2021,Binary: 1 if year > 2021 (CBAM regulation proposed July 2021; April 1 data reference predates proposal),Derived,int,
+post_2023,Binary: 1 if year > 2023 (CBAM entered into force October 2023; April 1 data reference predates entry into force),Derived,int,
+post_ge2019,Sensitivity variant: 1 if year >= 2019 (inclusive milestone),Derived,int,
+post_ge2021,Sensitivity variant: 1 if year >= 2021 (inclusive milestone),Derived,int,
+post_ge2023,Sensitivity variant: 1 if year >= 2023 (inclusive milestone),Derived,int,
 first_year_industry,First year this CPI covered industry sector within 2016-2026 panel. 0 = never-treated.,Derived,int,"If covers_industry=1 in 2016, set to 2016 (always-treated at panel start)"
 never_treated_industry,Binary: 1 if covers_industry=0 in ALL years 2016-2026,Derived,int,Clean control group for Callaway & Sant'Anna DiD estimator
 always_treated_industry,Binary: 1 if first_year_industry == 2016 (had industry coverage in panel start year),Derived,int,Treated from the start of the panel; excluded from C&S switcher analysis

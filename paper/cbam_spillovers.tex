@@ -12,14 +12,6 @@
 \usepackage{amsmath}
 \usepackage{natbib}
 \usepackage[hidelinks]{hyperref}
-\pdfstringdefDisableCommands{%
-  \def\\{}%
-  \def\texttt#1{#1}%
-  \def\textbf#1{#1}%
-  \def\textrm#1{#1}%
-  \def\citep#1{}%
-  \def\citet#1{}%
-}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{caption}
@@ -78,7 +70,7 @@ Several descriptive facts motivate our empirical design. Industry coverage grew 
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
-\caption{\texorpdfstring{Sector Coverage Counts by Year}{Sector Coverage Counts by Year}}\label{tab:descriptive}
+\caption{Sector Coverage Counts by Year}\label{tab:descriptive}
 \small
 \begin{tabular}{lrrrrrrrrrrr}
 \toprule
@@ -114,31 +106,31 @@ Our benchmark exposure measure follows \citet{Bahi2026}: a static average of ann
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
-\caption{\texorpdfstring{Top 20 Countries by CBAM Trade Exposure}{Top 20 Countries by CBAM Trade Exposure}}\label{tab:exposure}
+\caption{Top 20 Countries by CBAM Trade Exposure}\label{tab:exposure}
 \begin{tabular}{rlll}
 \toprule
 Rank & Country & ISO3 & Exposure (\%) \\
 \midrule
-1 & Montenegro & MNE & 22.18 \\
-2 & Mozambique & MOZ & 16.15 \\
-3 & Bosnia Herzegovina & BIH & 9.62 \\
-4 & Albania & ALB & 8.14 \\
-5 & Serbia & SRB & 7.65 \\
-6 & Ukraine & UKR & 7.55 \\
-7 & North Macedonia & MKD & 6.93 \\
-8 & New Caledonia & NCL & 6.35 \\
-9 & Armenia & ARM & 6.23 \\
+1 & Montenegro & MNE & 22.33 \\
+2 & Mozambique & MOZ & 15.41 \\
+3 & Bosnia Herzegovina & BIH & 9.64 \\
+4 & Albania & ALB & 8.15 \\
+5 & Ukraine & UKR & 7.67 \\
+6 & Serbia & SRB & 7.65 \\
+7 & North Macedonia & MKD & 6.92 \\
+8 & New Caledonia & NCL & 6.23 \\
+9 & Armenia & ARM & 6.22 \\
 10 & Rep. of Moldova & MDA & 4.81 \\
-11 & Egypt & EGY & 4.21 \\
-12 & Bahrain & BHR & 3.94 \\
-13 & Belarus & BLR & 3.54 \\
-14 & TÃ¼rkiye & TUR & 3.08 \\
+11 & Egypt & EGY & 4.12 \\
+12 & Bahrain & BHR & 4.08 \\
+13 & Belarus & BLR & 3.78 \\
+14 & TÃ¼rkiye & TUR & 3.12 \\
 15 & Tajikistan & TJK & 2.79 \\
-16 & Russian Federation & RUS & 2.68 \\
+16 & Russian Federation & RUS & 2.79 \\
 17 & Bahamas & BHS & 2.40 \\
-18 & Georgia & GEO & 2.32 \\
-19 & Morocco & MAR & 1.98 \\
-20 & Turks and Caicos Isds & TCA & 1.92 \\
+18 & Georgia & GEO & 2.38 \\
+19 & Morocco & MAR & 1.99 \\
+20 & Turks and Caicos Isds & TCA & 1.94 \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}\small
@@ -218,22 +210,22 @@ Table~\ref{tab:benchmark} presents the Bruegel-comparable benchmark. The coeffic
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
-\caption{\texorpdfstring{Benchmark Results: CBAM Exposure and Carbon Pricing Adoption}{Benchmark Results: CBAM Exposure and Carbon Pricing Adoption}}\label{tab:benchmark}
+\caption{Benchmark Results: CBAM Exposure and Carbon Pricing Adoption}\label{tab:benchmark}
 \small
 \begin{tabular}{lcccccc}
 \toprule
  & Post-2019 (no ctrl) & Post-2019 (with ctrl) & Post-2021 (no ctrl) & Post-2021 (with ctrl) & Post-2023 (no ctrl) & Post-2023 (with ctrl) \\
 \midrule
-any\_cpi\_announced & 1.2561 & 1.0543 & 0.9413 & 0.7098 & 1.0211 & 0.7325 \\
- & (0.8281) & (0.8844) & (0.6750) & (0.6936) & (0.7282) & (0.7167) \\
+any\_cpi\_announced & 1.0586 & 0.8393 & 1.1478 & 0.8862 & 1.1333 & 0.7533 \\
+ & (0.6691) & (0.7075) & (0.8062) & (0.8079) & (0.8270) & (0.8182) \\
  & \textit{N=1764} & \textit{N=1304} & \textit{N=1764} & \textit{N=1304} & \textit{N=1764} & \textit{N=1304} \\
 \addlinespace
-any\_cpi\_active & 1.5425 & 1.4800 & 0.7879 & 0.7034 & 0.5326 & 0.3868 \\
- & (1.3136) & (1.3958) & (0.8180) & (0.8825) & (0.5924) & (0.6430) \\
+any\_cpi\_active & 1.1187 & 1.0433 & 0.6492 & 0.5289 & 0.5537 & 0.3389 \\
+ & (0.9967) & (1.0668) & (0.6863) & (0.7491) & (0.5267) & (0.5782) \\
  & \textit{N=1764} & \textit{N=1304} & \textit{N=1764} & \textit{N=1304} & \textit{N=1764} & \textit{N=1304} \\
 \addlinespace
-any\_cpi\_implemented & 1.2160 & 1.1912 & 1.1408 & 1.1506 & 0.7129 & 0.6600 \\
- & (1.1151) & (1.1811) & (1.0779) & (1.1387) & (0.7965) & (0.8515) \\
+any\_cpi\_implemented & 1.5675 & 1.5872 & 0.9184 & 0.8925 & 0.6431 & 0.5682 \\
+ & (1.3204) & (1.3905) & (0.9119) & (0.9747) & (0.6974) & (0.7468) \\
  & \textit{N=1764} & \textit{N=1304} & \textit{N=1764} & \textit{N=1304} & \textit{N=1764} & \textit{N=1304} \\
 \addlinespace
 \bottomrule
@@ -249,18 +241,18 @@ Table~\ref{tab:sectoral} extends the benchmark to industry-specific outcomes. Th
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
-\caption{\texorpdfstring{Sectoral Extension: Industry-Specific Adoption Outcomes}{Sectoral Extension: Industry-Specific Adoption Outcomes}}\label{tab:sectoral}
+\caption{Sectoral Extension: Industry-Specific Adoption Outcomes}\label{tab:sectoral}
 \small
 \begin{tabular}{lcccccc}
 \toprule
  & Post-2019 (no ctrl) & Post-2019 (with ctrl) & Post-2021 (no ctrl) & Post-2021 (with ctrl) & Post-2023 (no ctrl) & Post-2023 (with ctrl) \\
 \midrule
-any\_industry\_cpi\_announced & 1.4298 & 1.3735 & 1.4615 & 1.4201 & 1.1669 & 1.0892 \\
- & (1.0512) & (1.1225) & (0.9865) & (1.0522) & (0.7166) & (0.7643) \\
+any\_industry\_cpi\_announced & 1.8286 & 1.8065 & 1.2963 & 1.2315 & 1.4052* & 1.3315 \\
+ & (1.2372) & (1.3142) & (0.8078) & (0.8679) & (0.7777) & (0.8095) \\
  & \textit{N=1764} & \textit{N=1304} & \textit{N=1764} & \textit{N=1304} & \textit{N=1764} & \textit{N=1304} \\
 \addlinespace
-any\_industry\_cpi\_active & 1.4298 & 1.3735 & 1.4615 & 1.4201 & 1.1669 & 1.0892 \\
- & (1.0512) & (1.1225) & (0.9865) & (1.0522) & (0.7166) & (0.7643) \\
+any\_industry\_cpi\_active & 1.8286 & 1.8065 & 1.2963 & 1.2315 & 1.4052* & 1.3315 \\
+ & (1.2372) & (1.3142) & (0.8078) & (0.8679) & (0.7777) & (0.8095) \\
  & \textit{N=1764} & \textit{N=1304} & \textit{N=1764} & \textit{N=1304} & \textit{N=1764} & \textit{N=1304} \\
 \addlinespace
 \bottomrule
@@ -278,16 +270,16 @@ Table~\ref{tab:cox} presents Cox proportional hazard models for the three pipeli
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
-\caption{\texorpdfstring{Cox Proportional Hazard Models: Pipeline Transitions}{Cox Proportional Hazard Models: Pipeline Transitions}}\label{tab:cox}
+\caption{Cox Proportional Hazard Models: Pipeline Transitions}\label{tab:cox}
 \begin{tabular}{lccc}
 \toprule
  & Consideration & Development & Implementation \\
 \midrule
-cbam\_exposure\_pct & 1.110 [1.022, 1.206]** & 1.201 [1.076, 1.342]*** & 1.127 [1.006, 1.262]** \\
-log\_gdp\_pc & 0.976 [0.662, 1.437] & 0.986 [0.550, 1.769] & 1.112 [0.606, 2.040] \\
-wgi\_composite & 1.748 [0.878, 3.483] & 2.127 [0.831, 5.448] & 2.530 [0.905, 7.072]* \\
+cbam\_exposure\_pct & 1.114 [1.026, 1.209]** & 1.207 [1.080, 1.348]*** & 1.129 [1.009, 1.262]** \\
+log\_gdp\_pc & 0.973 [0.660, 1.433] & 0.980 [0.547, 1.758] & 1.109 [0.604, 2.035] \\
+wgi\_composite & 1.761 [0.883, 3.512] & 2.147 [0.838, 5.505] & 2.547 [0.910, 7.125]* \\
 \midrule
-C-index & 0.6476 & 0.7550 & 0.7403 \\
+C-index & 0.6479 & 0.7577 & 0.7415 \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}\small
@@ -299,7 +291,7 @@ C-index & 0.6476 & 0.7550 & 0.7403 \\
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.85\textwidth]{figures/km_development.png}
-\caption{\texorpdfstring{Kaplan-Meier survival curves for the development transition by CBAM exposure tercile. Low = bottom third of exposure distribution, High = top third. Log-rank test $p$-value reported in figure title. Countries already in development before 2016 excluded.}{Kaplan-Meier survival curves for the development transition by CBAM exposure tercile. Low = bottom third of exposure distribution, High = top third. Log-rank test p-value reported in figure title. Countries already in development before 2016 excluded.}}
+\caption{Kaplan-Meier survival curves for the development transition by CBAM exposure tercile. Low = bottom third of exposure distribution, High = top third. Log-rank test $p$-value reported in figure title. Countries already in development before 2016 excluded.}
 \label{fig:km_development}
 \end{figure}
 
@@ -308,22 +300,22 @@ Table~\ref{tab:twfe_comparison} compares benchmark and preferred (time-varying, 
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
-\caption{\texorpdfstring{Pipeline Outcomes: Benchmark vs.\ Preferred Exposure}{Pipeline Outcomes: Benchmark vs. Preferred Exposure}}\label{tab:twfe_comparison}
+\caption{Pipeline Outcomes: Benchmark vs.~Preferred Exposure}\label{tab:twfe_comparison}
 \small
 \begin{tabular}{lcccccc}
 \toprule
  & Benchmark Post-2019 & Preferred Post-2019 & Benchmark Post-2021 & Preferred Post-2021 & Benchmark Post-2023 & Preferred Post-2023 \\
 \midrule
-ever\_considered & 1.0543 & 0.5754 & 0.7098 & 0.3862 & 0.7325 & 0.4945 \\
- & (0.8844) & (0.4592) & (0.6936) & (0.3367) & (0.7167) & (0.3747) \\
+ever\_considered & 0.8393 & 0.5273 & 0.8862 & 0.5885 & 0.7533 & 0.6822 \\
+ & (0.7075) & (0.3638) & (0.8079) & (0.3845) & (0.8182) & (0.7116) \\
  & \textit{N=1304} & \textit{N=1304} & \textit{N=1304} & \textit{N=1304} & \textit{N=1304} & \textit{N=1304} \\
 \addlinespace
-ever\_developing & 1.9013 & 1.2114* & 1.1293 & 0.8135** & 0.8974 & 0.8396*** \\
- & (1.2906) & (0.6566) & (0.7704) & (0.4011) & (0.5820) & (0.2974) \\
+ever\_developing & 1.4472 & 1.0614** & 1.0033 & 0.8667*** & 1.0708 & 1.1541** \\
+ & (0.9553) & (0.4864) & (0.6358) & (0.2982) & (0.7546) & (0.5548) \\
  & \textit{N=1304} & \textit{N=1304} & \textit{N=1304} & \textit{N=1304} & \textit{N=1304} & \textit{N=1304} \\
 \addlinespace
-ever\_implemented & 1.1912 & 0.9311 & 1.1506 & 0.8946 & 0.6600 & 0.7906 \\
- & (1.1811) & (0.7008) & (1.1387) & (0.6295) & (0.8515) & (0.5523) \\
+ever\_implemented & 1.5872 & 1.2160 & 0.8925 & 0.9270* & 0.5682 & 0.8245 \\
+ & (1.3905) & (0.7505) & (0.9747) & (0.5284) & (0.7468) & (0.6497) \\
  & \textit{N=1304} & \textit{N=1304} & \textit{N=1304} & \textit{N=1304} & \textit{N=1304} & \textit{N=1304} \\
 \addlinespace
 Benchmark = static 2014-2024 average, EU27+UK perimeter. Preferred = time-varying annual, Brexit-corrected perimeter. All regressions include country and year FE, controls (log GDP pc, log exports, WGI composite, all lagged). SEs clustered at country level. *** p<0.01  ** p<0.05  * p<0.1 &  &  &  &  &  &  \\
@@ -347,21 +339,21 @@ Table~\ref{tab:entrant_desc} presents entrant cohort characteristics. The 2019 c
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
-\caption{\texorpdfstring{New CPI Entrant Characteristics by Entry Cohort}{New CPI Entrant Characteristics by Entry Cohort}}\label{tab:entrant_desc}
+\caption{New CPI Entrant Characteristics by Entry Cohort}\label{tab:entrant_desc}
 \small
 \begin{tabular}{lrrrrrrr}
 \toprule
 Entry year & $N$ entrants & National & Subnational & With coverage & Industry share & Mean exposure & Mean sectors \\
 \midrule
-2016 & 2 & 1 & 1 & 2 & 100.0\% & 0.211\% & 2.0 \\
-2017 & 4 & 1 & 3 & 4 & 75.0\% & 0.184\% & 4.2 \\
-2018 & 3 & 1 & 2 & 2 & 50.0\% & 0.129\% & 4.0 \\
-2019 & 12 & 5 & 7 & 12 & 100.0\% & 2.119\% & 3.8 \\
-2020 & 4 & 1 & 3 & 4 & 100.0\% & 0.112\% & 4.2 \\
-2021 & 8 & 7 & 1 & 6 & 83.3\% & 0.466\% & 2.8 \\
-2022 & 10 & 3 & 7 & 8 & 100.0\% & 0.438\% & 3.6 \\
-2023 & 6 & 4 & 2 & 6 & 83.3\% & 0.118\% & 3.8 \\
-2024 & 11 & 9 & 2 & 4 & 100.0\% & 1.379\% & 2.2 \\
+2016 & 2 & 1 & 1 & 2 & 100.0\% & 0.215\% & 2.0 \\
+2017 & 4 & 1 & 3 & 4 & 75.0\% & 0.187\% & 4.2 \\
+2018 & 3 & 1 & 2 & 2 & 50.0\% & 0.135\% & 4.0 \\
+2019 & 12 & 5 & 7 & 12 & 100.0\% & 2.140\% & 3.8 \\
+2020 & 4 & 1 & 3 & 4 & 100.0\% & 0.116\% & 4.2 \\
+2021 & 8 & 7 & 1 & 6 & 83.3\% & 0.476\% & 2.8 \\
+2022 & 10 & 3 & 7 & 8 & 100.0\% & 0.452\% & 3.6 \\
+2023 & 6 & 4 & 2 & 6 & 83.3\% & 0.121\% & 3.8 \\
+2024 & 11 & 9 & 2 & 4 & 100.0\% & 1.395\% & 2.2 \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}\small
@@ -375,14 +367,14 @@ Table~\ref{tab:panel_did} presents the primary panel DiD results. The coefficien
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
-\caption{\texorpdfstring{CPI-Level Panel DiD: Industry Sector Coverage (Primary)}{CPI-Level Panel DiD: Industry Sector Coverage (Primary)}}\label{tab:panel_did}
+\caption{CPI-Level Panel DiD: Industry Sector Coverage (Primary)}\label{tab:panel_did}
 \begin{tabular}{lccccc}
 \toprule
 Specification & Coefficient & SE & $N$ & CPI FE & Year FE \\
 \midrule
-Post-2019 & 0.9744 & (1.3978) & 1152.0 & Yes & Yes \\
-Post-2021 & 1.1056 & (1.2157) & 1152.0 & Yes & Yes \\
-Post-2023 & 0.7618 & (0.9814) & 1152.0 & Yes & Yes \\
+Post-2019 & 0.9708 & (1.3886) & 1152.0 & Yes & Yes \\
+Post-2021 & 1.0993 & (1.2093) & 1152.0 & Yes & Yes \\
+Post-2023 & 0.7537 & (0.9786) & 1152.0 & Yes & Yes \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}\small
@@ -394,7 +386,7 @@ Post-2023 & 0.7618 & (0.9814) & 1152.0 & Yes & Yes \\
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.85\textwidth]{figures/event_study_industry.png}
-\caption{\texorpdfstring{Event study coefficients from Equation~\ref{eq:panel_did} with year-specific interactions relative to 2016 baseline. Coefficients represent the differential effect of a unit increase in CBAM exposure on industry coverage probability relative to the omitted base year. 95\% confidence intervals shown. Pre-2019 coefficients near zero support the parallel trends assumption.}{Event study coefficients with year-specific interactions relative to 2016 baseline. Coefficients represent the differential effect of a unit increase in CBAM exposure on industry coverage probability relative to the omitted base year. 95\% confidence intervals shown. Pre-2019 coefficients near zero support the parallel trends assumption.}}
+\caption{Event study coefficients from Equation~\ref{eq:panel_did} with year-specific interactions relative to 2016 baseline. Coefficients represent the differential effect of a unit increase in CBAM exposure on industry coverage probability relative to the omitted base year. 95\% confidence intervals shown. Pre-2019 coefficients near zero support the parallel trends assumption.}
 \label{fig:event_study}
 \end{figure}
 
@@ -405,25 +397,25 @@ Table~\ref{tab:entrant_reg} presents the supplementary cross-sectional entrant r
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
-\caption{\texorpdfstring{Cross-Sectional Entrant Regressions (Supplementary)}{Cross-Sectional Entrant Regressions (Supplementary)}}\label{tab:entrant_reg}
+\caption{Cross-Sectional Entrant Regressions (Supplementary)}\label{tab:entrant_reg}
 \small
 \begin{tabular}{llccccccr}
 \toprule
 Model & Variable & Post-2019 & SE & Post-2021 & SE & Post-2023 & SE & $N$ \\
 \midrule
-OLS no interaction (Model C) & cbam\_exposure\_avg & 0.6338 & (0.5423) & 0.6338 & (0.5423) & 0.6338 & (0.5423) & 41.0 \\
-OLS (Model A) — Post-2019 & cbam\_exposure\_avg & 19.5535 & (114.6342) &  &  &  &  & 41.0 \\
-OLS (Model A) — Post-2019 & exposure × post-2019 & -19.1305 & (114.5256) &  &  &  &  &  \\
-OLS (Model A) — Post-2021 & cbam\_exposure\_avg &  &  & 0.5469 & (0.4082) &  &  & 41.0 \\
-OLS (Model A) — Post-2021 & exposure × post-2021 &  &  & 3.7274 & (11.2719) &  &  &  \\
-OLS (Model A) — Post-2023 & cbam\_exposure\_avg &  &  &  &  & 0.7147 & (0.6537) & 41.0 \\
-OLS (Model A) — Post-2023 & exposure × post-2023 &  &  &  &  & 20.9103 & (44.0870) &  \\
-Logit ME (Model B) — Post-2019 & cbam\_exposure\_avg & 11.5322 & (52.1739) &  &  &  &  & 41.0 \\
-Logit ME (Model B) — Post-2019 & exposure × post-2019 & -8.1157 & (54.2262) &  &  &  &  &  \\
-Logit ME (Model B) — Post-2021 & cbam\_exposure\_avg &  &  & 6.4511 & (5.9541) &  &  & 41.0 \\
-Logit ME (Model B) — Post-2021 & exposure × post-2021 &  &  & -4.469 & (7.4772) &  &  &  \\
-Logit ME (Model B) — Post-2023 & cbam\_exposure\_avg &  &  &  &  & 4.1316 & (10.5401) & 41.0 \\
-Logit ME (Model B) — Post-2023 & exposure × post-2023 &  &  &  &  & 11.4386 & (39.2436) &  \\
+OLS no interaction (Model C) & cbam\_exposure\_avg & 0.6278 & (0.5371) & 0.6278 & (0.5371) & 0.6278 & (0.5371) & 41.0 \\
+OLS (Model A) — Post-2019 & cbam\_exposure\_avg & 0.6547 & (0.4220) &  &  &  &  & 41.0 \\
+OLS (Model A) — Post-2019 & exposure × post-2019 & 0.8607 & (11.8894) &  &  &  &  &  \\
+OLS (Model A) — Post-2021 & cbam\_exposure\_avg &  &  & 0.8204 & (0.6404) &  &  & 41.0 \\
+OLS (Model A) — Post-2021 & exposure × post-2021 &  &  & 8.0204 & (39.1864) &  &  &  \\
+OLS (Model A) — Post-2023 & cbam\_exposure\_avg &  &  &  &  & 0.9218 & (0.7932) & 41.0 \\
+OLS (Model A) — Post-2023 & exposure × post-2023 &  &  &  &  & 18.1252 & (32.3131) &  \\
+Logit ME (Model B) — Post-2019 & cbam\_exposure\_avg & 5.7279 & (10.3624) &  &  &  &  & 41.0 \\
+Logit ME (Model B) — Post-2019 & exposure × post-2019 & -4.9479 & (9.0279) &  &  &  &  &  \\
+Logit ME (Model B) — Post-2021 & cbam\_exposure\_avg &  &  & 5.7729 & (5.3928) &  &  & 41.0 \\
+Logit ME (Model B) — Post-2021 & exposure × post-2021 &  &  & 0.4304 & (22.0917) &  &  &  \\
+Logit ME (Model B) — Post-2023 & cbam\_exposure\_avg &  &  &  &  & 0.9855 & (4218.1687) & 41.0 \\
+Logit ME (Model B) — Post-2023 & exposure × post-2023 &  &  &  &  & 2.1809 & (236178.4145) &  \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}\small
@@ -439,23 +431,23 @@ Table~\ref{tab:price_nominal} presents the nominal USD price results. The Post-2
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
-\caption{\texorpdfstring{Carbon Price and CBAM Exposure: Nominal USD Results}{Carbon Price and CBAM Exposure: Nominal USD Results}}\label{tab:price_nominal}
+\caption{Carbon Price and CBAM Exposure: Nominal USD Results}\label{tab:price_nominal}
 \begin{tabular}{llcr}
 \toprule
 Specification & Sample & Coefficient & $N$ \\
 \midrule
-Spec 1: exposure level & National all & +3.5824 (4.9295) & 122.0 \\
-Spec 1: exposure level & National ETS & +11.1559*** (2.3773) & 42.0 \\
-Spec 1: exposure level & National tax & -9.1596 (11.6913) & 80.0 \\
-Spec 2: exposure × Post-2019 & National all & +4.2810 (2.7668) & 122.0 \\
-Spec 2: exposure × Post-2019 & National ETS & +243.2964 (263.0572) & 42.0 \\
-Spec 2: exposure × Post-2019 & National tax & +6.3657*** (1.4678) & 80.0 \\
-Spec 2: exposure × Post-2021 & National all & +5.0512** (2.0718) & 122.0 \\
-Spec 2: exposure × Post-2021 & National ETS & +36.7631 (181.3582) & 42.0 \\
-Spec 2: exposure × Post-2021 & National tax & +3.7891 (2.4830) & 80.0 \\
-Spec 2: exposure × Post-2023 & National all & +12.9841* (7.3238) & 122.0 \\
-Spec 2: exposure × Post-2023 & National ETS & +67.9986** (25.6593) & 42.0 \\
-Spec 2: exposure × Post-2023 & National tax & +3.5793 (6.3012) & 80.0 \\
+Spec 1: exposure level & National all & +3.5113 (4.9166) & 122.0 \\
+Spec 1: exposure level & National ETS & +11.0660*** (2.3606) & 42.0 \\
+Spec 1: exposure level & National tax & -9.0631 (11.5119) & 80.0 \\
+Spec 2: exposure × Post-2019 & National all & +4.2625** (1.9575) & 122.0 \\
+Spec 2: exposure × Post-2019 & National ETS & +178.0275 (242.5914) & 42.0 \\
+Spec 2: exposure × Post-2019 & National tax & +4.4052** (1.7798) & 80.0 \\
+Spec 2: exposure × Post-2021 & National all & +10.4659* (5.3988) & 122.0 \\
+Spec 2: exposure × Post-2021 & National ETS & +170.5378** (68.4394) & 42.0 \\
+Spec 2: exposure × Post-2021 & National tax & +4.9656 (3.2822) & 80.0 \\
+Spec 2: exposure × Post-2023 & National all & +2.6392 (4.3715) & 122.0 \\
+Spec 2: exposure × Post-2023 & National ETS & -0.0436 (33.1576) & 42.0 \\
+Spec 2: exposure × Post-2023 & National tax & +0.3637 (4.9638) & 80.0 \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}\small
@@ -469,17 +461,17 @@ Table~\ref{tab:price_real} presents the real price robustness check. Deflating b
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
-\caption{\texorpdfstring{Carbon Price: Nominal vs.\ Real (GDP Deflator Adjusted)}{Carbon Price: Nominal vs. Real (GDP Deflator Adjusted)}}\label{tab:price_real}
+\caption{Carbon Price: Nominal vs.~Real (GDP Deflator Adjusted)}\label{tab:price_real}
 \begin{tabular}{llcccc}
 \toprule
 Post period & Sample & Nominal coef. & Nominal $N$ & Real coef. & Real $N$ \\
 \midrule
-Post-2021 & National all & +5.0512** (2.0718) & 122.0 & +2.5637 (1.6679) & 122.0 \\
-Post-2021 & National ETS & +36.7631 (181.3582) & 42.0 & +25.9562 (168.3471) & 42.0 \\
-Post-2021 & National tax & +3.7891 (2.4830) & 80.0 & +1.0241 (1.9242) & 80.0 \\
-Post-2023 & National all & +12.9841* (7.3238) & 122.0 & +8.1896 (6.3291) & 122.0 \\
-Post-2023 & National ETS & +67.9986** (25.6593) & 42.0 & +61.6701** (26.1635) & 42.0 \\
-Post-2023 & National tax & +3.5793 (6.3012) & 80.0 & -2.3378 (4.3269) & 80.0 \\
+Post-2021 & National all & +10.4659* (5.3988) & 122.0 & +6.6948 (4.5130) & 122.0 \\
+Post-2021 & National ETS & +170.5378** (68.4394) & 42.0 & +163.3830** (62.2121) & 42.0 \\
+Post-2021 & National tax & +4.9656 (3.2822) & 80.0 & +0.7007 (2.5040) & 80.0 \\
+Post-2023 & National all & +2.6392 (4.3715) & 122.0 & -0.4603 (3.2851) & 122.0 \\
+Post-2023 & National ETS & -0.0436 (33.1576) & 42.0 & -4.9808 (34.6435) & 42.0 \\
+Post-2023 & National tax & +0.3637 (4.9638) & 80.0 & -3.0747 (3.4687) & 80.0 \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}\small
@@ -496,11 +488,11 @@ Post-2023 & National tax & +3.5793 (6.3012) & 80.0 & -2.3378 (4.3269) & 80.0 \\
 
 Table~\ref{tab:robustness} presents the full robustness summary across eleven specifications, all benchmarked against RC1 (any\_cpi\_active, Post-2021, benchmark exposure, $\hat{\beta} = 0.703$, $N = 1{,}304$).
 
-\paragraph{Placebo test (RC10).} The placebo test using 2016--2018 data with a post-2018 indicator yields a coefficient of -0.1096 ($p = 0.34$), providing no evidence of pre-existing differential trends. This supports the CBAM interpretation of post-2019 findings: countries with higher CBAM exposure were not already trending differently in their carbon pricing adoption prior to the first CBAM announcements.
+\paragraph{Placebo test (RC10).} The placebo test using 2016--2018 data with a post-2018 indicator yields a coefficient of -0.1074 ($p = 0.34$), providing no evidence of pre-existing differential trends. This supports the CBAM interpretation of post-2019 findings: countries with higher CBAM exposure were not already trending differently in their carbon pricing adoption prior to the first CBAM announcements.
 
-\paragraph{EU candidate exclusion (RC4).} Excluding the ten EU accession candidates (Albania, Bosnia and Herzegovina, Georgia, Kosovo, Moldova, Montenegro, North Macedonia, Serbia, Turkey, and Ukraine) reduces the coefficient from 0.703 to -0.4389 (SE = 0.3176, $p = 0.1673$, $N = 1223$). This is consistent with these countries responding to EU accession requirements as well as CBAM exposure. The candidate countries include six of the top fifteen most CBAM-exposed countries (Montenegro, Bosnia, Albania, Serbia, Ukraine, North Macedonia), so their exclusion substantially reduces the identifying variation. The coefficient attenuation is structurally motivated rather than indicative of fragility.
+\paragraph{EU candidate exclusion (RC4).} Excluding the ten EU accession candidates (Albania, Bosnia and Herzegovina, Georgia, Kosovo, Moldova, Montenegro, North Macedonia, Serbia, Turkey, and Ukraine) reduces the coefficient from 0.703 to -0.4373 (SE = 0.3270, $p = 0.1815$, $N = 1223$). This is consistent with these countries responding to EU accession requirements as well as CBAM exposure. The candidate countries include six of the top fifteen most CBAM-exposed countries (Montenegro, Bosnia, Albania, Serbia, Ukraine, North Macedonia), so their exclusion substantially reduces the identifying variation. The coefficient attenuation is structurally motivated rather than indicative of fragility.
 
-\paragraph{Income group heterogeneity (RC7).} The triple interaction (exposure $\times$ post $\times$ high income) is significant with a coefficient of 2.1968 (SE = 0.8466, $p = 0.0096$), confirming that the CBAM exposure effect is concentrated among higher-income jurisdictions with greater institutional capacity to implement carbon pricing instruments. Subsample results show a larger point estimate for lower-middle and low-income countries (1.069, $p = 0.111$) than for high and upper-middle income countries (0.075, $p = 0.963$), but the triple interaction captures the differential rather than the level.
+\paragraph{Income group heterogeneity (RC7).} The triple interaction (exposure $\times$ post $\times$ high income) is significant with a coefficient of 2.2153 (SE = 0.8384, $p = 0.0083$), confirming that the CBAM exposure effect is concentrated among higher-income jurisdictions with greater institutional capacity to implement carbon pricing instruments. Subsample results show a larger point estimate for lower-middle and low-income countries (1.069, $p = 0.111$) than for high and upper-middle income countries (0.075, $p = 0.963$), but the triple interaction captures the differential rather than the level.
 
 \paragraph{Coefficient stability.} The coefficient of variation across RC1--RC9 is 0.84, flagged as high sensitivity. This is driven primarily by RC4 (candidate exclusion, which removes the most exposed countries) and RC7c (income interaction, which models heterogeneity rather than testing the average effect). When these structurally motivated specifications are set aside, the coefficient is stable across RC2 (include subnational, $\hat{\beta} = 0.958$), RC6b (time-varying exposure, $\hat{\beta} = 0.587$), RC8 (individual WGI dimensions, $\hat{\beta} = 0.677$), RC9 (no controls, $\hat{\beta} = 0.788$), and RC11 (non-OECD only, $\hat{\beta} = 0.766$).
 
@@ -508,26 +500,26 @@ Table~\ref{tab:robustness} presents the full robustness summary across eleven sp
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
-\caption{\texorpdfstring{Robustness Checks: Master Summary}{Robustness Checks: Master Summary}}\label{tab:robustness}
+\caption{Robustness Checks: Master Summary}\label{tab:robustness}
 \small
 \begin{tabular}{llrrrrlrl}
 \toprule
 RC & Description & $N$ & Coefficient & SE & $p$-value & Stars & Diff from RC1 & Note \\
 \midrule
-RC1 & Reference specification (Layer A baseline) & 1304 & 0.7034 & 0.8825 & 0.4256 &  & 0.0000 & Anchor — all checks compare to this. \\
-RC2 & Include subnational instruments & 1304 & 0.9577 & 0.8141 & 0.2397 &  & 0.2543 & Subnationals included (US, CA, CN weight up). \\
-RC3 & S\&T editions confirmation & 1304 & 0.7034 & 0.8825 & 0.4256 &  & 0.0000 & Confirmed: S\&T editions only. Identical to RC1. \\
-RC4 & Exclude EU candidate countries & 1223 & -0.4389 & 0.3176 & 0.1673 &  & -1.1422 & Dropped ALB,BIH,GEO,XKX,MDA,MNE,MKD,SRB,TUR,UKR. \\
-RC5 & Exclude Chinese subnational ETSs & 1304 & 0.7034 & 0.8825 & 0.4256 &  & 0.0000 & China retained if national ETS active; subnationals excluded... \\
-RC6a & Static benchmark exposure (EU27+UK) & 1304 & 0.7034 & 0.8825 & 0.4256 &  & 0.0000 & Identical to RC1. \\
-RC6b & Time-varying annual exposure & 1304 & 0.5866 & 0.4939 & 0.2352 &  & -0.1168 & Brexit-corrected annual exposure. \\
-RC7a & High + Upper middle income & 288 & 0.0748 & 1.6105 & 0.9630 &  & -0.6285 &  \\
-RC7b & Lower middle + Low income & 108 & 1.0689 & 0.6640 & 0.1112 &  & 0.3655 &  \\
-RC7c & Triple interaction (exposure×post×high\_income) & 1304 & 2.1968 & 0.8466 & 0.0096 & *** & 1.4934 & Tests whether income groups differ. \\
-RC8 & WGI controls individually (4 dimensions) & 1299 & 0.6769 & 0.8809 & 0.4424 &  & -0.0265 & ge, rq, rl, cc instead of composite. \\
-RC9 & No controls (pure FE only) & 1764 & 0.7879 & 0.8180 & 0.3356 &  & 0.0846 & Larger N than RC1 (no control missingness). \\
-RC10 & Placebo test (pre-2019, post\_2018) & 437 & -0.1096 & 0.1151 & 0.3418 &  & -0.8130 & Placebo — should be insignificant. \\
-RC11 & Non-OECD countries only & 1196 & 0.7656 & 0.8766 & 0.3827 &  & 0.0622 & Excludes 37 OECD members. \\
+RC1 & Reference specification (Layer A baseline) & 1304 & 0.7274 & 0.8824 & 0.4099 &  & 0.1985 & Anchor — all checks compare to this. \\
+RC2 & Include subnational instruments & 1304 & 0.9900 & 0.8081 & 0.2208 &  & 0.4611 & Subnationals included (US, CA, CN weight up). \\
+RC3 & S\&T editions confirmation & 1304 & 0.7274 & 0.8824 & 0.4099 &  & 0.1985 & Confirmed: S\&T editions only. Identical to RC1. \\
+RC4 & Exclude EU candidate countries & 1223 & -0.4373 & 0.3270 & 0.1815 &  & -0.9662 & Dropped ALB,BIH,GEO,XKX,MDA,MNE,MKD,SRB,TUR,UKR. \\
+RC5 & Exclude Chinese subnational ETSs & 1304 & 0.7274 & 0.8824 & 0.4099 &  & 0.1985 & China retained if national ETS active; subnationals excluded... \\
+RC6a & Static benchmark exposure (EU27+UK) & 1304 & 0.7274 & 0.8824 & 0.4099 &  & 0.1985 & Identical to RC1. \\
+RC6b & Time-varying annual exposure & 1304 & 0.6471 & 0.4916 & 0.1883 &  & 0.1182 & Brexit-corrected annual exposure. \\
+RC7a & High + Upper middle income & 288 & 0.0782 & 1.6000 & 0.9611 &  & -0.4507 &  \\
+RC7b & Lower middle + Low income & 99 & 0.8787 & 0.5604 & 0.1210 &  & 0.3498 &  \\
+RC7c & Triple interaction (exposure×post×high\_income) & 1304 & 2.2153 & 0.8384 & 0.0083 & *** & 1.6864 & Tests whether income groups differ. \\
+RC8 & WGI controls individually (4 dimensions) & 1299 & 0.7009 & 0.8809 & 0.4264 &  & 0.1719 & ge, rq, rl, cc instead of composite. \\
+RC9 & No controls (pure FE only) & 1764 & 0.8135 & 0.8168 & 0.3194 &  & 0.2846 & Larger N than RC1 (no control missingness). \\
+RC10 & Placebo test (pre-2019, post\_2018) & 437 & -0.1074 & 0.1125 & 0.3404 &  & -0.6363 & Placebo — should be insignificant. \\
+RC11 & Non-OECD countries only & 1196 & 0.7886 & 0.8764 & 0.3684 &  & 0.2597 & Excludes 37 OECD members. \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}\small
@@ -584,7 +576,7 @@ See Table~\ref{tab:robustness} in Section~\ref{sec:robustness} (presented in lan
 \centering
 \includegraphics[width=\textwidth]{figures/km_implementation.png}
 \end{minipage}
-\caption{\texorpdfstring{Kaplan-Meier survival curves for the consideration (left), development (centre), and implementation (right) transitions by CBAM exposure tercile. Countries already in the relevant state before 2016 are excluded.}{Kaplan-Meier survival curves for the consideration (left), development (centre), and implementation (right) transitions by CBAM exposure tercile. Countries already in the relevant state before 2016 are excluded.}}
+\caption{Kaplan-Meier survival curves for the consideration (left), development (centre), and implementation (right) transitions by CBAM exposure tercile. Countries already in the relevant state before 2016 are excluded.}
 \label{fig:km_all}
 \end{figure}
 
@@ -593,7 +585,7 @@ See Table~\ref{tab:robustness} in Section~\ref{sec:robustness} (presented in lan
 
 \begin{table}[H]
 \centering
-\caption{\texorpdfstring{CPIs with Known Data Quality Issues}{CPIs with Known Data Quality Issues}}
+\caption{CPIs with Known Data Quality Issues}
 \label{tab:data_notes}
 \begin{tabular}{lp{10cm}}
 \toprule

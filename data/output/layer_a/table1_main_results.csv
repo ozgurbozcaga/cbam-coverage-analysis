@@ -1,12 +1,12 @@
 Outcome,Post-2019 (no ctrl),Post-2019 (with ctrl),Post-2021 (no ctrl),Post-2021 (with ctrl),Post-2023 (no ctrl),Post-2023 (with ctrl)
 Table 1: Bruegel-Comparable Benchmark Results,,,,,,
-any_cpi_announced,1.2561,1.0543,0.9413,0.7098,1.0211,0.7325
-,(0.8281),(0.8844),(0.6750),(0.6936),(0.7282),(0.7167)
+any_cpi_announced,1.0586,0.8393,1.1478,0.8862,1.1333,0.7533
+,(0.6691),(0.7075),(0.8062),(0.8079),(0.8270),(0.8182)
 ,N=1764,N=1304,N=1764,N=1304,N=1764,N=1304
-any_cpi_active,1.5425,1.4800,0.7879,0.7034,0.5326,0.3868
-,(1.3136),(1.3958),(0.8180),(0.8825),(0.5924),(0.6430)
+any_cpi_active,1.1187,1.0433,0.6492,0.5289,0.5537,0.3389
+,(0.9967),(1.0668),(0.6863),(0.7491),(0.5267),(0.5782)
 ,N=1764,N=1304,N=1764,N=1304,N=1764,N=1304
-any_cpi_implemented,1.2160,1.1912,1.1408,1.1506,0.7129,0.6600
-,(1.1151),(1.1811),(1.0779),(1.1387),(0.7965),(0.8515)
+any_cpi_implemented,1.5675,1.5872,0.9184,0.8925,0.6431,0.5682
+,(1.3204),(1.3905),(0.9119),(0.9747),(0.6974),(0.7468)
 ,N=1764,N=1304,N=1764,N=1304,N=1764,N=1304
 Exposure measure: static 2014-2024 average share of CBAM-covered exports to EU27+UK. Perimeter note: Bruegel (2026) use EU+EFTA destination. See methodology notes. All regressions include country and year FE. SEs clustered at country level. *** p<0.01  ** p<0.05  * p<0.1,,,,,,

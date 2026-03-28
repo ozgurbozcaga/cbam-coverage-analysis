@@ -1,5 +1,5 @@
 Variable,Coefficient,SE,N,R2_overall
 Table 4 (Supplementary/Descriptive): Sector-Specific Patterns. NOTE: Descriptive — see methodology notes. Design C3 is explicitly descriptive and should not be interpreted causally.,,,,
-exposure_x_post2021,0.1167,(0.1617),13428,-0.0559
-triple_interaction,1.4419*,(0.8053),13428,-0.0559
+exposure_x_post2021,0.1101,(0.1472),13428,-0.0477
+triple_interaction,1.3185**,(0.6474),13428,-0.0477
 "Country-sector FE + year FE. SEs clustered at country level. Controls: log_gdp_pc_constant2015_lag1, wgi_composite_estimate_lag1. NOTE: Descriptive — see methodology notes. Design C3 is explicitly descriptive and should not be interpreted causally. *** p<0.01  ** p<0.05  * p<0.1",,,,

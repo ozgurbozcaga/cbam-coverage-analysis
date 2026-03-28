@@ -1,12 +1,12 @@
 Outcome,Benchmark Post-2019,Preferred Post-2019,Benchmark Post-2021,Preferred Post-2021,Benchmark Post-2023,Preferred Post-2023
 Table 1: Pipeline Outcomes — Benchmark vs Preferred Exposure,,,,,,
-ever_considered,1.0543,0.5754,0.7098,0.3862,0.7325,0.4945
-,(0.8844),(0.4592),(0.6936),(0.3367),(0.7167),(0.3747)
+ever_considered,0.8393,0.5273,0.8862,0.5885,0.7533,0.6822
+,(0.7075),(0.3638),(0.8079),(0.3845),(0.8182),(0.7116)
 ,N=1304,N=1304,N=1304,N=1304,N=1304,N=1304
-ever_developing,1.9013,1.2114*,1.1293,0.8135**,0.8974,0.8396***
-,(1.2906),(0.6566),(0.7704),(0.4011),(0.5820),(0.2974)
+ever_developing,1.4472,1.0614**,1.0033,0.8667***,1.0708,1.1541**
+,(0.9553),(0.4864),(0.6358),(0.2982),(0.7546),(0.5548)
 ,N=1304,N=1304,N=1304,N=1304,N=1304,N=1304
-ever_implemented,1.1912,0.9311,1.1506,0.8946,0.6600,0.7906
-,(1.1811),(0.7008),(1.1387),(0.6295),(0.8515),(0.5523)
+ever_implemented,1.5872,1.2160,0.8925,0.9270*,0.5682,0.8245
+,(1.3905),(0.7505),(0.9747),(0.5284),(0.7468),(0.6497)
 ,N=1304,N=1304,N=1304,N=1304,N=1304,N=1304
 "Benchmark = static 2014-2024 average, EU27+UK perimeter. Preferred = time-varying annual, Brexit-corrected perimeter. All regressions include country and year FE, controls (log GDP pc, log exports, WGI composite, all lagged). SEs clustered at country level. *** p<0.01  ** p<0.05  * p<0.1",,,,,,

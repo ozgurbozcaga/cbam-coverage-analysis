@@ -184,7 +184,7 @@ def make_table1_descriptive(data):
     lines.append("\\centering")
     lines.append("\\begin{threeparttable}")
     lines.append(f"\\caption{{Sector Coverage Counts by Year}}\\label{{tab:descriptive}}")
-    lines.append(f"\\resizebox{{\\textwidth}}{{!}}{{")
+    lines.append("\\small")
     lines.append(f"\\begin{{tabular}}{{{col_spec}}}")
     lines.append("\\toprule")
     lines.append(header + " \\\\")
@@ -192,7 +192,7 @@ def make_table1_descriptive(data):
     for row in rows:
         lines.append(" & ".join(row) + " \\\\")
     lines.append("\\bottomrule")
-    lines.append("\\end{tabular}}")
+    lines.append("\\end{tabular}")
     lines.append("\\begin{tablenotes}\\small")
     lines.append("\\item \\textit{Note:} Count of CPIs with active sector coverage in each year. Source: World Bank State \\& Trends of Carbon Pricing panel, 2016--2026.")
     lines.append("\\end{tablenotes}")
@@ -267,7 +267,7 @@ def _format_results_table(df, caption, label, note, skip_header_row=True):
     lines.append("\\centering")
     lines.append("\\begin{threeparttable}")
     lines.append(f"\\caption{{{caption}}}\\label{{{label}}}")
-    lines.append(f"\\resizebox{{\\textwidth}}{{!}}{{")
+    lines.append("\\small")
     lines.append(f"\\begin{{tabular}}{{{col_spec}}}")
     lines.append("\\toprule")
 
@@ -300,7 +300,7 @@ def _format_results_table(df, caption, label, note, skip_header_row=True):
         lines.append("\\addlinespace")
 
     lines.append("\\bottomrule")
-    lines.append("\\end{tabular}}")
+    lines.append("\\end{tabular}")
     lines.append("\\begin{tablenotes}\\small")
     lines.append(f"\\item \\textit{{Note:}} {note}")
     lines.append("\\end{tablenotes}")
@@ -372,8 +372,8 @@ def make_table6_twfe_comparison(data):
     """Table 6: TWFE benchmark vs preferred exposure (Layer B)."""
     return _format_results_table(
         data["b_twfe"],
-        "Pipeline Outcomes: Benchmark vs.\\ Preferred Exposure",
-        "tab:twfe\\_comparison",
+        "Pipeline Outcomes: Benchmark vs.~Preferred Exposure",
+        "tab:twfe_comparison",
         "Benchmark = static 2014--2024 average, EU27+UK perimeter. Preferred = time-varying annual, Brexit-corrected perimeter. All regressions include country and year FE, controls (log GDP pc, log exports, WGI composite, all lagged). Standard errors clustered at country level in parentheses. *** $p<0.01$ ** $p<0.05$ * $p<0.1$."
     )
 
@@ -388,8 +388,8 @@ def make_table7_entrant_descriptive(data):
     lines.append("\\begin{table}[htbp]")
     lines.append("\\centering")
     lines.append("\\begin{threeparttable}")
-    lines.append("\\caption{New CPI Entrant Characteristics by Entry Cohort}\\label{tab:entrant\\_desc}")
-    lines.append("\\resizebox{\\textwidth}{!}{")
+    lines.append("\\caption{New CPI Entrant Characteristics by Entry Cohort}\\label{tab:entrant_desc}")
+    lines.append("\\small")
     lines.append("\\begin{tabular}{lrrrrrrr}")
     lines.append("\\toprule")
     lines.append("Entry year & $N$ entrants & National & Subnational & With coverage & Industry share & Mean exposure & Mean sectors \\\\")
@@ -409,7 +409,7 @@ def make_table7_entrant_descriptive(data):
         lines.append(f"{year} & {n_ent} & {n_nat} & {n_sub} & {n_cov} & {ind_share} & {mean_exp} & {mean_sec} \\\\")
 
     lines.append("\\bottomrule")
-    lines.append("\\end{tabular}}")
+    lines.append("\\end{tabular}")
     lines.append("\\begin{tablenotes}\\small")
     lines.append("\\item \\textit{Note:} Industry share = fraction of entrants with coverage data that cover industry at entry. Mean exposure = average CBAM benchmark exposure across entrants in the cohort.")
     lines.append("\\end{tablenotes}")
@@ -427,7 +427,7 @@ def make_table8_panel_did(data):
     lines.append("\\begin{table}[htbp]")
     lines.append("\\centering")
     lines.append("\\begin{threeparttable}")
-    lines.append("\\caption{CPI-Level Panel DiD: Industry Sector Coverage (Primary)}\\label{tab:panel\\_did}")
+    lines.append("\\caption{CPI-Level Panel DiD: Industry Sector Coverage (Primary)}\\label{tab:panel_did}")
     lines.append("\\begin{tabular}{lccccc}")
     lines.append("\\toprule")
     lines.append("Specification & Coefficient & SE & $N$ & CPI FE & Year FE \\\\")
@@ -464,8 +464,8 @@ def make_table9_entrant_regressions(data):
     lines.append("\\begin{table}[htbp]")
     lines.append("\\centering")
     lines.append("\\begin{threeparttable}")
-    lines.append("\\caption{Cross-Sectional Entrant Regressions (Supplementary)}\\label{tab:entrant\\_reg}")
-    lines.append("\\resizebox{\\textwidth}{!}{")
+    lines.append("\\caption{Cross-Sectional Entrant Regressions (Supplementary)}\\label{tab:entrant_reg}")
+    lines.append("\\small")
     lines.append("\\begin{tabular}{llccccccr}")
     lines.append("\\toprule")
     lines.append("Model & Variable & Post-2019 & SE & Post-2021 & SE & Post-2023 & SE & $N$ \\\\")
@@ -483,7 +483,7 @@ def make_table9_entrant_regressions(data):
         lines.append(f"{escape_latex(model)} & {escape_latex(variable)} & " + " & ".join(cells) + " \\\\")
 
     lines.append("\\bottomrule")
-    lines.append("\\end{tabular}}")
+    lines.append("\\end{tabular}")
     lines.append("\\begin{tablenotes}\\small")
     lines.append("\\item \\textit{Note:} Controls: log GDP per capita, WGI composite (both lagged). OLS uses HC1 robust SEs. $N=41$ entrants with coverage data and controls. *** $p<0.01$ ** $p<0.05$ * $p<0.1$.")
     lines.append("\\end{tablenotes}")
@@ -501,7 +501,7 @@ def make_table10_price_nominal(data):
     lines.append("\\begin{table}[htbp]")
     lines.append("\\centering")
     lines.append("\\begin{threeparttable}")
-    lines.append("\\caption{Carbon Price and CBAM Exposure: Nominal USD Results}\\label{tab:price\\_nominal}")
+    lines.append("\\caption{Carbon Price and CBAM Exposure: Nominal USD Results}\\label{tab:price_nominal}")
     lines.append("\\begin{tabular}{llcr}")
     lines.append("\\toprule")
     lines.append("Specification & Sample & Coefficient & $N$ \\\\")
@@ -535,7 +535,7 @@ def make_table11_price_real(data):
     lines.append("\\begin{table}[htbp]")
     lines.append("\\centering")
     lines.append("\\begin{threeparttable}")
-    lines.append("\\caption{Carbon Price: Nominal vs.\\ Real (GDP Deflator Adjusted)}\\label{tab:price\\_real}")
+    lines.append("\\caption{Carbon Price: Nominal vs.~Real (GDP Deflator Adjusted)}\\label{tab:price_real}")
     lines.append("\\begin{tabular}{llcccc}")
     lines.append("\\toprule")
     lines.append("Post period & Sample & Nominal coef. & Nominal $N$ & Real coef. & Real $N$ \\\\")
@@ -574,7 +574,7 @@ def make_table12_robustness(data):
     lines.append("\\centering")
     lines.append("\\begin{threeparttable}")
     lines.append("\\caption{Robustness Checks: Master Summary}\\label{tab:robustness}")
-    lines.append("\\resizebox{\\linewidth}{!}{")
+    lines.append("\\small")
     lines.append("\\begin{tabular}{llrrrrlrl}")
     lines.append("\\toprule")
     lines.append("RC & Description & $N$ & Coefficient & SE & $p$-value & Stars & Diff from RC1 & Note \\\\")
@@ -612,7 +612,7 @@ def make_table12_robustness(data):
         lines.append(f"{escape_latex(rc)} & {escape_latex(desc)} & {n} & {coef} & {se} & {pval} & {st} & {diff} & {escape_latex(note_short)} \\\\")
 
     lines.append("\\bottomrule")
-    lines.append("\\end{tabular}}")
+    lines.append("\\end{tabular}")
     lines.append("\\begin{tablenotes}\\small")
     lines.append("\\item \\textit{Note:} Reference specification: any\\_cpi\\_active, Post-2021, benchmark exposure. Significance of difference: $z = (\\beta_{\\text{RC}} - \\beta_{\\text{ref}}) / \\sqrt{\\text{SE}_{\\text{RC}}^2 + \\text{SE}_{\\text{ref}}^2}$. *** $p<0.01$ ** $p<0.05$ * $p<0.1$.")
     lines.append("\\end{tablenotes}")
@@ -915,11 +915,11 @@ Table~\ref{tab:price_real} presents the real price robustness check. Deflating b
 
 Table~\ref{tab:robustness} presents the full robustness summary across eleven specifications, all benchmarked against RC1 (any\_cpi\_active, Post-2021, benchmark exposure, $\hat{\beta} = 0.703$, $N = 1{,}304$).
 
-\paragraph{Placebo test (RC10).} The placebo test using 2016--2018 data with a post-2018 indicator yields a coefficient of """ + stats["rc10_coef"] + r""" ($p = """ + stats["rc10_p"] + r"""), providing no evidence of pre-existing differential trends. This supports the CBAM interpretation of post-2019 findings: countries with higher CBAM exposure were not already trending differently in their carbon pricing adoption prior to the first CBAM announcements.
+\paragraph{Placebo test (RC10).} The placebo test using 2016--2018 data with a post-2018 indicator yields a coefficient of """ + stats["rc10_coef"] + r""" ($p = """ + stats["rc10_p"] + r"""$), providing no evidence of pre-existing differential trends. This supports the CBAM interpretation of post-2019 findings: countries with higher CBAM exposure were not already trending differently in their carbon pricing adoption prior to the first CBAM announcements.
 
-\paragraph{EU candidate exclusion (RC4).} Excluding the ten EU accession candidates (Albania, Bosnia and Herzegovina, Georgia, Kosovo, Moldova, Montenegro, North Macedonia, Serbia, Turkey, and Ukraine) reduces the coefficient from 0.703 to """ + stats["rc4_coef"] + r""" (SE = """ + stats["rc4_se"] + r""", $p = """ + stats["rc4_p"] + r""", $N = """ + str(stats["rc4_n"]) + r"""). This is consistent with these countries responding to EU accession requirements as well as CBAM exposure. The candidate countries include six of the top fifteen most CBAM-exposed countries (Montenegro, Bosnia, Albania, Serbia, Ukraine, North Macedonia), so their exclusion substantially reduces the identifying variation. The coefficient attenuation is structurally motivated rather than indicative of fragility.
+\paragraph{EU candidate exclusion (RC4).} Excluding the ten EU accession candidates (Albania, Bosnia and Herzegovina, Georgia, Kosovo, Moldova, Montenegro, North Macedonia, Serbia, Turkey, and Ukraine) reduces the coefficient from 0.703 to """ + stats["rc4_coef"] + r""" (SE = """ + stats["rc4_se"] + r""", $p = """ + stats["rc4_p"] + r"""$, $N = """ + str(stats["rc4_n"]) + r"""$). This is consistent with these countries responding to EU accession requirements as well as CBAM exposure. The candidate countries include six of the top fifteen most CBAM-exposed countries (Montenegro, Bosnia, Albania, Serbia, Ukraine, North Macedonia), so their exclusion substantially reduces the identifying variation. The coefficient attenuation is structurally motivated rather than indicative of fragility.
 
-\paragraph{Income group heterogeneity (RC7).} The triple interaction (exposure $\times$ post $\times$ high income) is significant with a coefficient of """ + stats["rc7c_coef"] + r""" (SE = """ + stats["rc7c_se"] + r""", $p = """ + stats["rc7c_p"] + r"""), confirming that the CBAM exposure effect is concentrated among higher-income jurisdictions with greater institutional capacity to implement carbon pricing instruments. Subsample results show a larger point estimate for lower-middle and low-income countries (1.069, $p = 0.111$) than for high and upper-middle income countries (0.075, $p = 0.963$), but the triple interaction captures the differential rather than the level.
+\paragraph{Income group heterogeneity (RC7).} The triple interaction (exposure $\times$ post $\times$ high income) is significant with a coefficient of """ + stats["rc7c_coef"] + r""" (SE = """ + stats["rc7c_se"] + r""", $p = """ + stats["rc7c_p"] + r"""$), confirming that the CBAM exposure effect is concentrated among higher-income jurisdictions with greater institutional capacity to implement carbon pricing instruments. Subsample results show a larger point estimate for lower-middle and low-income countries (1.069, $p = 0.111$) than for high and upper-middle income countries (0.075, $p = 0.963$), but the triple interaction captures the differential rather than the level.
 
 \paragraph{Coefficient stability.} The coefficient of variation across RC1--RC9 is 0.84, flagged as high sensitivity. This is driven primarily by RC4 (candidate exclusion, which removes the most exposed countries) and RC7c (income interaction, which models heterogeneity rather than testing the average effect). When these structurally motivated specifications are set aside, the coefficient is stable across RC2 (include subnational, $\hat{\beta} = 0.958$), RC6b (time-varying exposure, $\hat{\beta} = 0.587$), RC8 (individual WGI dimensions, $\hat{\beta} = 0.677$), RC9 (no controls, $\hat{\beta} = 0.788$), and RC11 (non-OECD only, $\hat{\beta} = 0.766$).
 
