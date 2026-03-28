@@ -585,6 +585,236 @@ else:
 
     print(f"\n  Cox models done in {time.time() - t7:.1f}s\n")
 
+    # ========================================================================
+    # REGRESSIONS PART 3 — Discrete-time hazard models (cloglog)
+    # ========================================================================
+    t_dt = time.time()
+    print("=" * 72)
+    print("REGRESSIONS PART 3 — Discrete-time hazard models (cloglog)")
+    print("=" * 72)
+
+    from statsmodels.genmod.generalized_linear_model import GLM
+    from statsmodels.genmod.families import Binomial
+    from statsmodels.genmod.families.links import CLogLog
+    import statsmodels.api as sm_api
+
+    # Load time-varying covariates for the person-year expansion
+    exp_ann_dt = pd.read_csv(EXPOSURE_ANN_PATH).rename(columns={"t": "year"})
+    exp_ann_dt = exp_ann_dt[["iso3", "year", "cbam_exposure_annual"]].copy()
+    exp_ann_dt["cbam_exposure_annual_pct"] = exp_ann_dt["cbam_exposure_annual"] * 100
+
+    ctrl_dt = pd.read_csv(CONTROLS_PATH)
+    ctrl_dt = ctrl_dt[["iso3", "year",
+                        "log_gdp_pc_constant2015_lag1",
+                        "wgi_composite_estimate_lag1"]].copy()
+
+    dt_rows = []
+
+    for transition_name, milestone_col in TRANSITIONS:
+        print(f"\n  --- Discrete-time: {transition_name} ---")
+
+        # Reconstruct spell data (same logic as Cox block above)
+        df_dt = base.copy()
+        milestone_vals = df_dt[milestone_col]
+        left_censored = milestone_vals.notna() & (milestone_vals < 2016)
+        df_dt = df_dt[~left_censored].copy()
+        df_dt["spell_start"] = df_dt["first_panel_year"].clip(lower=2016)
+        df_dt["event_year"] = df_dt[milestone_col]
+        df_dt["event"] = (
+            df_dt["event_year"].notna() &
+            (df_dt["event_year"] >= df_dt["spell_start"]) &
+            (df_dt["event_year"] <= 2024)
+        ).astype(int)
+        df_dt["spell_end"] = df_dt.apply(
+            lambda r: int(r["event_year"]) if r["event"] == 1 else 2024,
+            axis=1,
+        )
+
+        # Expand to person-year risk set
+        py_rows = []
+        for _, r in df_dt.iterrows():
+            s, e = int(r["spell_start"]), int(r["spell_end"])
+            for yr in range(s, e + 1):
+                py_rows.append({
+                    "iso3": r["iso3"],
+                    "year": yr,
+                    "event": 1 if (yr == e and r["event"] == 1) else 0,
+                    "spell_start": s,
+                    "duration_year": yr - s + 1,
+                })
+        py_df = pd.DataFrame(py_rows)
+
+        # Merge time-varying exposure
+        py_df = py_df.merge(exp_ann_dt[["iso3", "year", "cbam_exposure_annual_pct"]],
+                            on=["iso3", "year"], how="left")
+        # Merge time-varying controls
+        py_df = py_df.merge(ctrl_dt, on=["iso3", "year"], how="left")
+
+        # Duration dummies (non-parametric baseline hazard)
+        max_dur = int(py_df["duration_year"].max())
+        for d in range(1, max_dur + 1):
+            py_df[f"dur_{d}"] = (py_df["duration_year"] == d).astype(int)
+        dur_cols = [f"dur_{d}" for d in range(1, max_dur + 1)]
+
+        # Drop rows with missing covariates
+        cov_cols = ["cbam_exposure_annual_pct",
+                    "log_gdp_pc_constant2015_lag1",
+                    "wgi_composite_estimate_lag1"]
+        py_clean = py_df.dropna(subset=cov_cols).copy()
+
+        n_obs = len(py_clean)
+        n_events = py_clean["event"].sum()
+        n_countries = py_clean["iso3"].nunique()
+        print(f"    Person-years: {n_obs}, events: {n_events}, countries: {n_countries}")
+
+        if n_events < 3:
+            print(f"    Too few events ({n_events}) — skipping.")
+            dt_rows.append({
+                "Transition": transition_name, "N_person_years": n_obs,
+                "N_events": n_events, "N_countries": n_countries,
+                "HR_cloglog": np.nan, "CI_lower": np.nan, "CI_upper": np.nan,
+                "p_value": np.nan, "Stars": "",
+            })
+            continue
+
+        exog_cols = ["cbam_exposure_annual_pct"] + cov_cols[1:] + dur_cols
+        exog = sm_api.add_constant(py_clean[exog_cols])
+        dep = py_clean["event"]
+        groups = py_clean["iso3"]
+
+        try:
+            mod = GLM(dep, exog, family=Binomial(link=CLogLog()))
+            res = mod.fit(cov_type="cluster", cov_kwds={"groups": groups})
+
+            coef_exp = res.params["cbam_exposure_annual_pct"]
+            se_exp = res.bse["cbam_exposure_annual_pct"]
+            pv_exp = res.pvalues["cbam_exposure_annual_pct"]
+            hr = np.exp(coef_exp)
+            ci_lo = np.exp(coef_exp - 1.96 * se_exp)
+            ci_hi = np.exp(coef_exp + 1.96 * se_exp)
+
+            # Compare with Cox HR
+            cox_hr_str = "—"
+            cox_res = cox_results.get(transition_name)
+            if cox_res is not None:
+                cox_summary = cox_res["fitter"].summary
+                if "cbam_exposure_pct" in cox_summary.index:
+                    cox_hr_val = np.exp(cox_summary.loc["cbam_exposure_pct", "coef"])
+                    cox_hr_str = f"{cox_hr_val:.4f}"
+
+            print(f"    Cloglog HR: {hr:.4f} [{ci_lo:.4f}, {ci_hi:.4f}]{_stars(pv_exp)}")
+            print(f"    Cox HR:     {cox_hr_str}")
+
+            dt_rows.append({
+                "Transition": transition_name, "N_person_years": n_obs,
+                "N_events": int(n_events), "N_countries": n_countries,
+                "HR_cloglog": hr, "CI_lower": ci_lo, "CI_upper": ci_hi,
+                "p_value": pv_exp, "Stars": _stars(pv_exp),
+                "Cox_HR": cox_hr_str,
+            })
+        except Exception as e:
+            print(f"    GLM cloglog failed: {e}")
+            dt_rows.append({
+                "Transition": transition_name, "N_person_years": n_obs,
+                "N_events": int(n_events), "N_countries": n_countries,
+                "HR_cloglog": np.nan, "CI_lower": np.nan, "CI_upper": np.nan,
+                "p_value": np.nan, "Stars": "", "Cox_HR": "—",
+            })
+
+    dt_df = pd.DataFrame(dt_rows)
+    dt_path = os.path.join(LAYER_B, "table_discrete_time_hazard.csv")
+    dt_df.to_csv(dt_path, index=False)
+    print(f"\n  Saved: {dt_path}")
+    print(f"  Discrete-time models done in {time.time() - t_dt:.1f}s\n")
+
+    # ========================================================================
+    # REGRESSIONS PART 4 — Cox robustness (penalizer & robust variance)
+    # ========================================================================
+    t_cr = time.time()
+    print("=" * 72)
+    print("REGRESSIONS PART 4 — Cox robustness (penalizer & robust variance)")
+    print("=" * 72)
+
+    cox_robust_rows = []
+
+    for transition_name, milestone_col in TRANSITIONS:
+        print(f"\n  --- Cox robustness: {transition_name} ---")
+
+        # Reconstruct spell data
+        df_cr = base.copy()
+        milestone_vals = df_cr[milestone_col]
+        left_censored = milestone_vals.notna() & (milestone_vals < 2016)
+        df_cr = df_cr[~left_censored].copy()
+        df_cr["spell_start"] = df_cr["first_panel_year"].clip(lower=2016)
+        df_cr["event_year"] = df_cr[milestone_col]
+        df_cr["event"] = (
+            df_cr["event_year"].notna() &
+            (df_cr["event_year"] >= df_cr["spell_start"]) &
+            (df_cr["event_year"] <= 2024)
+        ).astype(int)
+        df_cr["spell_end"] = df_cr.apply(
+            lambda r: int(r["event_year"]) if r["event"] == 1 else 2024,
+            axis=1,
+        )
+        df_cr["duration"] = df_cr["spell_end"] - df_cr["spell_start"] + 1
+
+        cox_covariates = ["cbam_exposure_pct", "log_gdp_pc", "wgi_composite"]
+        df_cr = df_cr.dropna(subset=cox_covariates + ["duration"])
+        df_cr = df_cr[df_cr["duration"] > 0].copy()
+
+        n_events = int(df_cr["event"].sum())
+        n_covariates = len(cox_covariates)
+        epv = n_events / n_covariates if n_covariates > 0 else 0
+        epv_flag = " *** EPV < 10 ***" if epv < 10 else ""
+        print(f"    Events: {n_events}, Covariates: {n_covariates}, "
+              f"EPV: {epv:.1f}{epv_flag}")
+
+        if n_events < 3:
+            print(f"    Too few events — skipping.")
+            continue
+
+        ph_df = df_cr[["duration", "event"] + cox_covariates].copy()
+
+        configs = [
+            (0.01, False, "penalizer=0.01, robust=False (original)"),
+            (0.01, True,  "penalizer=0.01, robust=True"),
+            (0.0,  True,  "penalizer=0.0,  robust=True"),
+        ]
+
+        for pen, robust, desc in configs:
+            try:
+                cph = CoxPHFitter(penalizer=pen)
+                cph.fit(ph_df, duration_col="duration", event_col="event",
+                        show_progress=False, robust=robust)
+                summary = cph.summary
+                cov = "cbam_exposure_pct"
+                hr = np.exp(summary.loc[cov, "coef"])
+                ci_cols_lo = [c for c in summary.columns if "lower" in c.lower()]
+                ci_cols_hi = [c for c in summary.columns if "upper" in c.lower()]
+                ci_lo = np.exp(summary.loc[cov, ci_cols_lo[0]]) if ci_cols_lo else np.nan
+                ci_hi = np.exp(summary.loc[cov, ci_cols_hi[0]]) if ci_cols_hi else np.nan
+                p = summary.loc[cov, "p"]
+
+                print(f"    {desc}: HR={hr:.4f} [{ci_lo:.4f}, {ci_hi:.4f}] "
+                      f"p={p:.4f}{_stars(p)}")
+
+                cox_robust_rows.append({
+                    "Transition": transition_name,
+                    "Penalizer": pen, "Robust": robust,
+                    "Description": desc,
+                    "HR": hr, "CI_lower": ci_lo, "CI_upper": ci_hi,
+                    "p_value": p, "Stars": _stars(p),
+                    "N_events": n_events, "EPV": epv,
+                })
+            except Exception as e:
+                print(f"    {desc}: FAILED — {e}")
+
+    cr_df = pd.DataFrame(cox_robust_rows)
+    cr_path = os.path.join(LAYER_B, "cox_robustness_comparison.csv")
+    cr_df.to_csv(cr_path, index=False)
+    print(f"\n  Saved: {cr_path}")
+    print(f"  Cox robustness done in {time.time() - t_cr:.1f}s\n")
+
 # ============================================================================
 # OUTPUT TABLES
 # ============================================================================
