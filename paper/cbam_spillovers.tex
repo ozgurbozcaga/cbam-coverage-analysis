@@ -149,9 +149,11 @@ We include GDP per capita (constant 2015 USD) and total exports from the World D
 % ============================================================================
 \section{Empirical Strategy}\label{sec:strategy}
 
+Our analysis proceeds in four layers, each addressing a distinct empirical question with progressively richer outcome measurement. Layer~A tests the broad adoption question established by \citet{Bahi2026}: does CBAM exposure predict any carbon pricing activity? This serves as a benchmark for comparability, not as our primary contribution. Layer~B tests the pipeline question: does exposure predict faster movement from consideration through development to implementation? This is the paper's primary empirical contribution, estimated via both TWFE difference-in-differences and event-history models (Cox proportional hazards and discrete-time complementary log-log). Layer~C tests the design question: conditional on entering the carbon pricing system, are new instruments in more-exposed jurisdictions designed to cover CBAM-relevant industrial sectors from inception? This is the paper's primary substantive contribution, though statistically constrained by sample size and limited to multi-specification directional evidence. Layer~D provides secondary evidence on the price intensive margin.
+
 \subsection{Benchmark Specification (Layer A)}\label{sec:benchmark_spec}
 
-Our benchmark replicates the Bruegel-comparable TWFE design of \citet{Bahi2026}. The estimating equation is:
+This layer replicates the framework of \citet{Bahi2026} for comparability and serves as a benchmark, not the paper's primary claim. Our benchmark replicates the Bruegel-comparable TWFE design. The estimating equation is:
 
 \begin{equation}
 Y_{c,t} = \alpha_c + \lambda_t + \beta \left( \overline{E}_c \times \mathbf{1}[t \geq \tau] \right) + \gamma' \mathbf{X}_{c,t-1} + \varepsilon_{c,t}
@@ -173,11 +175,20 @@ h_c(t) = h_0(t) \exp\left( \beta_1 E_c^{\text{pct}} + \beta_2 \log \text{GDP}_{c
 
 \noindent where $h_c(t)$ is the hazard of country $c$ reaching a pipeline milestone (consideration, development, implementation) at time $t$, $E_c^{\text{pct}}$ is CBAM exposure in percentage points, and $h_0(t)$ is the baseline hazard. Countries already in the relevant state before 2016 are excluded via milestone-specific left-censoring.
 
+We also estimate discrete-time complementary log-log (cloglog) models, which provide a natural link between the continuous-time proportional hazards framework and the annual panel structure of our data:
+
+\begin{equation}
+\log\!\bigl[-\log(1 - h_{c,t})\bigr] = \alpha_t + \beta_1 E_{c,t} + \gamma' \mathbf{X}_{c,t-1}
+\label{eq:cloglog}
+\end{equation}
+
+\noindent where $h_{c,t}$ is the discrete-time hazard of country $c$ transitioning at year $t$, $\alpha_t$ captures the baseline hazard via year indicators, and $E_{c,t}$ is time-varying CBAM exposure. The discrete-time specification is our preferred event-history model because it accommodates the annual data structure naturally, allows time-varying covariates including the preferred Brexit-corrected exposure measure, and avoids the tied-event approximations required by Cox models in discrete time. Cox models are retained as a robustness check; we disclose the penalizer parameter and events-per-variable ratios throughout.
+
 \subsection{Entrant-Level Sectoral Design (Layer C)}\label{sec:entrant_spec}
 
-The near-absence of within-instrument sectoral expansion---51 of 52 post-2016 industry-covering CPIs entered with industry already covered---motivates an entrant-level design. The question is not whether existing instruments expand to cover industry, but whether \textit{new} instruments in CBAM-exposed countries are more likely to cover industry from inception.
+The near-absence of within-instrument sectoral expansion---51 of 52 post-2016 industry-covering CPIs entered with industry already covered---motivates an entrant-level design. The question is not whether existing instruments expand to cover industry, but whether \textit{new} instruments in CBAM-exposed countries are more likely to cover industry from inception. We present entrant-level descriptive and regression evidence supported by a battery of four supplementary specifications with different identifying assumptions and units of analysis. Because the sample is conditioned on countries that have moved into the carbon pricing policy set, this selection limits causal interpretation; we acknowledge these results as directional evidence rather than identified causal effects.
 
-Our primary specification is a CPI-level panel difference-in-differences:
+Our primary specification is a CPI-level panel difference-in-differences. Entrant-level OLS regressions use standard errors clustered at the country level to account for within-country correlation across instruments:
 
 \begin{equation}
 \text{CoversIndustry}_{i,t} = \alpha_i + \lambda_t + \beta \left( \overline{E}_{c(i)} \times \mathbf{1}[t \geq \tau] \right) + \gamma' \mathbf{X}_{c(i),t-1} + \varepsilon_{i,t}
@@ -195,7 +206,7 @@ As a supplementary specification, we estimate a cross-sectional entrant regressi
 
 \subsection{Price Intensive Margin (Layer D)}\label{sec:price_spec}
 
-We test whether CBAM exposure is associated with higher carbon prices, noting this is secondary to the adoption and sectoral design results. Carbon prices are in nominal USD converted at April~1 exchange rates. Cross-country USD comparisons embed exchange rate movements; we report robustness using country-own GDP deflators (WDI linked series NY.GDP.DEFL.ZS.AD).
+This layer is secondary to the adoption and design results. We test whether CBAM exposure is associated with higher carbon prices. The dependent variable is log price; coefficients are therefore semi-elasticities, interpretable as the proportional change in price associated with a unit change in exposure. Carbon prices are in nominal USD converted at April~1 exchange rates. Cross-country USD comparisons embed exchange rate movements; we report robustness using country-own GDP deflators (WDI linked series NY.GDP.DEFL.ZS.AD).
 
 
 % ============================================================================
@@ -520,6 +531,8 @@ RC8 & WGI controls individually (4 dimensions) & 1299 & 0.7009 & 0.8809 & 0.4264
 RC9 & No controls (pure FE only) & 1764 & 0.8135 & 0.8168 & 0.3194 &  & 0.2846 &  \\
 RC10 & Placebo test (pre-2019, post\_2018) & 437 & -0.1074 & 0.1125 & 0.3404 &  & -0.6363 &  \\
 RC11 & Non-OECD countries only & 1196 & 0.7886 & 0.8764 & 0.3684 &  & 0.2597 &  \\
+RC12 & Log exposure (outlier robustness) & 1286 & 0.0086 & 0.0045 & 0.0551 & * & -0.5204 &  \\
+RC13 & Leave-one-out (top 5 exposed) & 1295 & 0.8101 & 0.8955 &  &  & 0.2812 &  \\
 Diff from RC1 is a plain comparison (not a formal test). Samples overlap, so z-tests assuming independence are invalid. &  &  &  &  &  &  &  &  \\
 \bottomrule
 \end{tabular}
