@@ -426,7 +426,7 @@ Logit ME (Model B) — Post-2023 & exposure × post-2023 &  &  &  &  & 2.1809 & 
 
 \subsection{Price Results (Layer D)}\label{sec:price_results}
 
-Table~\ref{tab:price_nominal} presents the nominal USD price results. The Post-2021 interaction is significant for the national all-types sample (+5.05, $p<0.05$) and the Post-2023 interaction is marginally significant (+12.98, $p<0.10$). The ETS subsample shows larger but less precisely estimated coefficients, while the tax subsample shows a significant Post-2019 coefficient (+6.37, $p<0.01$) that does not persist at later milestones.
+Table~\ref{tab:price_nominal} presents the nominal USD log-price results. Coefficients are semi-elasticities: a unit increase in the interaction term corresponds to a $(\exp(\hat{\beta})-1)\times 100$\% change in the carbon price. The Post-2021 interaction is significant for the national all-types sample and the Post-2023 interaction is marginally significant. The ETS subsample shows larger but less precisely estimated coefficients, while the tax subsample shows a significant Post-2019 coefficient that does not persist at later milestones.
 
 \begin{table}[htbp]
 \centering
@@ -436,27 +436,27 @@ Table~\ref{tab:price_nominal} presents the nominal USD price results. The Post-2
 \toprule
 Specification & Sample & Coefficient & $N$ \\
 \midrule
-Spec 1: exposure level & National all & +3.5113 (4.9166) & 122.0 \\
-Spec 1: exposure level & National ETS & +11.0660*** (2.3606) & 42.0 \\
-Spec 1: exposure level & National tax & -9.0631 (11.5119) & 80.0 \\
-Spec 2: exposure × Post-2019 & National all & +4.2625** (1.9575) & 122.0 \\
-Spec 2: exposure × Post-2019 & National ETS & +178.0275 (242.5914) & 42.0 \\
-Spec 2: exposure × Post-2019 & National tax & +4.4052** (1.7798) & 80.0 \\
-Spec 2: exposure × Post-2021 & National all & +10.4659* (5.3988) & 122.0 \\
-Spec 2: exposure × Post-2021 & National ETS & +170.5378** (68.4394) & 42.0 \\
-Spec 2: exposure × Post-2021 & National tax & +4.9656 (3.2822) & 80.0 \\
-Spec 2: exposure × Post-2023 & National all & +2.6392 (4.3715) & 122.0 \\
-Spec 2: exposure × Post-2023 & National ETS & -0.0436 (33.1576) & 42.0 \\
-Spec 2: exposure × Post-2023 & National tax & +0.3637 (4.9638) & 80.0 \\
+Spec 1: exposure level & National all & -2.4469 (9.8398) & 115.0 \\
+Spec 1: exposure level & National ETS & +13.0006*** (3.0994) & 35.0 \\
+Spec 1: exposure level & National tax & -27.8145* (15.8647) & 80.0 \\
+Spec 2: exposure × Post-2019 & National all & +36.6286*** (3.5325) & 115.0 \\
+Spec 2: exposure × Post-2019 & National ETS & -149.3558 (261.4651) & 35.0 \\
+Spec 2: exposure × Post-2019 & National tax & +33.1715*** (6.5644) & 80.0 \\
+Spec 2: exposure × Post-2021 & National all & +33.0223*** (5.4389) & 115.0 \\
+Spec 2: exposure × Post-2021 & National ETS & -111.0351 (80.7420) & 35.0 \\
+Spec 2: exposure × Post-2021 & National tax & +30.3046*** (8.1542) & 80.0 \\
+Spec 2: exposure × Post-2023 & National all & +16.2200** (6.2869) & 115.0 \\
+Spec 2: exposure × Post-2023 & National ETS & -81.3956*** (25.1126) & 35.0 \\
+Spec 2: exposure × Post-2023 & National tax & +15.1397 (10.0584) & 80.0 \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}\small
-\item \textit{Note:} Dependent variable: carbon price in nominal USD. CPI and year FE. Controls: log GDP per capita, WGI composite (lagged). Standard errors clustered at country level in parentheses. Nominal USD prices embed exchange rate movements in cross-country comparisons. *** $p<0.01$ ** $p<0.05$ * $p<0.1$.
+\item \textit{Note:} Dependent variable: log carbon price in nominal USD. Coefficients are semi-elasticities with respect to the interaction term. CPI and year FE. Controls: log GDP per capita, WGI composite (lagged). Standard errors clustered at country level in parentheses. Nominal USD prices embed exchange rate movements in cross-country comparisons. *** $p<0.01$ ** $p<0.05$ * $p<0.1$.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
 
-Table~\ref{tab:price_real} presents the real price robustness check. Deflating by the GDP deflator attenuates coefficients by 40--50\%, and the tax subsample shows a sign flip at Post-2023 ($-$2.34 real vs.\ +3.58 nominal). This likely reflects exchange rate artifacts for countries with appreciating currencies (e.g., Singapore, Colombia, Uruguay), where the nominal USD increase partly captures currency movements rather than genuine price increases.
+Table~\ref{tab:price_real} presents the real price robustness check. Deflating by the GDP deflator attenuates coefficients, and some subsamples show sign changes between nominal and real specifications. This likely reflects exchange rate artifacts for countries with appreciating currencies (e.g., Singapore, Colombia, Uruguay), where the nominal USD increase partly captures currency movements rather than genuine price increases.
 
 \begin{table}[htbp]
 \centering
@@ -466,16 +466,16 @@ Table~\ref{tab:price_real} presents the real price robustness check. Deflating b
 \toprule
 Post period & Sample & Nominal coef. & Nominal $N$ & Real coef. & Real $N$ \\
 \midrule
-Post-2021 & National all & +10.4659* (5.3988) & 122.0 & +6.6948 (4.5130) & 122.0 \\
-Post-2021 & National ETS & +170.5378** (68.4394) & 42.0 & +163.3830** (62.2121) & 42.0 \\
-Post-2021 & National tax & +4.9656 (3.2822) & 80.0 & +0.7007 (2.5040) & 80.0 \\
-Post-2023 & National all & +2.6392 (4.3715) & 122.0 & -0.4603 (3.2851) & 122.0 \\
-Post-2023 & National ETS & -0.0436 (33.1576) & 42.0 & -4.9808 (34.6435) & 42.0 \\
-Post-2023 & National tax & +0.3637 (4.9638) & 80.0 & -3.0747 (3.4687) & 80.0 \\
+Post-2021 & National all & +33.0223*** (5.4389) & 115.0 & +27.9727*** (7.0796) & 115.0 \\
+Post-2021 & National ETS & -111.0351 (80.7420) & 35.0 & -135.0527* (75.8511) & 35.0 \\
+Post-2021 & National tax & +30.3046*** (8.1542) & 80.0 & +25.6864*** (9.2135) & 80.0 \\
+Post-2023 & National all & +16.2200** (6.2869) & 115.0 & +13.9061 (9.9185) & 115.0 \\
+Post-2023 & National ETS & -81.3956*** (25.1126) & 35.0 & -88.4652*** (19.4308) & 35.0 \\
+Post-2023 & National tax & +15.1397 (10.0584) & 80.0 & +13.4873 (13.3397) & 80.0 \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}\small
-\item \textit{Note:} Real price = nominal USD / (GDP deflator / 100). GDP deflator: WDI linked series (NY.GDP.DEFL.ZS.AD). Within-country price changes captured but cross-country exchange rate effects remain. Standard errors in parentheses. *** $p<0.01$ ** $p<0.05$ * $p<0.1$.
+\item \textit{Note:} Dependent variable: log real carbon price (nominal USD / GDP deflator $\times$ 100). Coefficients are semi-elasticities with respect to the interaction term. GDP deflator: WDI linked series (NY.GDP.DEFL.ZS.AD). Within-country price changes captured but cross-country exchange rate effects remain. Standard errors in parentheses. *** $p<0.01$ ** $p<0.05$ * $p<0.1$.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}

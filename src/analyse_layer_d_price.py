@@ -157,9 +157,9 @@ for sample_name, sdf in [("national_price_sample", national_price_sample),
         np.nan
     )
     sdf["log_real_price_usd"] = np.where(
-        sdf["real_price_usd"].notna(),
-        np.log(sdf["real_price_usd"] + 1),
-        np.nan
+        (sdf["real_price_usd"].notna()) & (sdf["real_price_usd"] > 0),
+        np.log(sdf["real_price_usd"]),
+        np.nan,
     )
     n_real = sdf["real_price_usd"].notna().sum()
     print(f"  {sample_name}: {n_real:>5,} / {len(sdf):>5,} rows with real price")
@@ -369,7 +369,7 @@ spec3_results = {}
 for sname, sdf in SAMPLES.items():
     for py in POST_YEARS:
         interaction = f"exposure_tv_x_post{py}"
-        sdf[interaction] = sdf["cbam_exposure_annual_tv"].fillna(0) * sdf[f"post_{py}"]
+        sdf[interaction] = sdf["cbam_exposure_annual_tv"] * sdf[f"post_{py}"]
         exog_vars = [interaction] + CONTROLS
         # Only run if we have time-varying exposure
         if sdf["cbam_exposure_annual_tv"].notna().sum() < 10:

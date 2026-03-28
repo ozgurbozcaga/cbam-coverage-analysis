@@ -519,7 +519,7 @@ def make_table10_price_nominal(data):
     lines.append("\\bottomrule")
     lines.append("\\end{tabular}")
     lines.append("\\begin{tablenotes}\\small")
-    lines.append("\\item \\textit{Note:} Dependent variable: carbon price in nominal USD. CPI and year FE. Controls: log GDP per capita, WGI composite (lagged). Standard errors clustered at country level in parentheses. Nominal USD prices embed exchange rate movements in cross-country comparisons. *** $p<0.01$ ** $p<0.05$ * $p<0.1$.")
+    lines.append("\\item \\textit{Note:} Dependent variable: log carbon price in nominal USD. Coefficients are semi-elasticities with respect to the interaction term. CPI and year FE. Controls: log GDP per capita, WGI composite (lagged). Standard errors clustered at country level in parentheses. Nominal USD prices embed exchange rate movements in cross-country comparisons. *** $p<0.01$ ** $p<0.05$ * $p<0.1$.")
     lines.append("\\end{tablenotes}")
     lines.append("\\end{threeparttable}")
     lines.append("\\end{table}")
@@ -555,7 +555,7 @@ def make_table11_price_real(data):
     lines.append("\\bottomrule")
     lines.append("\\end{tabular}")
     lines.append("\\begin{tablenotes}\\small")
-    lines.append("\\item \\textit{Note:} Real price = nominal USD / (GDP deflator / 100). GDP deflator: WDI linked series (NY.GDP.DEFL.ZS.AD). Within-country price changes captured but cross-country exchange rate effects remain. Standard errors in parentheses. *** $p<0.01$ ** $p<0.05$ * $p<0.1$.")
+    lines.append("\\item \\textit{Note:} Dependent variable: log real carbon price (nominal USD / GDP deflator $\\times$ 100). Coefficients are semi-elasticities with respect to the interaction term. GDP deflator: WDI linked series (NY.GDP.DEFL.ZS.AD). Within-country price changes captured but cross-country exchange rate effects remain. Standard errors in parentheses. *** $p<0.01$ ** $p<0.05$ * $p<0.1$.")
     lines.append("\\end{tablenotes}")
     lines.append("\\end{threeparttable}")
     lines.append("\\end{table}")
@@ -899,11 +899,11 @@ Table~\ref{tab:entrant_reg} presents the supplementary cross-sectional entrant r
 
 \subsection{Price Results (Layer D)}\label{sec:price_results}
 
-Table~\ref{tab:price_nominal} presents the nominal USD price results. The Post-2021 interaction is significant for the national all-types sample (+5.05, $p<0.05$) and the Post-2023 interaction is marginally significant (+12.98, $p<0.10$). The ETS subsample shows larger but less precisely estimated coefficients, while the tax subsample shows a significant Post-2019 coefficient (+6.37, $p<0.01$) that does not persist at later milestones.
+Table~\ref{tab:price_nominal} presents the nominal USD log-price results. Coefficients are semi-elasticities: a unit increase in the interaction term corresponds to a $(\exp(\hat{\beta})-1)\times 100$\% change in the carbon price. The Post-2021 interaction is significant for the national all-types sample and the Post-2023 interaction is marginally significant. The ETS subsample shows larger but less precisely estimated coefficients, while the tax subsample shows a significant Post-2019 coefficient that does not persist at later milestones.
 
 """ + table10 + r"""
 
-Table~\ref{tab:price_real} presents the real price robustness check. Deflating by the GDP deflator attenuates coefficients by 40--50\%, and the tax subsample shows a sign flip at Post-2023 ($-$2.34 real vs.\ +3.58 nominal). This likely reflects exchange rate artifacts for countries with appreciating currencies (e.g., Singapore, Colombia, Uruguay), where the nominal USD increase partly captures currency movements rather than genuine price increases.
+Table~\ref{tab:price_real} presents the real price robustness check. Deflating by the GDP deflator attenuates coefficients, and some subsamples show sign changes between nominal and real specifications. This likely reflects exchange rate artifacts for countries with appreciating currencies (e.g., Singapore, Colombia, Uruguay), where the nominal USD increase partly captures currency movements rather than genuine price increases.
 
 """ + table11 + r"""
 

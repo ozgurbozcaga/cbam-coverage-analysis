@@ -1,13 +1,13 @@
 post,sample,coefficient,N
-Post-2019,National all,+4.4563** (2.0709),122
-Post-2019,All CPIs,+7.3969*** (2.4537),327
-Post-2019,National ETS,+148.1225*** (37.8667),42
-Post-2019,National tax,+3.9274** (1.7496),80
-Post-2021,National all,+11.1876* (6.1466),122
-Post-2021,All CPIs,+11.3231** (5.5222),327
-Post-2021,National ETS,+132.7298*** (31.1085),42
-Post-2021,National tax,+4.8300 (2.9613),80
-Post-2023,National all,+2.4343 (6.0577),122
-Post-2023,All CPIs,-1.7935 (5.7973),327
-Post-2023,National ETS,+0.1754 (32.6552),42
-Post-2023,National tax,-0.3829 (6.8049),80
+Post-2019,National all,+34.6503*** (4.1648),115
+Post-2019,All CPIs,+37.5297*** (5.5002),318
+Post-2019,National ETS,+21.3261 (24.7004),35
+Post-2019,National tax,+31.2223*** (6.8578),80
+Post-2021,National all,+31.7234*** (5.8237),115
+Post-2021,All CPIs,+32.2010*** (7.1331),318
+Post-2021,National ETS,-20.7063 (61.3512),35
+Post-2021,National tax,+28.9949*** (8.0475),80
+Post-2023,National all,+19.0182** (9.3066),115
+Post-2023,All CPIs,+15.6863 (10.9917),318
+Post-2023,National ETS,-80.9324*** (26.4489),35
+Post-2023,National tax,+19.2676 (12.5706),80

@@ -1,8 +1,8 @@
 post,sample,nominal_coef,nominal_N,real_coef,real_N
-Post-2021,National all,+10.4659* (5.3988),122,+6.6948 (4.5130),122
-Post-2021,National ETS,+170.5378** (68.4394),42,+163.3830** (62.2121),42
-Post-2021,National tax,+4.9656 (3.2822),80,+0.7007 (2.5040),80
-Post-2023,National all,+2.6392 (4.3715),122,-0.4603 (3.2851),122
-Post-2023,National ETS,-0.0436 (33.1576),42,-4.9808 (34.6435),42
-Post-2023,National tax,+0.3637 (4.9638),80,-3.0747 (3.4687),80
+Post-2021,National all,+33.0223*** (5.4389),115,+27.9727*** (7.0796),115
+Post-2021,National ETS,-111.0351 (80.7420),35,-135.0527* (75.8511),35
+Post-2021,National tax,+30.3046*** (8.1542),80,+25.6864*** (9.2135),80
+Post-2023,National all,+16.2200** (6.2869),115,+13.9061 (9.9185),115
+Post-2023,National ETS,-81.3956*** (25.1126),35,-88.4652*** (19.4308),35
+Post-2023,National tax,+15.1397 (10.0584),80,+13.4873 (13.3397),80
 NOTE,,Real price = nominal USD / (GDP deflator / 100). GDP deflator: WDI linked series (NY.GDP.DEFL.ZS.AD). Within-country price changes removed but cross-country exchange rate effects remain.,,,

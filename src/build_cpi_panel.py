@@ -311,7 +311,7 @@ _DATA_DICTIONARY_ROWS: list[tuple] = [
      "cpi_price_usd.xlsx", "float",
      "NaN if no price data available for that CPI-year"),
     ("log_price_usd",
-     "log(price_usd + 1); natural log with +1 offset to handle zeros",
+     "log(price_usd); NaN where price_usd <= 0 or missing",
      "Derived", "float", "NaN propagates from price_usd"),
     ("income_group",
      "World Bank income group of the country",
@@ -1126,7 +1126,11 @@ def main() -> None:
     print("\n[Step 7] Merging price data...")
     price_cols = ["cpi_id", "year", "price_usd", "income_group", "region", "currency"]
     panel = panel.merge(price_long[price_cols], on=["cpi_id", "year"], how="left")
-    panel["log_price_usd"] = np.log(panel["price_usd"].clip(lower=0) + 1)
+    panel["log_price_usd"] = np.where(
+        panel["price_usd"] > 0,
+        np.log(panel["price_usd"]),
+        np.nan,
+    )
 
     # Fallback income_group fill for CPIs absent from price file
     null_ig_before = panel["income_group"].isna().sum()

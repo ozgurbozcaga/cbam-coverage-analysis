@@ -28,7 +28,7 @@ n_sectors_covered,Integer count of sectors covered (0-9),Derived from sectoral_c
 sector_string,Original comma-separated sector string (audit trail),sectoral_coverage.xlsx,str,NaN if CPI not present in S&T edition for that year
 coverage_active,Binary: 1 if CPI appears in sectoral coverage data for this year,Derived,int,0 = not present in S&T edition; sector binaries are 0 but row is retained
 price_usd,Annual carbon price in USD (converted from LCU at April 1 exchange rate),cpi_price_usd.xlsx,float,NaN if no price data available for that CPI-year
-log_price_usd,log(price_usd + 1); natural log with +1 offset to handle zeros,Derived,float,NaN propagates from price_usd
+log_price_usd,log(price_usd); NaN where price_usd <= 0 or missing,Derived,float,NaN propagates from price_usd
 income_group,World Bank income group of the country,cpi_price_usd.xlsx + COUNTRY_INCOME_GROUP fallback,str,Filled from price file first; COUNTRY_INCOME_GROUP dict used as fallback
 region,World Bank region,cpi_price_usd.xlsx,str,
 currency,Original currency code before USD conversion,cpi_price_usd.xlsx,str,
