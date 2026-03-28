@@ -14,7 +14,7 @@ trade_openness,Trade (exports + imports) as % of GDP,WDI,NE.TRD.GNFS.ZS,% of GDP
 trade_openness_lag1,"Trade as % of GDP, lagged 1 year",WDI,NE.TRD.GNFS.ZS,% of GDP,t-1,
 gdp_deflator_linked,"GDP deflator, linked series (index)",WDI,NY.GDP.DEFL.ZS.AD,Index,no,Linked/harmonised series for cross-country comparability. Use to deflate nominal prices: real_price = nominal_price_usd / (gdp_deflator_linked / 100). Preferred over NY.GDP.DEFL.ZS whose base year varies by country.
 gdp_deflator_growth_linked,"GDP deflator annual growth, linked series (%)",WDI,NY.GDP.DEFL.KD.ZG.AD,% per year,no,Inflation measured via linked GDP deflator; preferred over NY.GDP.DEFL.KD.ZG.
-log_gdp_pc_constant2015,Natural log of GDP per capita (constant 2015 USD),WDI,NY.GDP.PCAP.KD,log USD,no,log(gdp_pc_constant2015); -inf if source=0
+log_gdp_pc_constant2015,Natural log of GDP per capita (constant 2015 USD),WDI,NY.GDP.PCAP.KD,log USD,no,log(gdp_pc_constant2015); NaN if source<=0
 log_gdp_pc_constant2015_lag1,Natural log of lagged GDP per capita (constant 2015 USD),WDI,NY.GDP.PCAP.KD,log USD,t-1,log(gdp_pc_constant2015_lag1)
 log_exports_current_usd,Natural log of total exports (current USD),WDI,NE.EXP.GNFS.CD,log USD,no,log(exports_current_usd)
 log_exports_current_usd_lag1,Natural log of lagged exports (current USD),WDI,NE.EXP.GNFS.CD,log USD,t-1,log(exports_current_usd_lag1)
