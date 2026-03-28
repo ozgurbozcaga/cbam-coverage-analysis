@@ -146,6 +146,8 @@ def load_data():
     d["e_rc7"] = pd.read_csv(os.path.join(DATA, "layer_e", "table_rc7_income_groups.csv"))
     d["e_rc10"] = pd.read_csv(os.path.join(DATA, "layer_e", "table_rc10_placebo.csv"))
     d["e_rc11"] = pd.read_csv(os.path.join(DATA, "layer_e", "table_rc11_nonoecd.csv"))
+    d["e_rc13"] = pd.read_csv(os.path.join(DATA, "layer_e", "table_rc13_leave_one_out.csv"))
+    d["b_cloglog_mne"] = pd.read_csv(os.path.join(DATA, "layer_b", "cloglog_montenegro_sensitivity.csv"))
 
     return d
 
@@ -667,6 +669,27 @@ def compute_stats(data):
     s["rc10_coef"] = f"{float(plac['Coefficient']):.4f}"
     s["rc10_p"] = f"{float(plac['p-value']):.2f}"
 
+    # RC12 log-exposure
+    master = data["e_master"]
+    rc12_row = master[master["RC"] == "RC12"].iloc[0]
+    s["rc12_coef"] = f"{float(rc12_row['Coefficient']):.4f}"
+    s["rc12_p"] = f"{float(rc12_row['p-value']):.4f}"
+
+    # RC13 leave-one-out
+    rc13 = data["e_rc13"]
+    rc13_mne = rc13[rc13["excluded"] == "MNE"].iloc[0]
+    s["rc13_mne_coef"] = f"{float(rc13_mne['coef']):.4f}"
+    s["rc13_mne_p"] = f"{float(rc13_mne['p']):.4f}"
+
+    # Cloglog Montenegro sensitivity
+    clog_mne = data["b_cloglog_mne"]
+    dev = clog_mne[clog_mne["transition"] == "development"].iloc[0]
+    s["cloglog_dev_hr"] = f"{float(dev['full_sample_HR']):.3f}"
+    _dev_p = float(dev['full_sample_p'])
+    s["cloglog_dev_p"] = "0.001" if _dev_p < 0.001 else f"{_dev_p:.4f}"
+    s["cloglog_dev_excl_hr"] = f"{float(dev['excl_MNE_HR']):.3f}"
+    s["cloglog_dev_excl_p"] = f"{float(dev['excl_MNE_p']):.4f}"
+
     # Exposure stats
     exp = data["exposure_avg"]
     s["mne_exp"] = f"{exp.iloc[0]['cbam_exposure_avg']*100:.2f}"
@@ -924,15 +947,19 @@ Table~\ref{tab:price_real} presents the real price robustness check. Deflating b
 % ============================================================================
 \section{Robustness}\label{sec:robustness}
 
-Table~\ref{tab:robustness} presents the full robustness summary across eleven specifications, all benchmarked against RC1 (any\_cpi\_active, Post-2021, benchmark exposure, $\hat{\beta} = 0.703$, $N = 1{,}304$).
+Table~\ref{tab:robustness} presents the full robustness summary across thirteen specifications, all benchmarked against RC1 (any\_cpi\_active, Post-2021, benchmark exposure, $\hat{\beta} = 0.703$, $N = 1{,}304$).
 
 \paragraph{Placebo test (RC10).} The placebo test using 2016--2018 data with a post-2018 indicator yields a coefficient of """ + stats["rc10_coef"] + r""" ($p = """ + stats["rc10_p"] + r"""$), providing no evidence of pre-existing differential trends. This supports the CBAM interpretation of post-2019 findings: countries with higher CBAM exposure were not already trending differently in their carbon pricing adoption prior to the first CBAM announcements.
+
+\paragraph{Log-exposure robustness (RC12).} Replacing the linear exposure measure with its natural logarithm---which compresses the influence of outlier countries such as Montenegro (22\%)---yields a coefficient of """ + stats["rc12_coef"] + r""" ($p = """ + stats["rc12_p"] + r"""$), marginally significant and directionally consistent with the reference specification.
+
+\paragraph{Leave-one-out sensitivity (RC13).} Table~\ref{tab:robustness} reports the reference specification excluding each of the five most-exposed countries individually. Montenegro is a high-leverage observation: its exclusion attenuates the TWFE adoption coefficient to """ + stats["rc13_mne_coef"] + r""" ($p = """ + stats["rc13_mne_p"] + r"""$), reflecting its position as a pronounced outlier in the exposure distribution (22\%, roughly six percentage points above the next country). Excluding Mozambique, Bosnia and Herzegovina, Albania, or Ukraine preserves the positive direction. We note two mitigating factors. First, the log-exposure transformation that compresses Montenegro's influence preserves marginal significance (RC12). Second, the event-history models---which estimate timing effects across the full risk set rather than relying on cross-sectional exposure variation in a TWFE framework---are less sensitive to single-country leverage. The discrete-time cloglog hazard ratio for the development transition is """ + stats["cloglog_dev_hr"] + r""" ($p < """ + stats["cloglog_dev_p"] + r"""$) in the full sample and """ + stats["cloglog_dev_excl_hr"] + r""" ($p = """ + stats["cloglog_dev_excl_p"] + r"""$) when Montenegro is excluded.
 
 \paragraph{EU candidate exclusion (RC4).} Excluding the ten EU accession candidates (Albania, Bosnia and Herzegovina, Georgia, Kosovo, Moldova, Montenegro, North Macedonia, Serbia, Turkey, and Ukraine) reduces the coefficient from 0.703 to """ + stats["rc4_coef"] + r""" (SE = """ + stats["rc4_se"] + r""", $p = """ + stats["rc4_p"] + r"""$, $N = """ + str(stats["rc4_n"]) + r"""$). This is consistent with these countries responding to EU accession requirements as well as CBAM exposure. The candidate countries include six of the top fifteen most CBAM-exposed countries (Montenegro, Bosnia, Albania, Serbia, Ukraine, North Macedonia), so their exclusion substantially reduces the identifying variation. The coefficient attenuation is structurally motivated rather than indicative of fragility.
 
 \paragraph{Income group heterogeneity (RC7).} The triple interaction (exposure $\times$ post $\times$ high income) is significant with a coefficient of """ + stats["rc7c_coef"] + r""" (SE = """ + stats["rc7c_se"] + r""", $p = """ + stats["rc7c_p"] + r"""$), confirming that the CBAM exposure effect is concentrated among higher-income jurisdictions with greater institutional capacity to implement carbon pricing instruments. Subsample results show a larger point estimate for lower-middle and low-income countries (1.069, $p = 0.111$) than for high and upper-middle income countries (0.075, $p = 0.963$), but the triple interaction captures the differential rather than the level.
 
-\paragraph{Coefficient stability.} The coefficient of variation across RC1--RC9 is 0.84, flagged as high sensitivity. This is driven primarily by RC4 (candidate exclusion, which removes the most exposed countries) and RC7c (income interaction, which models heterogeneity rather than testing the average effect). When these structurally motivated specifications are set aside, the coefficient is stable across RC2 (include subnational, $\hat{\beta} = 0.958$), RC6b (time-varying exposure, $\hat{\beta} = 0.587$), RC8 (individual WGI dimensions, $\hat{\beta} = 0.677$), RC9 (no controls, $\hat{\beta} = 0.788$), and RC11 (non-OECD only, $\hat{\beta} = 0.766$).
+\paragraph{Coefficient stability.} The coefficient of variation across RC1--RC13 (excluding the heterogeneity specifications RC7a/b/c, which model subgroup effects rather than testing the average effect) is high, driven primarily by RC4 (candidate exclusion, which removes the most exposed countries) and Montenegro sensitivity within the TWFE framework. When these structurally motivated specifications are set aside, the coefficient is stable across RC2 (include subnational, $\hat{\beta} = 0.958$), RC6b (time-varying exposure, $\hat{\beta} = 0.587$), RC8 (individual WGI dimensions, $\hat{\beta} = 0.677$), RC9 (no controls, $\hat{\beta} = 0.788$), RC11 (non-OECD only, $\hat{\beta} = 0.766$), and RC12 (log exposure, $\hat{\beta} = 0.009$, $p = 0.055$). Montenegro sensitivity is the primary source of instability in the TWFE framework; the event-history models are less affected by this single-country leverage.
 
 """ + table12 + r"""
 
