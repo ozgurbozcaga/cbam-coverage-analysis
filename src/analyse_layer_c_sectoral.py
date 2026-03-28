@@ -632,7 +632,8 @@ dep_c = dep.loc[exog_c.index]
 exog_c = sm.add_constant(exog_c)
 
 try:
-    mod_c = sm.OLS(dep_c, exog_c).fit(cov_type="HC1")
+    groups_c = reg_sample.loc[exog_c.index, "iso3"]
+    mod_c = sm.OLS(dep_c, exog_c).fit(cov_type="cluster", cov_kwds={"groups": groups_c})
     c1_results[("Model_C", "OLS", "none")] = mod_c
     coef = mod_c.params["cbam_exposure_avg"]
     se = mod_c.bse["cbam_exposure_avg"]
@@ -671,7 +672,8 @@ for post_label, post_col in [("Post-2019", "post_2019_entry"),
 
     # Model A — OLS (LPM)
     try:
-        mod_a = sm.OLS(dep_a, exog_a_const).fit(cov_type="HC1")
+        groups_a = reg_sample.loc[reg_data.index, "iso3"]
+        mod_a = sm.OLS(dep_a, exog_a_const).fit(cov_type="cluster", cov_kwds={"groups": groups_a})
         c1_results[("Model_A", "OLS", post_label)] = mod_a
         for var in ["cbam_exposure_avg", interaction_col]:
             coef = mod_a.params[var]
@@ -688,6 +690,8 @@ for post_label, post_col in [("Post-2019", "post_2019_entry"),
             print(f"    Logit SKIPPED: no variation in outcome (all {dep_a.iloc[0]:.0f})")
             continue
 
+        # NOTE: Logit MEs use non-clustered SEs — interpret as descriptive only.
+        # OLS with country-clustered SEs is the primary specification.
         mod_b = Logit(dep_a, exog_a_const).fit(disp=0, maxiter=100)
         mfx = mod_b.get_margeff(at="mean")
         c1_results[("Model_B", "Logit", post_label)] = {
@@ -1048,7 +1052,7 @@ title2 = pd.DataFrame(
 )
 footer2 = pd.DataFrame(
     [["Controls: log_gdp_pc_constant2015_lag1, wgi_composite_estimate_lag1. "
-      "OLS uses HC1 robust SEs. *** p<0.01  ** p<0.05  * p<0.1"] +
+      "OLS uses country-clustered SEs. Logit MEs use non-clustered SEs (descriptive only). *** p<0.01  ** p<0.05  * p<0.1"] +
      [""] * (len(t2_df.columns) - 1)],
     columns=t2_df.columns,
 )
