@@ -255,9 +255,9 @@ print(f"  After dropping null exposure:   {len(cy):,} rows")
 print(f"  Unique countries in sample:     {cy['iso3'].nunique()}")
 
 # Recompute post indicators at country-year level
-cy["post_2019"] = (cy["year"] >= 2019).astype(int)
-cy["post_2021"] = (cy["year"] >= 2021).astype(int)
-cy["post_2023"] = (cy["year"] >= 2023).astype(int)
+cy["post_2019"] = (cy["year"] > 2019).astype(int)
+cy["post_2021"] = (cy["year"] > 2021).astype(int)
+cy["post_2023"] = (cy["year"] > 2023).astype(int)
 
 # Interaction terms
 cy["exposure_x_post2019"] = cy["cbam_exposure_avg"] * cy["post_2019"]

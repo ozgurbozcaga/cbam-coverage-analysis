@@ -324,13 +324,25 @@ _DATA_DICTIONARY_ROWS: list[tuple] = [
      "Original currency code before USD conversion",
      "cpi_price_usd.xlsx", "str", ""),
     ("post_2019",
-     "Binary: 1 if year >= 2019 (CBAM Commission proposal treatment indicator)",
+     "Binary: 1 if year > 2019 (Green Deal announced July 2019; "
+     "April 1 data reference predates announcement)",
      "Derived", "int", ""),
     ("post_2021",
-     "Binary: 1 if year >= 2021 (CBAM legislation treatment indicator)",
+     "Binary: 1 if year > 2021 (CBAM regulation proposed July 2021; "
+     "April 1 data reference predates proposal)",
      "Derived", "int", ""),
     ("post_2023",
-     "Binary: 1 if year >= 2023 (CBAM implementation treatment indicator)",
+     "Binary: 1 if year > 2023 (CBAM entered into force October 2023; "
+     "April 1 data reference predates entry into force)",
+     "Derived", "int", ""),
+    ("post_ge2019",
+     "Sensitivity variant: 1 if year >= 2019 (inclusive milestone)",
+     "Derived", "int", ""),
+    ("post_ge2021",
+     "Sensitivity variant: 1 if year >= 2021 (inclusive milestone)",
+     "Derived", "int", ""),
+    ("post_ge2023",
+     "Sensitivity variant: 1 if year >= 2023 (inclusive milestone)",
      "Derived", "int", ""),
     ("first_year_industry",
      "First year this CPI covered industry sector within 2016-2026 panel. "
@@ -1139,9 +1151,15 @@ def main() -> None:
     # Step 8: Add treatment timing indicators
     # ------------------------------------------------------------------
     print("\n[Step 8] Adding treatment timing indicators...")
-    panel["post_2019"] = (panel["year"] >= 2019).astype(int)
-    panel["post_2021"] = (panel["year"] >= 2021).astype(int)
-    panel["post_2023"] = (panel["year"] >= 2023).astype(int)
+    # Primary: strict > (April 1 data reference predates mid-year announcements)
+    panel["post_2019"] = (panel["year"] > 2019).astype(int)
+    panel["post_2021"] = (panel["year"] > 2021).astype(int)
+    panel["post_2023"] = (panel["year"] > 2023).astype(int)
+
+    # Sensitivity variants (>= milestone, for robustness)
+    panel["post_ge2019"] = (panel["year"] >= 2019).astype(int)
+    panel["post_ge2021"] = (panel["year"] >= 2021).astype(int)
+    panel["post_ge2023"] = (panel["year"] >= 2023).astype(int)
 
     # ------------------------------------------------------------------
     # Step 9: Build staggered adoption variables
@@ -1178,6 +1196,7 @@ def main() -> None:
         "price_usd", "log_price_usd", "income_group", "region", "currency",
         # Treatment timing
         "post_2019", "post_2021", "post_2023",
+        "post_ge2019", "post_ge2021", "post_ge2023",
         # Staggered adoption
         "first_year_industry", "never_treated_industry",
         "always_treated_industry", "switcher_type",

@@ -258,9 +258,9 @@ entrants = entrants.merge(
 )
 
 # ---- Post indicators ----
-entrants["post_2019_entry"] = (entrants["entry_year"] >= 2019).astype(int)
-entrants["post_2021_entry"] = (entrants["entry_year"] >= 2021).astype(int)
-entrants["post_2023_entry"] = (entrants["entry_year"] >= 2023).astype(int)
+entrants["post_2019_entry"] = (entrants["entry_year"] > 2019).astype(int)
+entrants["post_2021_entry"] = (entrants["entry_year"] > 2021).astype(int)
+entrants["post_2023_entry"] = (entrants["entry_year"] > 2023).astype(int)
 
 # ---- Merge controls at entry_year - 1 ----
 entrants["ctrl_year"] = entrants["entry_year"] - 1
@@ -740,9 +740,9 @@ for col in ["n_new_entrants", "n_new_industry_entrants", "any_new_industry_entra
     cy[col] = cy[col].fillna(0).astype(int)
 
 # Post indicators and interactions
-cy["post_2019"] = (cy["year"] >= 2019).astype(int)
-cy["post_2021"] = (cy["year"] >= 2021).astype(int)
-cy["post_2023"] = (cy["year"] >= 2023).astype(int)
+cy["post_2019"] = (cy["year"] > 2019).astype(int)
+cy["post_2021"] = (cy["year"] > 2021).astype(int)
+cy["post_2023"] = (cy["year"] > 2023).astype(int)
 cy["exposure_x_post2019"] = cy["cbam_exposure_avg"] * cy["post_2019"]
 cy["exposure_x_post2021"] = cy["cbam_exposure_avg"] * cy["post_2021"]
 cy["exposure_x_post2023"] = cy["cbam_exposure_avg"] * cy["post_2023"]
@@ -853,7 +853,7 @@ csy = csy[csy["cbam_exposure_avg"].notna()].copy()
 
 # Indicators
 csy["cbam_relevant_sector"] = (csy["sector"] == "Industry").astype(int)
-csy["post_2021"] = (csy["year"] >= 2021).astype(int)
+csy["post_2021"] = (csy["year"] > 2021).astype(int)
 csy["exposure_x_post2021"] = csy["cbam_exposure_avg"] * csy["post_2021"]
 csy["triple_interaction"] = (csy["cbam_exposure_avg"] * csy["post_2021"] *
                              csy["cbam_relevant_sector"])
