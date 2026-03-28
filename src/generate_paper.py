@@ -885,13 +885,17 @@ Table~\ref{tab:twfe_comparison} compares benchmark and preferred (time-varying, 
 
 \subsection{Sectoral Design Results (Layer C)}\label{sec:sectoral_results}
 
-This subsection presents our core contribution: evidence that CBAM exposure shapes not just whether countries adopt carbon pricing, but the industrial design of the instruments they adopt.
-
-Table~\ref{tab:entrant_desc} presents entrant cohort characteristics. The 2019 cohort is distinctive: twelve new instruments (five national, seven subnational) with mean CBAM exposure of 2.12\%---ten times the 2016--2018 average of 0.19\%---and 100\% industry coverage at entry. The 2024 cohort shows a similar pattern with mean exposure of 1.38\% and 100\% industry coverage among the four entrants with available data. These cohort patterns are consistent with CBAM incentives attracting high-exposure countries into industry-oriented carbon pricing.
+The 2019 entrant cohort stands out: twelve new instruments (five national, seven subnational) with mean CBAM exposure of 2.12\%---ten times the 2016--2018 average of 0.19\%---and 100\% industry coverage at entry (Table~\ref{tab:entrant_desc}). The 2024 cohort shows a similar pattern with mean exposure of 1.38\% and 100\% industry coverage among the four entrants with available data. These cohort patterns are consistent with CBAM incentives attracting high-exposure countries into industry-oriented carbon pricing.
 
 """ + table7 + r"""
 
-Table~\ref{tab:panel_did} presents the primary panel DiD results. The coefficients on the exposure$\times$post interaction are positive across all three milestones: +0.97 (Post-2019), +1.11 (Post-2021), and +0.76 (Post-2023). Rescaled to the per-percentage-point scale, these correspond to +0.010, +0.011, and +0.008 per percentage point of exposure. However, with 49 country clusters, the estimates are imprecisely estimated and not statistically significant at conventional levels. The identification relies on entry events---CPIs transitioning from inactive to active---and within-active variation is minimal.
+Under our preferred post indicator ($\text{year} > 2019$), the 2019 cohort falls in the pre-treatment period because the April~1 data reference date precedes the July 2019 Green Deal announcement. The 2019 cohort pattern is therefore consistent with anticipatory policy responses or parallel political momentum in the lead-up to the formal announcement, rather than a direct post-announcement response. The 2020 and later cohorts represent genuine post-treatment observations.
+
+Table~\ref{tab:entrant_reg} presents entrant-level linear probability models with country-clustered standard errors. The direction of the interaction terms is consistently positive, but the estimates are imprecise given the small number of country clusters ($N=41$ entrants with both coverage data and controls).
+
+""" + table9 + r"""
+
+We present four supplementary specifications: the CPI-level panel DiD (Table~\ref{tab:panel_did}), a country-year entrant design, and a country-sector-year descriptive design. No individual specification achieves conventional significance, but the consistency across four designs with different identifying assumptions and units of analysis is informative. The panel DiD coefficients on the exposure$\times$post interaction are positive across all three milestones: +0.97 (Post-2019), +1.11 (Post-2021), and +0.76 (Post-2023), though with 49 country clusters the estimates are imprecisely estimated.
 
 """ + table8 + r"""
 
@@ -903,10 +907,6 @@ Table~\ref{tab:panel_did} presents the primary panel DiD results. The coefficien
 \end{figure}
 
 Exposure tercile analysis reveals a nuanced pattern. Pre-2019 industry coverage rates were 5.9\% (low exposure), 23.8\% (medium), and 27.1\% (high). Post-2019, these shifted to 25.0\%, 49.3\%, and 38.4\% respectively. The non-monotonic post-2019 pattern---medium exposure showing the largest jump---reflects that high-exposure countries had higher baseline coverage (less room to grow), while medium-exposure countries show the largest post-2019 increase in industry coverage.
-
-Table~\ref{tab:entrant_reg} presents the supplementary cross-sectional entrant regressions. With only $N=41$ entrants with both coverage data and controls, these estimates are exploratory. The direction of the interaction terms is generally positive but the standard errors are very large, reflecting the limited cross-sectional variation in this small sample.
-
-""" + table9 + r"""
 
 \subsection{Price Results (Layer D)}\label{sec:price_results}
 

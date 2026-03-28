@@ -343,9 +343,7 @@ Benchmark = static 2014-2024 average, EU27+UK perimeter. Preferred = time-varyin
 
 \subsection{Sectoral Design Results (Layer C)}\label{sec:sectoral_results}
 
-This subsection presents our core contribution: evidence that CBAM exposure shapes not just whether countries adopt carbon pricing, but the industrial design of the instruments they adopt.
-
-Table~\ref{tab:entrant_desc} presents entrant cohort characteristics. The 2019 cohort is distinctive: twelve new instruments (five national, seven subnational) with mean CBAM exposure of 2.12\%---ten times the 2016--2018 average of 0.19\%---and 100\% industry coverage at entry. The 2024 cohort shows a similar pattern with mean exposure of 1.38\% and 100\% industry coverage among the four entrants with available data. These cohort patterns are consistent with CBAM incentives attracting high-exposure countries into industry-oriented carbon pricing.
+The 2019 entrant cohort stands out: twelve new instruments (five national, seven subnational) with mean CBAM exposure of 2.12\%---ten times the 2016--2018 average of 0.19\%---and 100\% industry coverage at entry (Table~\ref{tab:entrant_desc}). The 2024 cohort shows a similar pattern with mean exposure of 1.38\% and 100\% industry coverage among the four entrants with available data. These cohort patterns are consistent with CBAM incentives attracting high-exposure countries into industry-oriented carbon pricing.
 
 \begin{table}[htbp]
 \centering
@@ -373,37 +371,9 @@ Entry year & $N$ entrants & National & Subnational & With coverage & Industry sh
 \end{threeparttable}
 \end{table}
 
-Table~\ref{tab:panel_did} presents the primary panel DiD results. The coefficients on the exposure$\times$post interaction are positive across all three milestones: +0.97 (Post-2019), +1.11 (Post-2021), and +0.76 (Post-2023). Rescaled to the per-percentage-point scale, these correspond to +0.010, +0.011, and +0.008 per percentage point of exposure. However, with 49 country clusters, the estimates are imprecisely estimated and not statistically significant at conventional levels. The identification relies on entry events---CPIs transitioning from inactive to active---and within-active variation is minimal.
+Under our preferred post indicator ($\text{year} > 2019$), the 2019 cohort falls in the pre-treatment period because the April~1 data reference date precedes the July 2019 Green Deal announcement. The 2019 cohort pattern is therefore consistent with anticipatory policy responses or parallel political momentum in the lead-up to the formal announcement, rather than a direct post-announcement response. The 2020 and later cohorts represent genuine post-treatment observations.
 
-\begin{table}[htbp]
-\centering
-\begin{threeparttable}
-\caption{CPI-Level Panel DiD: Industry Sector Coverage (Primary)}\label{tab:panel_did}
-\begin{tabular}{lccccc}
-\toprule
-Specification & Coefficient & SE & $N$ & CPI FE & Year FE \\
-\midrule
-Post-2019 & 0.9708 & (1.3886) & 1152.0 & Yes & Yes \\
-Post-2021 & 1.0993 & (1.2093) & 1152.0 & Yes & Yes \\
-Post-2023 & 0.7537 & (0.9786) & 1152.0 & Yes & Yes \\
-\bottomrule
-\end{tabular}
-\begin{tablenotes}\small
-\item \textit{Note:} CPI-level panel DiD. Sample: 1,152 CPI-year observations, 129 CPIs, 49 countries. Outcome: binary indicator for industry sector coverage. Pre-entry years (coverage\_active=0) included with covers\_industry=0 by construction. Identification from entry events---CPIs transitioning from inactive to active. Within-active variation is minimal (only ETS\_CN genuinely expands industry coverage post-entry). Standard errors clustered at country level. Controls: log GDP per capita, WGI composite (both lagged). *** $p<0.01$ ** $p<0.05$ * $p<0.1$.
-\end{tablenotes}
-\end{threeparttable}
-\end{table}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.85\textwidth]{figures/event_study_industry.png}
-\caption{Event study coefficients from Equation~\ref{eq:panel_did} with year-specific interactions relative to 2016 baseline. Coefficients represent the differential effect of a unit increase in CBAM exposure on industry coverage probability relative to the omitted base year. 95\% confidence intervals shown. Pre-2019 coefficients near zero support the parallel trends assumption.}
-\label{fig:event_study}
-\end{figure}
-
-Exposure tercile analysis reveals a nuanced pattern. Pre-2019 industry coverage rates were 5.9\% (low exposure), 23.8\% (medium), and 27.1\% (high). Post-2019, these shifted to 25.0\%, 49.3\%, and 38.4\% respectively. The non-monotonic post-2019 pattern---medium exposure showing the largest jump---reflects that high-exposure countries had higher baseline coverage (less room to grow), while medium-exposure countries show the largest post-2019 increase in industry coverage.
-
-Table~\ref{tab:entrant_reg} presents the supplementary cross-sectional entrant regressions. With only $N=41$ entrants with both coverage data and controls, these estimates are exploratory. The direction of the interaction terms is generally positive but the standard errors are very large, reflecting the limited cross-sectional variation in this small sample.
+Table~\ref{tab:entrant_reg} presents entrant-level linear probability models with country-clustered standard errors. The direction of the interaction terms is consistently positive, but the estimates are imprecise given the small number of country clusters ($N=41$ entrants with both coverage data and controls).
 
 \begin{table}[htbp]
 \centering
@@ -434,6 +404,36 @@ Logit ME (Model B) — Post-2023 & exposure × post-2023 &  &  &  &  & 2.1809 & 
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
+
+We present four supplementary specifications: the CPI-level panel DiD (Table~\ref{tab:panel_did}), a country-year entrant design, and a country-sector-year descriptive design. No individual specification achieves conventional significance, but the consistency across four designs with different identifying assumptions and units of analysis is informative. The panel DiD coefficients on the exposure$\times$post interaction are positive across all three milestones: +0.97 (Post-2019), +1.11 (Post-2021), and +0.76 (Post-2023), though with 49 country clusters the estimates are imprecisely estimated.
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{CPI-Level Panel DiD: Industry Sector Coverage (Primary)}\label{tab:panel_did}
+\begin{tabular}{lccccc}
+\toprule
+Specification & Coefficient & SE & $N$ & CPI FE & Year FE \\
+\midrule
+Post-2019 & 0.9708 & (1.3886) & 1152.0 & Yes & Yes \\
+Post-2021 & 1.0993 & (1.2093) & 1152.0 & Yes & Yes \\
+Post-2023 & 0.7537 & (0.9786) & 1152.0 & Yes & Yes \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\small
+\item \textit{Note:} CPI-level panel DiD. Sample: 1,152 CPI-year observations, 129 CPIs, 49 countries. Outcome: binary indicator for industry sector coverage. Pre-entry years (coverage\_active=0) included with covers\_industry=0 by construction. Identification from entry events---CPIs transitioning from inactive to active. Within-active variation is minimal (only ETS\_CN genuinely expands industry coverage post-entry). Standard errors clustered at country level. Controls: log GDP per capita, WGI composite (both lagged). *** $p<0.01$ ** $p<0.05$ * $p<0.1$.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/event_study_industry.png}
+\caption{Event study coefficients from Equation~\ref{eq:panel_did} with year-specific interactions relative to 2016 baseline. Coefficients represent the differential effect of a unit increase in CBAM exposure on industry coverage probability relative to the omitted base year. 95\% confidence intervals shown. Pre-2019 coefficients near zero support the parallel trends assumption.}
+\label{fig:event_study}
+\end{figure}
+
+Exposure tercile analysis reveals a nuanced pattern. Pre-2019 industry coverage rates were 5.9\% (low exposure), 23.8\% (medium), and 27.1\% (high). Post-2019, these shifted to 25.0\%, 49.3\%, and 38.4\% respectively. The non-monotonic post-2019 pattern---medium exposure showing the largest jump---reflects that high-exposure countries had higher baseline coverage (less room to grow), while medium-exposure countries show the largest post-2019 increase in industry coverage.
 
 \subsection{Price Results (Layer D)}\label{sec:price_results}
 
