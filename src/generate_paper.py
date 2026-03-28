@@ -751,7 +751,7 @@ def generate_tex(data):
 \begin{document}
 
 \title{CBAM Spillovers and the Industrial Design of Carbon Pricing Instruments}
-\author{[Author placeholder]}
+\author{M. Ozgur Bozcaga}
 \date{\today}
 \maketitle
 
