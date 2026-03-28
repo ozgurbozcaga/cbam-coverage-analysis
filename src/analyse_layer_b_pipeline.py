@@ -728,6 +728,138 @@ else:
     print(f"  Discrete-time models done in {time.time() - t_dt:.1f}s\n")
 
     # ========================================================================
+    # REGRESSIONS PART 3b — Cloglog sensitivity (Montenegro & leave-one-out)
+    # ========================================================================
+    t_sens = time.time()
+    print("=" * 72)
+    print("REGRESSIONS PART 3b — Cloglog sensitivity (Montenegro & LOO)")
+    print("=" * 72)
+
+    def _build_cloglog_riskset(base_df, milestone_col, exclude_isos=None):
+        """Build person-year risk set and fit cloglog, returning (HR, p) or (nan, nan)."""
+        df_s = base_df.copy()
+        if exclude_isos:
+            df_s = df_s[~df_s["iso3"].isin(exclude_isos)].copy()
+        milestone_vals = df_s[milestone_col]
+        left_censored = milestone_vals.notna() & (milestone_vals < 2016)
+        df_s = df_s[~left_censored].copy()
+        df_s["spell_start"] = df_s["first_panel_year"].clip(lower=2016)
+        df_s["event_year"] = df_s[milestone_col]
+        df_s["event"] = (
+            df_s["event_year"].notna() &
+            (df_s["event_year"] >= df_s["spell_start"]) &
+            (df_s["event_year"] <= 2024)
+        ).astype(int)
+        df_s["spell_end"] = df_s.apply(
+            lambda r: int(r["event_year"]) if r["event"] == 1 else 2024,
+            axis=1,
+        )
+
+        py_rows_s = []
+        for _, r in df_s.iterrows():
+            s, e = int(r["spell_start"]), int(r["spell_end"])
+            for yr in range(s, e + 1):
+                py_rows_s.append({
+                    "iso3": r["iso3"], "year": yr,
+                    "event": 1 if (yr == e and r["event"] == 1) else 0,
+                    "spell_start": s, "duration_year": yr - s + 1,
+                })
+        py_s = pd.DataFrame(py_rows_s)
+        py_s = py_s.merge(exp_ann_dt[["iso3", "year", "cbam_exposure_annual_pct"]],
+                          on=["iso3", "year"], how="left")
+        py_s = py_s.merge(ctrl_dt, on=["iso3", "year"], how="left")
+
+        cov_cols_s = ["cbam_exposure_annual_pct",
+                      "log_gdp_pc_constant2015_lag1",
+                      "wgi_composite_estimate_lag1"]
+        py_s = py_s.dropna(subset=cov_cols_s).copy()
+
+        if py_s["event"].sum() < 3:
+            return np.nan, np.nan, 0, 0
+
+        max_dur_s = int(py_s["duration_year"].max())
+        dur_cols_s = []
+        for d in range(1, max_dur_s + 1):
+            col = f"dur_{d}"
+            py_s[col] = (py_s["duration_year"] == d).astype(int)
+            dur_cols_s.append(col)
+
+        exog_cols_s = ["cbam_exposure_annual_pct"] + cov_cols_s[1:] + dur_cols_s
+        exog_s = sm_api.add_constant(py_s[exog_cols_s])
+        dep_s = py_s["event"]
+        groups_s = py_s["iso3"]
+
+        try:
+            mod_s = GLM(dep_s, exog_s, family=Binomial(link=CLogLog()))
+            res_s = mod_s.fit(cov_type="cluster", cov_kwds={"groups": groups_s})
+            coef_s = res_s.params["cbam_exposure_annual_pct"]
+            pv_s = res_s.pvalues["cbam_exposure_annual_pct"]
+            return np.exp(coef_s), pv_s, len(py_s), int(py_s["event"].sum())
+        except Exception:
+            return np.nan, np.nan, 0, 0
+
+    # --- Montenegro exclusion ---
+    mne_sens_rows = []
+    for transition_name, milestone_col in TRANSITIONS:
+        # Full-sample result from dt_rows
+        full = next((r for r in dt_rows if r["Transition"] == transition_name), None)
+        full_hr = full["HR_cloglog"] if full else np.nan
+        full_p = full["p_value"] if full else np.nan
+
+        hr_ex, p_ex, n_ex, ev_ex = _build_cloglog_riskset(
+            base, milestone_col, exclude_isos=["MNE"])
+
+        hr_change = ((hr_ex - full_hr) / full_hr * 100
+                     if not (np.isnan(hr_ex) or np.isnan(full_hr)) else np.nan)
+
+        print(f"  {transition_name:20s}  full HR={full_hr:.4f} (p={full_p:.4f})  "
+              f"excl MNE HR={hr_ex:.4f} (p={p_ex:.4f})  "
+              f"Δ={hr_change:+.1f}%")
+
+        mne_sens_rows.append({
+            "transition": transition_name,
+            "full_sample_HR": full_hr, "full_sample_p": full_p,
+            "excl_MNE_HR": hr_ex, "excl_MNE_p": p_ex,
+            "HR_change_pct": hr_change,
+        })
+
+    mne_df = pd.DataFrame(mne_sens_rows)
+    mne_path = os.path.join(LAYER_B, "cloglog_montenegro_sensitivity.csv")
+    mne_df.to_csv(mne_path, index=False)
+    print(f"  Saved: {mne_path}")
+
+    # --- Leave-one-out (top 5 exposed) ---
+    print(f"\n  --- Leave-one-out (top 5 exposed) ---")
+    exposure_loo = pd.read_csv(EXPOSURE_AVG_PATH)
+    top5 = exposure_loo.nlargest(5, "cbam_exposure_avg")["iso3"].tolist()
+    print(f"  Top 5: {top5}")
+
+    loo_rows_b = []
+    for transition_name, milestone_col in TRANSITIONS:
+        full = next((r for r in dt_rows if r["Transition"] == transition_name), None)
+        full_hr = full["HR_cloglog"] if full else np.nan
+
+        for excluded_iso in top5:
+            hr_ex, p_ex, n_ex, ev_ex = _build_cloglog_riskset(
+                base, milestone_col, exclude_isos=[excluded_iso])
+            hr_change = ((hr_ex - full_hr) / full_hr * 100
+                         if not (np.isnan(hr_ex) or np.isnan(full_hr)) else np.nan)
+            print(f"    {transition_name:20s} excl {excluded_iso}: "
+                  f"HR={hr_ex:.4f} (p={p_ex:.4f}) Δ={hr_change:+.1f}%")
+            loo_rows_b.append({
+                "transition": transition_name, "excluded": excluded_iso,
+                "HR": hr_ex, "p_value": p_ex,
+                "N_person_years": n_ex, "N_events": ev_ex,
+                "HR_change_pct": hr_change,
+            })
+
+    loo_b_df = pd.DataFrame(loo_rows_b)
+    loo_b_path = os.path.join(LAYER_B, "cloglog_leave_one_out.csv")
+    loo_b_df.to_csv(loo_b_path, index=False)
+    print(f"  Saved: {loo_b_path}")
+    print(f"  Cloglog sensitivity done in {time.time() - t_sens:.1f}s\n")
+
+    # ========================================================================
     # REGRESSIONS PART 4 — Cox robustness (penalizer & robust variance)
     # ========================================================================
     t_cr = time.time()
