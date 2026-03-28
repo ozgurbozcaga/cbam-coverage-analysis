@@ -143,8 +143,10 @@ cpi_outcomes = pd.DataFrame({
         include_groups=False,
     ),
     # --- Our extension: industry coverage ---
-    "any_industry_cpi_announced": g.apply(
-        lambda d: int((d["covers_industry"] == 1).any()),
+    "any_industry_cpi_observed": g.apply(
+        lambda d: int(
+            ((d["coverage_active"] == 1) & (d["covers_industry"] == 1)).any()
+        ),
         include_groups=False,
     ),
     "any_industry_cpi_active": g.apply(
@@ -180,7 +182,7 @@ print(f"  CPI countries: {cpi_outcomes['iso3'].nunique()}")
 # LEFT JOIN CPI outcomes onto the full spine
 OUTCOME_COLS = [
     "any_cpi_announced", "any_cpi_active", "any_cpi_implemented",
-    "any_industry_cpi_announced", "any_industry_cpi_active",
+    "any_industry_cpi_observed", "any_industry_cpi_active",
     "n_national_cpis_announced", "n_national_cpis_active",
     "n_national_cpis_implemented",
 ]
@@ -282,7 +284,7 @@ OUTCOMES = [
     "any_cpi_announced",
     "any_cpi_active",
     "any_cpi_implemented",
-    "any_industry_cpi_announced",
+    "any_industry_cpi_observed",
     "any_industry_cpi_active",
 ]
 
@@ -413,7 +415,7 @@ t1_out.to_csv(t1_path, index=False)
 print(f"  Saved: {t1_path}")
 
 # --- Table 2: Sectoral extension ---
-ext_outcomes = ["any_industry_cpi_announced", "any_industry_cpi_active"]
+ext_outcomes = ["any_industry_cpi_observed", "any_industry_cpi_active"]
 t2_df = _build_table(ext_outcomes, "Table 2: Sectoral Extension")
 header2 = (
     "Table 2: Sectoral Extension — Industry Coverage Outcomes. "

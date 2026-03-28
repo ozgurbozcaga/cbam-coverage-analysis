@@ -1,6 +1,6 @@
 Outcome,Post-2019 (no ctrl),Post-2019 (with ctrl),Post-2021 (no ctrl),Post-2021 (with ctrl),Post-2023 (no ctrl),Post-2023 (with ctrl)
 Table 2: Sectoral Extension — Industry Coverage Outcomes. These outcomes extend Bruegel by adding a sectoral dimension. Bruegel cannot test these with their binary adoption outcome.,,,,,,
-any_industry_cpi_announced,1.8286,1.8065,1.2963,1.2315,1.4052*,1.3315
+any_industry_cpi_observed,1.8286,1.8065,1.2963,1.2315,1.4052*,1.3315
 ,(1.2372),(1.3142),(0.8078),(0.8679),(0.7777),(0.8095)
 ,N=1764,N=1304,N=1764,N=1304,N=1764,N=1304
 any_industry_cpi_active,1.8286,1.8065,1.2963,1.2315,1.4052*,1.3315

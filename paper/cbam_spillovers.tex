@@ -236,7 +236,7 @@ any\_cpi\_implemented & 1.5675 & 1.5872 & 0.9184 & 0.8925 & 0.6431 & 0.5682 \\
 \end{threeparttable}
 \end{table}
 
-Table~\ref{tab:sectoral} extends the benchmark to industry-specific outcomes. The coefficients for industry-specific adoption are somewhat larger than the any-CPI results, consistent with the hypothesis that CBAM particularly incentivises industry-oriented instruments. However, \texttt{any\_industry\_cpi\_announced} and \texttt{any\_industry\_cpi\_active} yield identical estimates---reflecting the fact that industry-covering CPIs are almost always active by the time they appear in the database.
+Table~\ref{tab:sectoral} extends the benchmark to industry-specific outcomes. The coefficients for industry-specific adoption are somewhat larger than the any-CPI results, consistent with the hypothesis that CBAM particularly incentivises industry-oriented instruments. However, \texttt{any\_industry\_cpi\_observed} and \texttt{any\_industry\_cpi\_active} yield identical estimates---reflecting the fact that industry-covering CPIs are almost always active by the time they appear in the database.
 
 \begin{table}[htbp]
 \centering
@@ -247,7 +247,7 @@ Table~\ref{tab:sectoral} extends the benchmark to industry-specific outcomes. Th
 \toprule
  & Post-2019 (no ctrl) & Post-2019 (with ctrl) & Post-2021 (no ctrl) & Post-2021 (with ctrl) & Post-2023 (no ctrl) & Post-2023 (with ctrl) \\
 \midrule
-any\_industry\_cpi\_announced & 1.8286 & 1.8065 & 1.2963 & 1.2315 & 1.4052* & 1.3315 \\
+any\_industry\_cpi\_observed & 1.8286 & 1.8065 & 1.2963 & 1.2315 & 1.4052* & 1.3315 \\
  & (1.2372) & (1.3142) & (0.8078) & (0.8679) & (0.7777) & (0.8095) \\
  & \textit{N=1764} & \textit{N=1304} & \textit{N=1764} & \textit{N=1304} & \textit{N=1764} & \textit{N=1304} \\
 \addlinespace
@@ -403,13 +403,13 @@ Table~\ref{tab:entrant_reg} presents the supplementary cross-sectional entrant r
 \toprule
 Model & Variable & Post-2019 & SE & Post-2021 & SE & Post-2023 & SE & $N$ \\
 \midrule
-OLS no interaction (Model C) & cbam\_exposure\_avg & 0.6278 & (0.5371) & 0.6278 & (0.5371) & 0.6278 & (0.5371) & 41.0 \\
-OLS (Model A) — Post-2019 & cbam\_exposure\_avg & 0.6547 & (0.4220) &  &  &  &  & 41.0 \\
-OLS (Model A) — Post-2019 & exposure × post-2019 & 0.8607 & (11.8894) &  &  &  &  &  \\
-OLS (Model A) — Post-2021 & cbam\_exposure\_avg &  &  & 0.8204 & (0.6404) &  &  & 41.0 \\
-OLS (Model A) — Post-2021 & exposure × post-2021 &  &  & 8.0204 & (39.1864) &  &  &  \\
-OLS (Model A) — Post-2023 & cbam\_exposure\_avg &  &  &  &  & 0.9218 & (0.7932) & 41.0 \\
-OLS (Model A) — Post-2023 & exposure × post-2023 &  &  &  &  & 18.1252 & (32.3131) &  \\
+OLS no interaction (Model C) & cbam\_exposure\_avg & 0.6278 & (0.5457) & 0.6278 & (0.5457) & 0.6278 & (0.5457) & 41.0 \\
+OLS (Model A) — Post-2019 & cbam\_exposure\_avg & 0.6547 & (0.4005) &  &  &  &  & 41.0 \\
+OLS (Model A) — Post-2019 & exposure × post-2019 & 0.8607 & (12.1264) &  &  &  &  &  \\
+OLS (Model A) — Post-2021 & cbam\_exposure\_avg &  &  & 0.8204 & (0.6167) &  &  & 41.0 \\
+OLS (Model A) — Post-2021 & exposure × post-2021 &  &  & 8.0204 & (39.8633) &  &  &  \\
+OLS (Model A) — Post-2023 & cbam\_exposure\_avg &  &  &  &  & 0.9218 & (0.8022) & 41.0 \\
+OLS (Model A) — Post-2023 & exposure × post-2023 &  &  &  &  & 18.1252 & (34.2333) &  \\
 Logit ME (Model B) — Post-2019 & cbam\_exposure\_avg & 5.7279 & (10.3624) &  &  &  &  & 41.0 \\
 Logit ME (Model B) — Post-2019 & exposure × post-2019 & -4.9479 & (9.0279) &  &  &  &  &  \\
 Logit ME (Model B) — Post-2021 & cbam\_exposure\_avg &  &  & 5.7729 & (5.3928) &  &  & 41.0 \\
@@ -506,20 +506,21 @@ Table~\ref{tab:robustness} presents the full robustness summary across eleven sp
 \toprule
 RC & Description & $N$ & Coefficient & SE & $p$-value & Stars & Diff from RC1 & Note \\
 \midrule
-RC1 & Reference specification (Layer A baseline) & 1304 & 0.7274 & 0.8824 & 0.4099 &  & 0.1985 & Anchor — all checks compare to this. \\
-RC2 & Include subnational instruments & 1304 & 0.9900 & 0.8081 & 0.2208 &  & 0.4611 & Subnationals included (US, CA, CN weight up). \\
-RC3 & S\&T editions confirmation & 1304 & 0.7274 & 0.8824 & 0.4099 &  & 0.1985 & Confirmed: S\&T editions only. Identical to RC1. \\
-RC4 & Exclude EU candidate countries & 1223 & -0.4373 & 0.3270 & 0.1815 &  & -0.9662 & Dropped ALB,BIH,GEO,XKX,MDA,MNE,MKD,SRB,TUR,UKR. \\
-RC5 & Exclude Chinese subnational ETSs & 1304 & 0.7274 & 0.8824 & 0.4099 &  & 0.1985 & China retained if national ETS active; subnationals excluded... \\
-RC6a & Static benchmark exposure (EU27+UK) & 1304 & 0.7274 & 0.8824 & 0.4099 &  & 0.1985 & Identical to RC1. \\
-RC6b & Time-varying annual exposure & 1304 & 0.6471 & 0.4916 & 0.1883 &  & 0.1182 & Brexit-corrected annual exposure. \\
+RC1 & Reference specification (Layer A baseline) & 1304 & 0.7274 & 0.8824 & 0.4099 &  & 0.1985 &  \\
+RC2 & Include subnational instruments & 1304 & 0.9900 & 0.8081 & 0.2208 &  & 0.4611 &  \\
+RC3 & S\&T editions confirmation & 1304 & 0.7274 & 0.8824 & 0.4099 &  & 0.1985 &  \\
+RC4 & Exclude EU candidate countries & 1223 & -0.4373 & 0.3270 & 0.1815 &  & -0.9662 &  \\
+RC5 & Exclude Chinese subnational ETSs & 1304 & 0.7274 & 0.8824 & 0.4099 &  & 0.1985 &  \\
+RC6a & Static benchmark exposure (EU27+UK) & 1304 & 0.7274 & 0.8824 & 0.4099 &  & 0.1985 &  \\
+RC6b & Time-varying annual exposure & 1304 & 0.6471 & 0.4916 & 0.1883 &  & 0.1182 &  \\
 RC7a & High + Upper middle income & 288 & 0.0782 & 1.6000 & 0.9611 &  & -0.4507 &  \\
 RC7b & Lower middle + Low income & 99 & 0.8787 & 0.5604 & 0.1210 &  & 0.3498 &  \\
-RC7c & Triple interaction (exposure×post×high\_income) & 1304 & 2.2153 & 0.8384 & 0.0083 & *** & 1.6864 & Tests whether income groups differ. \\
-RC8 & WGI controls individually (4 dimensions) & 1299 & 0.7009 & 0.8809 & 0.4264 &  & 0.1719 & ge, rq, rl, cc instead of composite. \\
-RC9 & No controls (pure FE only) & 1764 & 0.8135 & 0.8168 & 0.3194 &  & 0.2846 & Larger N than RC1 (no control missingness). \\
-RC10 & Placebo test (pre-2019, post\_2018) & 437 & -0.1074 & 0.1125 & 0.3404 &  & -0.6363 & Placebo — should be insignificant. \\
-RC11 & Non-OECD countries only & 1196 & 0.7886 & 0.8764 & 0.3684 &  & 0.2597 & Excludes 37 OECD members. \\
+RC7c & Triple interaction (exposure×post×high\_income) & 1304 & 2.2153 & 0.8384 & 0.0083 & *** & 1.6864 &  \\
+RC8 & WGI controls individually (4 dimensions) & 1299 & 0.7009 & 0.8809 & 0.4264 &  & 0.1719 &  \\
+RC9 & No controls (pure FE only) & 1764 & 0.8135 & 0.8168 & 0.3194 &  & 0.2846 &  \\
+RC10 & Placebo test (pre-2019, post\_2018) & 437 & -0.1074 & 0.1125 & 0.3404 &  & -0.6363 &  \\
+RC11 & Non-OECD countries only & 1196 & 0.7886 & 0.8764 & 0.3684 &  & 0.2597 &  \\
+Diff from RC1 is a plain comparison (not a formal test). Samples overlap, so z-tests assuming independence are invalid. &  &  &  &  &  &  &  &  \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}\small

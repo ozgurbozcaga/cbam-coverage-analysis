@@ -851,7 +851,7 @@ Table~\ref{tab:benchmark} presents the Bruegel-comparable benchmark. The coeffic
 
 """ + table3 + r"""
 
-Table~\ref{tab:sectoral} extends the benchmark to industry-specific outcomes. The coefficients for industry-specific adoption are somewhat larger than the any-CPI results, consistent with the hypothesis that CBAM particularly incentivises industry-oriented instruments. However, \texttt{any\_industry\_cpi\_announced} and \texttt{any\_industry\_cpi\_active} yield identical estimates---reflecting the fact that industry-covering CPIs are almost always active by the time they appear in the database.
+Table~\ref{tab:sectoral} extends the benchmark to industry-specific outcomes. The coefficients for industry-specific adoption are somewhat larger than the any-CPI results, consistent with the hypothesis that CBAM particularly incentivises industry-oriented instruments. However, \texttt{any\_industry\_cpi\_observed} and \texttt{any\_industry\_cpi\_active} yield identical estimates---reflecting the fact that industry-covering CPIs are almost always active by the time they appear in the database.
 
 """ + table4 + r"""
 

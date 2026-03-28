@@ -660,14 +660,14 @@ print("=" * 72)
 master_df = pd.DataFrame(master_rows)
 master_df = master_df[[
     "RC", "Description", "N", "Coefficient", "SE", "p-value", "Stars",
-    "Diff from RC1", "Sig diff (p)", "Sig diff (Y/N)", "Note",
+    "Diff from RC1", "Note",
 ]]
 
 # Format numeric columns
 for col in ["Coefficient", "SE", "Diff from RC1"]:
     master_df[col] = master_df[col].apply(
         lambda x: f"{x:.6f}" if not np.isnan(x) else "")
-for col in ["p-value", "Sig diff (p)"]:
+for col in ["p-value"]:
     master_df[col] = master_df[col].apply(
         lambda x: f"{x:.4f}" if not (isinstance(x, float) and np.isnan(x)) else "")
 
@@ -678,8 +678,8 @@ title_row = pd.DataFrame(
     [[title] + [""] * (len(master_df.columns) - 1)],
     columns=master_df.columns,
 )
-footer = ("Significance of difference: z = (β_rc - β_ref) / "
-          "sqrt(SE_rc² + SE_ref²). 'Y' if p < 0.05.")
+footer = ("Diff from RC1 is a plain comparison (not a formal test). "
+          "Samples overlap, so z-tests assuming independence are invalid.")
 footer_row = pd.DataFrame(
     [[footer] + [""] * (len(master_df.columns) - 1)],
     columns=master_df.columns,
@@ -720,7 +720,7 @@ else:
 # 3. Coefficient stability summary (RC1 through RC9, excluding RC10 and RC11)
 print("\n3. COEFFICIENT STABILITY SUMMARY (RC1-RC9)")
 stability_rcs = ["RC1", "RC2", "RC3", "RC4", "RC5", "RC6a", "RC6b",
-                 "RC7a", "RC7b", "RC7c", "RC8", "RC9"]
+                 "RC8", "RC9", "RC11"]
 stability_coefs = []
 for _, row in raw_master.iterrows():
     if row["RC"] in stability_rcs:
