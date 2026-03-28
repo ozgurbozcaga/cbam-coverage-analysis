@@ -277,17 +277,16 @@ def build_log_vars(panel: pd.DataFrame) -> pd.DataFrame:
     """
     Add log-transformed columns for LOG_SOURCE_VARS.
 
-    Uses np.log(x) on raw values.  Zeros produce -inf; negatives produce NaN.
+    Uses np.log(x) on raw values.  Zeros and negatives produce NaN.
     No +1 offset is applied because GDP per capita and exports should not be
-    zero for any valid observation — the spec's 'add 1 before log to handle
-    zeros' note is a safeguard; we flag zeros rather than silently offset them.
+    zero for any valid observation.
     """
     panel = panel.copy()
     for var in LOG_SOURCE_VARS:
         if var not in panel.columns:
             panel[f"log_{var}"] = np.nan
             continue
-        panel[f"log_{var}"] = np.log(panel[var])
+        panel[f"log_{var}"] = np.where(panel[var] > 0, np.log(panel[var]), np.nan)
 
     return panel
 
@@ -534,7 +533,7 @@ def build_data_dictionary() -> pd.DataFrame:
          "Inflation measured via linked GDP deflator; preferred over NY.GDP.DEFL.KD.ZG."),
 
         # Log-transformed
-        ("log_gdp_pc_constant2015", "Natural log of GDP per capita (constant 2015 USD)", "WDI", "NY.GDP.PCAP.KD", "log USD", "no", "log(gdp_pc_constant2015); -inf if source=0"),
+        ("log_gdp_pc_constant2015", "Natural log of GDP per capita (constant 2015 USD)", "WDI", "NY.GDP.PCAP.KD", "log USD", "no", "log(gdp_pc_constant2015); NaN if source<=0"),
         ("log_gdp_pc_constant2015_lag1", "Natural log of lagged GDP per capita (constant 2015 USD)", "WDI", "NY.GDP.PCAP.KD", "log USD", "t-1", "log(gdp_pc_constant2015_lag1)"),
         ("log_exports_current_usd", "Natural log of total exports (current USD)", "WDI", "NE.EXP.GNFS.CD", "log USD", "no", "log(exports_current_usd)"),
         ("log_exports_current_usd_lag1", "Natural log of lagged exports (current USD)", "WDI", "NE.EXP.GNFS.CD", "log USD", "t-1", "log(exports_current_usd_lag1)"),
