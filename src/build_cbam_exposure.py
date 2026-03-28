@@ -10,15 +10,16 @@ Methodology:
     For each exporting country i and year t, CBAM exposure is defined as:
 
         cbam_exposure_annual(i, t) =
-            Σ v[i→EU+UK, k∈CBAM]  /  Σ v[i→*, k∈all]
+            Σ v[i→CBAM_ZONE, k∈CBAM]  /  Σ v[i→*, k∈all]
 
     where v is the trade value in thousand USD, the numerator sums exports
-    to EU27 + UK for CBAM-covered HS6 products, and the denominator sums
-    all exports to all destinations in all products.
+    to the CBAM zone (EU27 + EEA-EFTA, plus GBR pre-2020) for CBAM-covered
+    HS6 products, and the denominator sums all exports to all destinations
+    in all products.
 
     The variable measures the share of a country's total export revenue that
     is potentially subject to CBAM pricing pressure, capturing both product
-    coverage (only CBAM sectors) and market concentration (only EU+UK
+    coverage (only CBAM sectors) and market concentration (only CBAM zone
     destination).
 
     cbam_exposure_avg is the simple (unweighted) mean of cbam_exposure_annual
@@ -73,28 +74,35 @@ YEAR_START = 2014
 YEAR_END   = 2024
 
 # --- Destination importer perimeter (time-varying) ---
-# UK left the EU single market on 2021-01-01 (end of transition period).
-# For CBAM exposure, we treat the UK as part of the destination market from
-# the first full BACI year after departure: 2020 onward (BACI records full-
-# year flows; 2020 is the transition year but UK was still in the customs
-# union for most of it — adjust GBR_YEAR_START if you prefer 2021).
+# The EU CBAM creates a unified carbon border across EU27 + EEA-EFTA states
+# (NOR, ISL, LIE). These countries participate in the EU ETS via the EEA
+# agreement and are inside the CBAM zone. Switzerland (CHE) has a separate
+# bilateral ETS linking agreement and is NOT in the CBAM zone.
+#
+# Brexit: GBR left the EU on 31 January 2020. BACI records full-year flows;
+# since GBR was outside the EU for 11 of 12 months in 2020, it is excluded
+# from 2020 onward. 2019 is the last year GBR is in the importer perimeter.
 #
 # Importer perimeter by year:
-#   2014–2019 : EU27 only  (GBR excluded — still an EU member)
-#   2020–2024 : EU27 + GBR (GBR included as a distinct CBAM destination)
+#   2014–2019 : EU27 + EEA-EFTA + GBR  (31 countries)
+#   2020–2024 : EU27 + EEA-EFTA only   (30 countries)
 
 EU27_ISO3 = [
     "AUT", "BEL", "BGR", "HRV", "CYP", "CZE", "DNK", "EST", "FIN", "FRA",
     "DEU", "GRC", "HUN", "IRL", "ITA", "LVA", "LTU", "LUX", "MLT", "NLD",
     "POL", "PRT", "ROU", "SVK", "SVN", "ESP", "SWE",
 ]
-EU27_UK_ISO3 = EU27_ISO3 + ["GBR"]
+EEA_EFTA_ISO3 = ["NOR", "ISL", "LIE"]
+CBAM_ZONE_ISO3     = EU27_ISO3 + EEA_EFTA_ISO3           # 30 countries
+CBAM_ZONE_GBR_ISO3 = CBAM_ZONE_ISO3 + ["GBR"]            # 31 countries
 
-EU27_ISO3_COUNT_EXPECTED    = 27
-EU27_UK_ISO3_COUNT_EXPECTED = 28
+# LIE (Liechtenstein) is not in the BACI country lookup — its trade is
+# recorded under CHE in BACI. Expected resolved counts are therefore 29/30.
+CBAM_ZONE_ISO3_COUNT_EXPECTED     = 29
+CBAM_ZONE_GBR_ISO3_COUNT_EXPECTED = 30
 
-# First year GBR is included as a destination in the importer perimeter
-GBR_YEAR_START = 2020
+# Last year GBR is included in the CBAM zone importer perimeter
+GBR_LAST_YEAR = 2019
 
 # --- CBAM HS6 product codes (as integers) ---
 CBAM_HS6_CODES = [
@@ -184,12 +192,12 @@ def load_country_codes() -> pd.DataFrame:
     return df
 
 
-def get_eu_uk_numeric_codes(
+def get_cbam_zone_numeric_codes(
     country_df: pd.DataFrame,
 ) -> tuple[list[int], list[int]]:
     """
-    Resolve EU27 and EU27+GBR ISO3 lists to BACI numeric country codes.
-    Returns (eu27_codes, eu27_uk_codes).
+    Resolve CBAM zone ISO3 lists to BACI numeric country codes.
+    Returns (cbam_zone_codes, cbam_zone_gbr_codes).
     Asserts expected counts are met for both lists; prints missing ISO3 codes.
     """
     lookup = dict(zip(country_df["country_iso3"], country_df["country_code"]))
@@ -210,10 +218,10 @@ def get_eu_uk_numeric_codes(
         )
         return codes
 
-    eu27_codes    = _resolve(EU27_ISO3,    "EU27",        EU27_ISO3_COUNT_EXPECTED)
-    eu27_uk_codes = _resolve(EU27_UK_ISO3, "EU27 + GBR",  EU27_UK_ISO3_COUNT_EXPECTED)
+    cbam_zone_codes     = _resolve(CBAM_ZONE_ISO3,     "CBAM zone",       CBAM_ZONE_ISO3_COUNT_EXPECTED)
+    cbam_zone_gbr_codes = _resolve(CBAM_ZONE_GBR_ISO3, "CBAM zone + GBR", CBAM_ZONE_GBR_ISO3_COUNT_EXPECTED)
 
-    return eu27_codes, eu27_uk_codes
+    return cbam_zone_codes, cbam_zone_gbr_codes
 
 
 def _build_file_list(verbose: bool = True) -> list[str]:
@@ -239,36 +247,36 @@ def _build_file_list(verbose: bool = True) -> list[str]:
 def query_baci_cbam_exports(
     con: duckdb.DuckDBPyConnection,
     file_list: list[str],
-    eu27_codes: list[int],
-    eu27_uk_codes: list[int],
+    cbam_zone_codes: list[int],
+    cbam_zone_gbr_codes: list[int],
 ) -> pd.DataFrame:
     """
     Query A: For each (t, i), sum v where the importer j belongs to the
     year-appropriate destination perimeter AND k ∈ CBAM HS6 codes.
 
     Importer perimeter:
-        years < GBR_YEAR_START : EU27 only
-        years >= GBR_YEAR_START : EU27 + GBR
+        years <= GBR_LAST_YEAR : CBAM zone + GBR (EU27 + EEA-EFTA + GBR)
+        years >  GBR_LAST_YEAR : CBAM zone only  (EU27 + EEA-EFTA)
 
-    Uses a _eu_importer_codes(year, code) temp table so the join is a
+    Uses a _cbam_importer_codes(year, code) temp table so the join is a
     single equi-join on (t = year AND j_int = code) — no CASE expression
     needed in the main query.
     Returns DataFrame with columns: t, i, cbam_exports_eu.
     """
-    # Build the time-varying importer table: EU27 for all years, GBR only
-    # for years >= GBR_YEAR_START
+    # Build the time-varying importer table: CBAM zone + GBR for years
+    # up to GBR_LAST_YEAR, CBAM zone only thereafter
     importer_rows: list[list[int]] = []
     for year in range(YEAR_START, YEAR_END + 1):
-        codes_for_year = eu27_uk_codes if year >= GBR_YEAR_START else eu27_codes
+        codes_for_year = cbam_zone_gbr_codes if year <= GBR_LAST_YEAR else cbam_zone_codes
         for code in codes_for_year:
             importer_rows.append([year, code])
 
     con.execute(
-        "CREATE OR REPLACE TEMP TABLE _eu_importer_codes "
+        "CREATE OR REPLACE TEMP TABLE _cbam_importer_codes "
         "(year INTEGER, code INTEGER)"
     )
     con.executemany(
-        "INSERT INTO _eu_importer_codes VALUES (?, ?)",
+        "INSERT INTO _cbam_importer_codes VALUES (?, ?)",
         importer_rows,
     )
 
@@ -287,7 +295,7 @@ def query_baci_cbam_exports(
             baci.i,
             SUM(baci.v) AS cbam_exports_eu
         FROM read_csv_auto([{file_str}], union_by_name=true) AS baci
-        INNER JOIN _eu_importer_codes AS imp
+        INNER JOIN _cbam_importer_codes AS imp
             ON baci.t = imp.year
             AND TRY_CAST(baci.j AS INTEGER) = imp.code
         WHERE
@@ -377,11 +385,11 @@ def build_exposure_panel(
 
     # --- Average output ---
     # NOTE: cbam_exposure_avg is the simple mean of cbam_exposure_annual over
-    # 2014–2024. The importer perimeter changes mid-period: EU27 only for
-    # 2014–2019 and EU27+GBR for 2020–2024. The average therefore spans two
-    # slightly different destination markets. This is intentional — it captures
-    # the full pre/post-Brexit exposure trajectory — but should be noted when
-    # interpreting cross-sectional regressions using this variable.
+    # 2014–2024. The importer perimeter changes mid-period: EU27 + EEA-EFTA
+    # + GBR for 2014–2019 and EU27 + EEA-EFTA only for 2020–2024. The average
+    # therefore spans two slightly different destination markets. This is
+    # intentional — it captures the full pre/post-Brexit exposure trajectory —
+    # but should be noted when interpreting cross-sectional regressions.
     avg_df = (
         panel.groupby(["i", "iso3", "country_name"], dropna=False)
         .agg(
@@ -465,7 +473,7 @@ def validate_and_report(
 
     # 7. True-zero countries
     n_zero = (avg_df["cbam_exposure_avg"] == 0.0).sum()
-    print(f"\n7. Countries with cbam_exposure_avg = 0 (no CBAM exports to EU+UK): {n_zero:,}")
+    print(f"\n7. Countries with cbam_exposure_avg = 0 (no CBAM exports to CBAM zone): {n_zero:,}")
 
     # 8. Distribution summary
     vals = avg_df["cbam_exposure_avg"].dropna()
@@ -491,10 +499,10 @@ def main() -> None:
     t0 = time.time()
     print("[1/5] Loading country codes lookup...")
     country_df = load_country_codes()
-    eu27_codes, eu27_uk_codes = get_eu_uk_numeric_codes(country_df)
+    cbam_zone_codes, cbam_zone_gbr_codes = get_cbam_zone_numeric_codes(country_df)
     print(f"      {len(country_df):,} countries loaded, "
-          f"{len(eu27_codes)} EU27 codes + GBR resolved "
-          f"(perimeter switches at {GBR_YEAR_START})  "
+          f"{len(cbam_zone_codes)} CBAM zone codes + GBR resolved "
+          f"(GBR included through {GBR_LAST_YEAR})  "
           f"({time.time() - t0:.1f}s)")
 
     # --- Step 2: Build and validate file list ---
@@ -509,9 +517,9 @@ def main() -> None:
     print("[3/5] Running DuckDB queries across all BACI files...")
     con = duckdb.connect()
 
-    print("      Query A: CBAM exports to EU+UK...")
+    print("      Query A: CBAM exports to CBAM zone...")
     qa_start = time.time()
-    cbam_df = query_baci_cbam_exports(con, file_list, eu27_codes, eu27_uk_codes)
+    cbam_df = query_baci_cbam_exports(con, file_list, cbam_zone_codes, cbam_zone_gbr_codes)
     print(f"        → {len(cbam_df):,} (exporter, year) pairs with CBAM exports  "
           f"({time.time() - qa_start:.1f}s)")
 
@@ -531,6 +539,28 @@ def main() -> None:
     print(f"      Annual panel: {len(annual_df):,} rows  |  "
           f"Average cross-section: {len(avg_df):,} rows  "
           f"({time.time() - t0:.1f}s)")
+
+    # --- Comparison with previous output (if exists) ---
+    if OUTPUT_AVG.exists():
+        print("\n--- Old vs New exposure comparison (top 20) ---")
+        old_avg = pd.read_csv(OUTPUT_AVG)
+        old_top = old_avg[["iso3", "cbam_exposure_avg"]].rename(
+            columns={"cbam_exposure_avg": "old"}
+        )
+        new_top = avg_df[["iso3", "cbam_exposure_avg"]].rename(
+            columns={"cbam_exposure_avg": "new"}
+        )
+        compare = new_top.merge(old_top, on="iso3", how="left")
+        compare["diff_pp"] = (compare["new"] - compare["old"]) * 100
+        compare = compare.sort_values("new", ascending=False).head(20)
+        print(f"    {'ISO3':<6} {'Old':>10} {'New':>10} {'Diff (pp)':>10}")
+        print(f"    {'----':<6} {'---':>10} {'---':>10} {'---------':>10}")
+        for _, r in compare.iterrows():
+            old_val = f"{r['old'] * 100:.2f}%" if pd.notna(r["old"]) else "N/A"
+            new_val = f"{r['new'] * 100:.2f}%"
+            diff_val = f"{r['diff_pp']:+.2f}" if pd.notna(r["diff_pp"]) else "N/A"
+            print(f"    {r['iso3']:<6} {old_val:>10} {new_val:>10} {diff_val:>10}")
+        print()
 
     # --- Step 5: Save outputs ---
     t0 = time.time()
