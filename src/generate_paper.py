@@ -776,6 +776,8 @@ We find three headline results. First, countries with greater CBAM trade exposur
 
 Our work extends the framework of \citet{Bahi2026}, who establish that more CBAM-exposed countries were more likely to adopt some form of national carbon pricing after 2019, using a country-year two-way fixed effects (TWFE) design with a binary adoption outcome. We build on their contribution in two directions. First, we test whether the policy response is visible across the full pipeline from consideration through development to implementation using event-history models, moving beyond the binary adoption indicator. Second, we introduce a sectoral dimension---testing whether new instruments in more-exposed jurisdictions are more likely to cover CBAM-relevant industrial sectors from inception. The binary country-level outcome in \citet{Bahi2026} cannot distinguish between a country that adopts a power-sector-only carbon tax and one that adopts an industry-covering ETS specifically in response to CBAM incentives.
 
+Our work also connects to a growing literature on CBAM's international policy effects. \citet{Mehling2025} argue that the CBAM's primary effectiveness may lie not in preventing carbon leakage but in promoting the international diffusion of carbon pricing---a form of coercive policy diffusion through market access incentives \citep{Simmons2006}. \citet{Clausing2024} document increased media attention to carbon pricing in CBAM-exposed countries after key EU policy milestones. \citet{Smith2024} and \citet{Otto2025} trace the political evolution of third-country responses from initial opposition to gradual cooperation, including carbon pricing adoption. Our contribution is to test these diffusion dynamics empirically at the instrument level, using sectoral coverage data that previous studies do not exploit.
+
 The remainder of this paper is organised as follows. Section~\ref{sec:data} describes the data and measurement. Section~\ref{sec:strategy} presents the empirical strategy. Section~\ref{sec:results} reports results by analytical layer. Section~\ref{sec:robustness} presents robustness checks. Section~\ref{sec:conclusion} concludes.
 
 
@@ -971,9 +973,9 @@ Table~\ref{tab:robustness} presents the full robustness summary across thirteen 
 
 This paper presents three main findings on the relationship between the EU Carbon Border Adjustment Mechanism and global carbon pricing adoption. First, countries with greater CBAM trade exposure advance faster through the carbon pricing policy pipeline, with Cox hazard ratios of 1.20 ($p<0.01$) for the development transition and 1.13 ($p<0.05$) for implementation. Second, the 2019 entrant cohort---coinciding with the European Commission's first detailed CBAM proposals---shows ten times the average CBAM exposure of prior cohorts and 100\% industry coverage, a descriptive pattern consistent with CBAM-driven policy design. Third, CPI-level panel DiD estimates for industry coverage are consistently positive (+0.97 to +1.11) but imprecisely estimated given the limited number of country clusters ($N_{\text{clusters}} = 49$). The placebo test (RC10) provides no evidence of pre-existing differential trends.
 
-Several limitations constrain what we can identify. We cannot determine whether CBAM caused existing instruments to expand their sectoral coverage---within-instrument variation is almost entirely absent in the data, with only China's national ETS showing genuine post-entry expansion to industry. We cannot rule out confounding through other EU trade policy channels or broader climate governance trends. The 49-country cluster count limits the power of the CPI-level panel DiD, and the cross-sectional entrant regressions ($N=41$) are too small to identify interaction effects precisely.
+Several limitations constrain what we can identify. We cannot determine whether CBAM caused existing instruments to expand their sectoral coverage---within-instrument variation is almost entirely absent in the data, with only China's national ETS showing genuine post-entry expansion to industry. We cannot rule out confounding through other EU trade policy channels or broader climate governance trends. The 49-country cluster count limits the power of the CPI-level panel DiD, and the cross-sectional entrant regressions ($N=41$) are too small to identify interaction effects precisely. We note that countries adopting carbon pricing may differ systematically from non-adopters in unobserved ways; our Layer~C entrant analysis conditions on this selection, which limits the causal interpretation of the instrument design results. The sensitivity of the TWFE adoption coefficient to Montenegro's exclusion underscores the importance of the event-history framework, which distributes identifying variation more broadly across the risk set and is less susceptible to single-country leverage.
 
-Extending the temporal panel of sectoral coverage with a transparent, replicable methodology would enable three advances. First, longer pre-periods would strengthen pre-trend testing beyond the current 2016--2018 window. Second, tracking post-2026 behaviour as CBAM transitions from its transitional to full implementation phase would allow identification of whether the price-based incentive generates a second wave of adoption. Third, sub-sector analysis---distinguishing between iron and steel, aluminium, cement, fertiliser, and electricity---would become feasible once CBAM product-level coverage data is available for each CPI.
+Extending the temporal panel would enable four advances. First, post-2026 observations---when CBAM transitions from the transitional to the full implementation phase and free allowances begin phasing out---will reveal whether the price-based incentive generates a second wave of adoption and instrument expansion. Second, the 2024 entrant cohort (seven instruments currently under development without sectoral coverage data) will resolve the right-censoring problem that limits the current panel. Third, within-instrument scope expansion may become observable as countries including China, India, and T\"{u}rkiye add CBAM-covered sectors to existing instruments. Fourth, sub-sector analysis distinguishing iron and steel, aluminium, cement, fertilisers, and electricity would become feasible once CBAM product-level coverage data is available for each instrument.
 
 
 % ============================================================================
@@ -1155,6 +1157,54 @@ REFERENCES_BIB = r"""@techreport{Bahi2026,
   title  = {UK Carbon Border Adjustment Mechanism},
   year   = {2023},
   note   = {Policy paper, December 2023}
+}
+
+@article{Simmons2006,
+  author  = {Simmons, Beth A. and Dobbin, Frank and Garrett, Geoffrey},
+  title   = {Introduction: The International Diffusion of Liberalism},
+  journal = {International Organization},
+  year    = {2006},
+  volume  = {60},
+  number  = {4},
+  pages   = {781--810},
+  doi     = {10.1017/S0020818306060267}
+}
+
+@techreport{Clausing2024,
+  author      = {Clausing, Kimberly and Elkerbout, Milan and Nehrkorn, Katelyn
+                 and Wolfram, Catherine},
+  title       = {How Carbon Border Adjustments Might Drive Global Climate
+                 Policy Momentum},
+  institution = {Resources for the Future},
+  type        = {Report},
+  number      = {24-20},
+  year        = {2024}
+}
+
+@article{Smith2024,
+  author  = {Smith, Ian D. and Overland, Indra and Szulecki, Kacper},
+  title   = {The {EU}'s {CBAM} and Its ``Significant Others'': Three
+             Perspectives on the Political Fallout from {Europe}'s
+             Unilateral Climate Policy Initiative},
+  journal = {Journal of Common Market Studies},
+  year    = {2024},
+  volume  = {62},
+  number  = {2},
+  pages   = {603--618},
+  doi     = {10.1111/jcms.13512}
+}
+
+@article{Otto2025,
+  author  = {Otto, Saddiq},
+  title   = {The External Impact of {EU} Climate Policy: Political
+             Responses to the {EU}'s Carbon Border Adjustment Mechanism},
+  journal = {International Environmental Agreements: Politics, Law and
+             Economics},
+  year    = {2025},
+  volume  = {25},
+  number  = {2},
+  pages   = {177--194},
+  doi     = {10.1007/s10784-025-09667-z}
 }
 """
 
