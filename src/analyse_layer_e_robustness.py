@@ -21,6 +21,8 @@ RC8  — WGI controls individually
 RC9  — No controls (pure FE only)
 RC10 — Placebo test (pre-2019 period)
 RC11 — Non-OECD countries only
+RC12 — Log exposure (outlier robustness)
+RC13 — Leave-one-out (top 5 exposed countries)
 """
 
 import os
@@ -648,6 +650,66 @@ rc11_df = pd.DataFrame(rc11_rows)
 rc11_path = os.path.join(LAYER_E, "table_rc11_nonoecd.csv")
 rc11_df.to_csv(rc11_path, index=False)
 print(f"  Saved: {rc11_path}")
+
+
+# ============================================================================
+# RC12 — Log exposure (outlier robustness)
+# ============================================================================
+print("\n" + "=" * 72)
+print("RC12 — Log exposure (outlier robustness)")
+print("=" * 72)
+print("  Log-transforming exposure compresses outliers (e.g. Montenegro 22%)")
+print("  and tests whether results depend on a few high-leverage countries.")
+
+panel_rc12 = build_reference_panel()
+panel_rc12 = panel_rc12.reset_index()
+panel_rc12["log_cbam_exposure"] = np.where(
+    panel_rc12["cbam_exposure_avg"] > 0,
+    np.log(panel_rc12["cbam_exposure_avg"]),
+    np.nan,
+)
+panel_rc12["log_exposure_x_post"] = (
+    panel_rc12["log_cbam_exposure"] * panel_rc12[POST_VAR]
+)
+panel_rc12 = panel_rc12.set_index(["iso3", "year"])
+
+res_rc12 = _run_regression(panel_rc12, OUTCOME, "log_exposure_x_post",
+                            CONTROL_VARS)
+c12, s12, p12, n12 = _extract_coef(res_rc12, "log_exposure_x_post")
+record_result("RC12", "Log exposure (outlier robustness)", c12, s12, p12, n12,
+              "Tests sensitivity to high-leverage exposed countries.")
+
+
+# ============================================================================
+# RC13 — Leave-one-out (top 5 exposed)
+# ============================================================================
+print("\n" + "=" * 72)
+print("RC13 — Leave-one-out (top 5 exposed)")
+print("=" * 72)
+
+exposure_loo = pd.read_csv(EXPOSURE_AVG_PATH)
+top5 = exposure_loo.nlargest(5, "cbam_exposure_avg")["iso3"].tolist()
+print(f"  Top 5 exposed countries: {top5}")
+
+loo_rows = []
+for excluded_iso in top5:
+    panel_loo = build_reference_panel(exclude_isos=[excluded_iso])
+    res_loo = _run_regression(panel_loo, OUTCOME, INTERACTION, CONTROL_VARS)
+    c_loo, s_loo, p_loo, n_loo = _extract_coef(res_loo, INTERACTION)
+    loo_rows.append({"excluded": excluded_iso, "coef": c_loo, "se": s_loo,
+                      "p": p_loo, "N": n_loo})
+    print(f"    Excluding {excluded_iso}: β={c_loo:.6f}  SE={s_loo:.6f}  "
+          f"p={p_loo:.4f}  N={n_loo}")
+
+loo_df = pd.DataFrame(loo_rows)
+loo_path = os.path.join(LAYER_E, "table_rc13_leave_one_out.csv")
+loo_df.to_csv(loo_path, index=False)
+print(f"  Saved: {loo_path}")
+
+record_result("RC13", "Leave-one-out (top 5 exposed)",
+              loo_df["coef"].median(), loo_df["se"].median(),
+              np.nan, int(loo_df["N"].median()),
+              f"Median across excluding {top5}. Full table saved.")
 
 
 # ============================================================================

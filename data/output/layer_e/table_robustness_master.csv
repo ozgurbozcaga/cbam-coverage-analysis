@@ -14,4 +14,6 @@ RC8,WGI controls individually (4 dimensions),1299,0.700861,0.880924,0.4264,,0.17
 RC9,No controls (pure FE only),1764,0.813482,0.816803,0.3194,,0.284569,Larger N than RC1 (no control missingness).
 RC10,"Placebo test (pre-2019, post_2018)",437,-0.107395,0.112464,0.3404,,-0.636308,Placebo — should be insignificant.
 RC11,Non-OECD countries only,1196,0.788586,0.876364,0.3684,,0.259673,Excludes 37 OECD members.
+RC12,Log exposure (outlier robustness),1286,0.008558,0.004457,0.0551,*,-0.520355,Tests sensitivity to high-leverage exposed countries.
+RC13,Leave-one-out (top 5 exposed),1295,0.810116,0.895550,,,0.281203,"Median across excluding ['MNE', 'MOZ', 'BIH', 'ALB', 'UKR']. Full table saved."
 "Diff from RC1 is a plain comparison (not a formal test). Samples overlap, so z-tests assuming independence are invalid.",,,,,,,,
