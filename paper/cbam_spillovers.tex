@@ -220,6 +220,8 @@ This layer is secondary to the adoption and design results. We test whether CBAM
 
 Table~\ref{tab:benchmark} presents the Bruegel-comparable benchmark. The coefficient on the exposure$\times$post interaction is positive across all outcomes and milestones, with the largest point estimate for \texttt{any\_cpi\_active} at the Post-2019 milestone (1.48 with controls). Rescaled to per-percentage-point interpretation ($\hat{\beta}/100 = 0.0148$), this is consistent with the \citet{Bahi2026} estimate of approximately 0.016. However, none of the benchmark coefficients are statistically significant at conventional levels, reflecting the wide confidence intervals inherent in a 196-country sample with substantial heterogeneity. The coefficients attenuate somewhat with later milestones (Post-2021, Post-2023), consistent with diminishing marginal treatment intensity as CBAM awareness diffuses globally.
 
+We formally replicate the core specifications of \citet{Bahi2026} using their exposure definition (EU + EFTA static perimeter) and our 2016--2024 panel. Table~\ref{tab:bruegel_replication} in Appendix~\ref{app:bruegel_replication} reports the comparison. For the fixed-effects specifications (columns 2--6 of their Table~A2), our coefficients fall within 0.002 of their published estimates, confirming the robustness of the core finding to data vintage and panel window differences. The effect is concentrated among higher-income countries, consistent with their result. However, excluding EU candidate countries---which account for six of the fifteen most CBAM-exposed countries---reverses the sign of the coefficient in our sample (columns 3, 6, and 9 of their Table~A3), while Bruegel obtain small positive coefficients in the same specification. This suggests that the TWFE adoption result may partly reflect EU accession conditionality rather than CBAM incentives alone, motivating our use of event-history models (Section~\ref{sec:pipeline_results}) that provide independent evidence for the CBAM channel.
+
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
@@ -616,6 +618,32 @@ ETS\_EU\_IS / ETS\_EU\_LI / ETS\_EU\_NO & Sector coverage captured under ETS\_EU
 2024 cohort & Seven instruments under development with no sector coverage data yet (right-censored) \\
 \bottomrule
 \end{tabular}
+\end{table}
+
+
+\section{Bruegel Replication}\label{app:bruegel_replication}
+
+\begin{table}[H]
+\centering
+\caption{Replication of Bahí et al.\ (2026)}
+\label{tab:bruegel_replication}
+\begin{tabular}{clccc}
+\toprule
+Column & Specification & Paper coef. & Repl.\ coef. & Diff \\
+\midrule
+(1) & Pooled OLS, no FE       & 0.038*** & 0.017*** & $-$0.021 \\
+(2) & Country + Year FE       & 0.016*** & 0.017*** & $+$0.001 \\
+(3) & FE + controls           & 0.015*** & 0.016*** & $+$0.001 \\
+(4) & Annual exposure, FE     & 0.010**  & 0.012*** & $+$0.002 \\
+(5) & Annual + controls       & 0.009**  & 0.011**  & $+$0.002 \\
+(6) & Lagged + controls       & 0.010**  & 0.010**  & $+$0.000 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.92\textwidth}
+\vspace{0.3em}
+\footnotesize
+\textit{Notes:} Replication of Bahí et al.\ (2026) Table~A2 using our 2016--2024 panel and their EU + EFTA exposure definition. Bahí et al.'s panel covers 2014--2025 (163 countries, 1,956 obs without controls); ours covers 2016--2024 (196 countries, 1,764 obs without controls). Column~1 diverges due to sensitivity of pooled OLS to sample composition and panel length. Columns~2--6 replicate within 0.002. All specifications use robust standard errors following Bahí et al.'s reported methodology. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.1$.
+\end{minipage}
 \end{table}
 
 
